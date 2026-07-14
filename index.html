@@ -3,92 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suncrest Cruise Line</title>
+    <title>Suncrest Cruise Line - Luxury Travel Platform</title>
     <style>
+        :root {
+            --suncrest-blue: #0077c8;
+            --suncrest-sky: #e1f5fe;
+            --suncrest-red: #dc2626;
+            --text-dark: #0f172a;
+            --gold: #d4af37;
+        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #0f172a;
-            color: #f8fafc;
+            background-color: #ffffff;
+            color: var(--text-dark);
         }
-        header {
-            background: linear-gradient(135deg, #0f172a 0%, #0284c7 100%);
-            padding: 60px 20px;
-            text-align: center;
-            border-bottom: 2px solid #38bdf8;
+
+        /* Top Navigation Header matching Carnival */
+        nav {
+            background-color: #ffffff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        header h1 { margin: 0; font-size: 3rem; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        header p { margin: 15px 0 0; font-size: 1.2rem; color: #e2e8f0; max-width: 600px; margin-inline: auto; }
-        .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
+        .nav-logo-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .grid {
+        .nav-logo-box img {
+            height: 50px;
+            width: auto;
+        }
+        .nav-links a {
+            color: #334155;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        .nav-links a:hover { color: var(--suncrest-blue); }
+
+        /* Multi-Section Split Hero Banner mimicking references */
+        .hero-split-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
+            grid-template-columns: 1fr;
         }
-        .card {
-            background: #1e293b;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #334155;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
-            transition: transform 0.2s, border-color 0.2s;
+        @media(min-width: 768px) {
+            .hero-split-container { grid-template-columns: 1.2fr 0.8fr; }
         }
-        .card:hover { transform: translateY(-5px); border-color: #38bdf8; }
-        .card h3 { margin-top: 0; color: #38bdf8; font-size: 1.4rem; }
-        .card p { color: #94a3b8; line-height: 1.6; }
-        .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
-        .tag {
-            background: #0c4a6e;
-            color: #38bdf8;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            border: 1px solid #0284c7;
+
+        /* Left Main Banner Panel */
+        .hero-left-banner {
+            background: linear-gradient(rgba(0,119,200,0.45), rgba(0,86,145,0.7)), url('https://unsplash.com');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
         }
+        .hero-left-banner h2 { font-size: 1.5rem; text-transform: uppercase; font-weight: bold; letter-spacing: 2px; margin: 0; }
+        .hero-left-banner h1 { font-size: 3.5rem; font-weight: 900; margin: 10px 0; line-height: 1.1; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        .hero-left-banner .season-tag { font-size: 1.8rem; font-weight: bold; color: #ffeb3b; margin-bottom: 25px; }
+
+        /* Right Bundle Promo Box Panel */
+        .hero-right-promo {
+            background-color: var(--suncrest-sky);
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-left: 4px solid #b3e5fc;
+        }
+        .hero-right-promo h3 { font-size: 2rem; color: var(--suncrest-blue); font-weight: 900; margin-top: 0; }
+        .hero-right-promo p { font-size: 1.2rem; line-height: 1.6; font-weight: bold; color: #1e293b; margin-bottom: 30px; }
+
+        /* Pill Action Buttons */
+        .btn-red {
+            background-color: var(--suncrest-red);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-weight: bold;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+        .btn-red:hover { background-color: #b91c1c; }
+
+        /* Showcase Grid Heading styling */
+        .section-title {
+            text-align: center;
+            font-size: 2.4rem;
+            color: var(--suncrest-blue);
+            margin: 60px 0 25px;
+            font-weight: 900;
+        }
+
+        /* Layout Grid Wrapper */
+        .container { max-width: 1200px; margin: 0 auto 80px; padding: 0 25px; }
+        .deals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
+
+        /* Square block layouts matching inspiration card design */
+        .deal-card {
+            background-color: var(--suncrest-sky);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.06);
+            border: 1px solid #b3e5fc;
+            transition: transform 0.2s;
+        }
+        .deal-card:hover { transform: translateY(-4px); }
+        .image-container { width: 100%; height: 200px; overflow: hidden; }
+        .deal-img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .deal-info {
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            text-align: center;
+        }
+        .spotlight-badge {
+            color: var(--suncrest-red);
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .deal-title { font-size: 1.4rem; font-weight: bold; color: var(--suncrest-blue); margin: 0 0 10px 0; }
+        .deal-price { font-size: 0.95rem; color: var(--text-dark); margin-bottom: 25px; line-height: 1.4; }
+        .deal-price span { font-size: 2.2rem; font-weight: 900; color: var(--suncrest-blue); }
+
+        .book-btn {
+            background-color: #ffffff;
+            color: var(--suncrest-blue);
+            border: 2px solid var(--suncrest-blue);
+            padding: 10px 40px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            border-radius: 25px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .book-btn:hover { background-color: var(--suncrest-blue); color: white; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1 id="site-title">Loading Suncrest...</h1>
-        <p id="hero-message">Preparing your cruise itineraries...</p>
-    </header>
+    <!-- Main Sticky Navigation Bar with Local Logo integration -->
+    <nav>
+        <div class="nav-logo-box">
+            <img src="logo.png" alt="Suncrest Cruise Line Logo" onerror="this.style.display='none';">
+            <span style="font-weight:900; font-size:1.3rem; color:var(--suncrest-blue); letter-spacing:1px;">SUNCREST</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">Plan A Cruise</a>
+            <a href="#">Our Ships</a>
+            <a href="#">Destinations</a>
+            <a href="#">Deals</a>
+        </div>
+    </nav>
 
-    <main class="container">
-        <div id="content-grid" class="grid"></div>
-    </main>
+    <!-- Split Marketing Hero Panels matching Carnival layout screenshots -->
+    <section class="hero-split-container">
+        <div class="hero-left-banner">
+            <h2 id="tagline">Loading...</h2>
+            <h1>SUNCREST<br>CRUISE LINE</h1>
+            <div class="season-tag" id="season-display">Summer 2029</div>
+            <button class="btn-red">Learn More</button>
+        </div>
+        <div class="hero-right-promo">
+            <h3 id="promo-title">Loading Offer...</h3>
+            <p id="promo-details">Connecting to itineraries...</p>
+            <button class="btn-red">Book Now</button>
+        </div>
+    </section>
 
+    <h2 class="section-title">Our Top Destinations Are On Sale</h2>
+
+    <!-- Dynamic Layout Showcase Area -->
+    <div class="container">
+        <div id="deals-container" class="deals-grid"></div>
+    </div>
+
+    <!-- JavaScript Data Binding Script -->
     <script>
         fetch('data.json')
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
-                document.getElementById('site-title').innerText = data.siteTitle;
-                document.getElementById('hero-message').innerText = data.heroMessage;
+                document.getElementById('tagline').innerText = data.heroTagline;
+                document.getElementById('season-display').innerText = data.heroSeason;
+                document.getElementById('promo-title').innerText = data.promoTitle;
+                document.getElementById('promo-details').innerText = data.promoDetails;
 
-                const grid = document.getElementById('content-grid');
-                grid.innerHTML = ''; 
-                
-                data.items.forEach(item => {
-                    const tagsHTML = item.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+                const container = document.getElementById('deals-container');
+                container.innerHTML = '';
+
+                data.deals.forEach(deal => {
                     const card = document.createElement('div');
-                    card.className = 'card';
+                    card.className = 'deal-card';
+
+                    const spotlightHTML = deal.isSpotlight ? `<div class="spotlight-badge">SPOTLIGHT</div>` : '';
+
                     card.innerHTML = `
-                        <h3>${item.title}</h3>
-                        <p>${item.description}</p>
-                        <div class="tags">${tagsHTML}</div>
+                        <div class="image-container">
+                            <img class="deal-img" src="${deal.image}" alt="${deal.title}">
+                        </div>
+                        <div class="deal-info">
+                            ${spotlightHTML}
+                            <h3 class="deal-title">${deal.title}</h3>
+                            <p class="deal-price">starting at <span>$${deal.price}*</span><br>per person</p>
+                            <button class="book-btn">Book Now</button>
+                        </div>
                     `;
-                    grid.appendChild(card);
+                    container.appendChild(card);
                 });
             })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('content-grid').innerText = 'Error loading cruise data.';
+            .catch(err => {
+                console.error("Database connection failure:", err);
+                document.getElementById('deals-container').innerText = "Database connection error.";
             });
     </script>
 </body>
