@@ -10,7 +10,7 @@
       "isSpotlight": false,
       "title": "The Bahamas Sailings",
       "price": "191",
-      "image": "bahamas.JPG"
+      "image": "bahamas.jpg"
     },
     {
       "id": 2,
@@ -32,6 +32,39 @@
       "title": "Olann Island",
       "price": "191",
       "image": "olann.png"
+    }
+  ],
+  "financing": {
+    "title": "Book Today. Pay Over Time.",
+    "subTitle": "Financing Powered by Suncrest FlexPay",
+    "deal1": "up to $100 statement credit",
+    "deal2": "+ 0% APR",
+    "deal3": "+ from $0 down"
+  },
+  "megaShips": [
+    {
+      "id": 1,
+      "name": "Tropical",
+      "port": "Port Canaveral",
+      "image": "https://unsplash.com"
+    },
+    {
+      "id": 2,
+      "name": "Suncrest Paradise",
+      "port": "Port Canaveral",
+      "image": "https://unsplash.com"
+    },
+    {
+      "id": 3,
+      "name": "Suncrest Mirage",
+      "port": "Galveston",
+      "image": "https://unsplash.com"
+    },
+    {
+      "id": 4,
+      "name": "Suncrest Sunkissed",
+      "port": "Miami",
+      "image": "https://unsplash.com"
     }
   ]
 }
