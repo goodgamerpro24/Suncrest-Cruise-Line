@@ -10,28 +10,28 @@
       "isSpotlight": false,
       "title": "The Bahamas Sailings",
       "price": "191",
-      "image": "https://unsplash.com"
+      "image": "bahamas.jpg"
     },
     {
       "id": 2,
       "isSpotlight": false,
       "title": "Caribbean Sailings",
       "price": "257",
-      "image": "https://unsplash.com"
+      "image": "caribbean.png"
     },
     {
       "id": 3,
       "isSpotlight": false,
       "title": "Mexico Sailings",
       "price": "213",
-      "image": "https://unsplash.com"
+      "image": "mexico.png"
     },
     {
       "id": 4,
       "isSpotlight": true,
       "title": "Olann Island",
       "price": "191",
-      "image": "https://unsplash.com"
+      "image": "olann.png"
     }
   ]
 }
