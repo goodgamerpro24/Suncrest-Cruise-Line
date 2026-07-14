@@ -1,24 +1,37 @@
 {
-  "siteTitle": "Suncrest Cruise Line",
-  "heroMessage": "Welcome aboard! Discover luxury ocean voyages and unforgettable tropical destinations.",
-  "items": [
+  "siteTitle": "SUNCREST CRUISE LINE",
+  "heroTagline": "Sailing to Paradise destinations",
+  "heroSeason": "2028 Sailings Now available",
+  "promoTitle": "Upgrade Your Fun Bundle & Save",
+  "promoDetails": "$500* onboard credit + 25% Off select onboard experiences",
+  "deals": [
     {
       "id": 1,
-      "title": "Caribbean Escape",
-      "description": "7 nights of pure paradise. Sail through crystal-clear waters and white sandy beaches.",
-      "tags": ["Tropical", "7 Nights", "All-Inclusive"]
+      "isSpotlight": false,
+      "title": "The Bahamas Sailings",
+      "price": "191",
+      "image": "https://unsplash.com"
     },
     {
       "id": 2,
-      "title": "Mediterranean Wonders",
-      "description": "Explore ancient history, world-class cuisine, and beautiful coastal European cities.",
-      "tags": ["Europe", "10 Nights", "Culture"]
+      "isSpotlight": false,
+      "title": "Caribbean Sailings",
+      "price": "257",
+      "image": "https://unsplash.com"
     },
     {
       "id": 3,
-      "title": "Alaskan Glaciers",
-      "description": "Witness breathtaking landscapes, massive icebergs, and incredible wild sea creatures.",
-      "tags": ["Adventure", "5 Nights", "Scenic"]
+      "isSpotlight": false,
+      "title": "Mexico Sailings",
+      "price": "213",
+      "image": "https://unsplash.com"
+    },
+    {
+      "id": 4,
+      "isSpotlight": true,
+      "title": "Olann Island",
+      "price": "191",
+      "image": "https://unsplash.com"
     }
   ]
 }
