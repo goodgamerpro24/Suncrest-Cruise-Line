@@ -10,7 +10,7 @@
       "isSpotlight": false,
       "title": "The Bahamas Sailings",
       "price": "191",
-      "image": "bahamas.JPG"
+      "image": "bahamas.jpg"
     },
     {
       "id": 2,
@@ -46,25 +46,25 @@
       "id": 1,
       "name": "Tropical",
       "port": "Port Canaveral",
-      "image": "https://unsplash.com"
+      "image": "tropical.png"
     },
     {
       "id": 2,
       "name": "Suncrest Paradise",
       "port": "Port Canaveral",
-      "image": "https://unsplash.com"
+      "image": "paradise.png"
     },
     {
       "id": 3,
       "name": "Suncrest Mirage",
       "port": "Galveston",
-      "image": "https://unsplash.com"
+      "image": "mirage.png"
     },
     {
       "id": 4,
       "name": "Suncrest Sunkissed",
       "port": "Miami",
-      "image": "https://unsplash.com"
+      "image": "sunkissed.png"
     }
   ]
 }
