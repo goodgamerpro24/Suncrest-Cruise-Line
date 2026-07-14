@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suncrest Cruise Line</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        header {
+            background: linear-gradient(135deg, #0f172a 0%, #0284c7 100%);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 2px solid #38bdf8;
+        }
+        header h1 { margin: 0; font-size: 3rem; color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        header p { margin: 15px 0 0; font-size: 1.2rem; color: #e2e8f0; max-width: 600px; margin-inline: auto; }
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        .card {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .card:hover { transform: translateY(-5px); border-color: #38bdf8; }
+        .card h3 { margin-top: 0; color: #38bdf8; font-size: 1.4rem; }
+        .card p { color: #94a3b8; line-height: 1.6; }
+        .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+        .tag {
+            background: #0c4a6e;
+            color: #38bdf8;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid #0284c7;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="site-title">Loading Suncrest...</h1>
+        <p id="hero-message">Preparing your cruise itineraries...</p>
+    </header>
+
+    <main class="container">
+        <div id="content-grid" class="grid"></div>
+    </main>
+
+    <script>
+        fetch('data.json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('site-title').innerText = data.siteTitle;
+                document.getElementById('hero-message').innerText = data.heroMessage;
+
+                const grid = document.getElementById('content-grid');
+                grid.innerHTML = ''; 
+                
+                data.items.forEach(item => {
+                    const tagsHTML = item.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                        <div class="tags">${tagsHTML}</div>
+                    `;
+                    grid.appendChild(card);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('content-grid').innerText = 'Error loading cruise data.';
+            });
+    </script>
+</body>
+</html>
