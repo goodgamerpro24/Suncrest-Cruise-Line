@@ -20,7 +20,7 @@
             color: var(--text-dark);
         }
 
-        /* Top Header Navigation bar */
+        /* Navigation header bar styling */
         nav {
             background-color: #ffffff;
             padding: 15px 30px;
@@ -37,9 +37,10 @@
         .nav-links a { color: #334155; text-decoration: none; margin-left: 25px; font-weight: bold; font-size: 0.95rem; }
         .nav-links a:hover { color: var(--suncrest-blue); }
 
-        /* Split Hero Header Section */
+        /* Multi-column header panel layouts */
         .hero-split-container { display: grid; grid-template-columns: 1fr; }
         @media(min-width: 768px) { .hero-split-container { grid-template-columns: 1.2fr 0.8fr; } }
+        
         .hero-left-banner {
             background: linear-gradient(rgba(0,119,200,0.45), rgba(0,86,145,0.7)), url('https://unsplash.com');
             background-size: cover; background-position: center; color: white; padding: 80px 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
@@ -47,18 +48,19 @@
         .hero-left-banner h2 { font-size: 1.5rem; text-transform: uppercase; font-weight: bold; letter-spacing: 2px; margin: 0; }
         .hero-left-banner h1 { font-size: 3.5rem; font-weight: 900; margin: 10px 0; line-height: 1.1; }
         .hero-left-banner .season-tag { font-size: 1.8rem; font-weight: bold; color: #ffeb3b; margin-bottom: 25px; }
+        
         .hero-right-promo { background-color: var(--suncrest-sky); padding: 60px 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-left: 4px solid #b3e5fc; }
         .hero-right-promo h3 { font-size: 2rem; color: var(--suncrest-blue); font-weight: 900; margin-top: 0; }
         .hero-right-promo p { font-size: 1.2rem; line-height: 1.6; font-weight: bold; color: #1e293b; margin-bottom: 30px; }
 
         .btn-red { background-color: var(--suncrest-red); color: white; border: none; padding: 14px 35px; font-weight: bold; font-size: 1rem; border-radius: 25px; cursor: pointer; text-transform: uppercase; }
 
-        /* Headings and Main Layout Sizing */
+        /* Headings & Section grids layout spacing */
         .section-title { text-align: center; font-size: 2.4rem; color: var(--suncrest-blue); margin: 60px 0 25px; font-weight: 900; }
         .container { max-width: 1200px; margin: 0 auto 40px; padding: 0 25px; }
         .deals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
 
-        /* Top Destination Blocks */
+        /* Individual Destination Promo Card Elements */
         .deal-card { background-color: var(--suncrest-sky); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 6px 15px rgba(0,0,0,0.06); border: 1px solid #b3e5fc; }
         .image-container { width: 100%; height: 200px; overflow: hidden; }
         .deal-img { width: 100%; height: 100%; object-fit: cover; }
@@ -70,7 +72,7 @@
         .book-btn { background-color: #ffffff; color: var(--suncrest-blue); border: 2px solid var(--suncrest-blue); padding: 10px 40px; font-weight: bold; font-size: 0.95rem; border-radius: 25px; cursor: pointer; text-transform: uppercase; }
         .book-btn:hover { background-color: var(--suncrest-blue); color: white; }
 
-        /* Split Fleet Section */
+        /* Multi-section showcase rules matching screenshots */
         .mega-section-split {
             display: grid;
             grid-template-columns: 1fr;
@@ -83,7 +85,7 @@
             .mega-section-split { grid-template-columns: 0.8fr 1.2fr; }
         }
 
-        /* Left Payment Box */
+        /* Left Side Panel: Deep Navy Pricing and Deals */
         .finance-panel {
             background-color: var(--navy-finance);
             color: white;
@@ -98,10 +100,10 @@
         .finance-panel h2 { font-size: 2.5rem; font-weight: 900; margin: 0 0 10px 0; line-height: 1.1; }
         .finance-panel .powered-by { font-size: 1rem; color: var(--suncrest-sky); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 40px; }
         .finance-deals { font-size: 1.2rem; font-weight: bold; line-height: 2; margin-bottom: 40px; text-align: left; }
-        .finance-deals div { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0; }
+        .finance-deals div { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0; width: 100%; }
         .shop-deal-btn { background-color: var(--suncrest-red); color: white; border: none; padding: 14px 40px; font-weight: bold; border-radius: 25px; cursor: pointer; text-transform: uppercase; }
 
-        /* Right Ships Grid */
+        /* Right Side Panel: Active Flagship Fleet Matrix */
         .ships-panel { background-color: #f8fafc; padding: 50px 40px; }
         .ships-panel h2 { font-size: 2.2rem; color: var(--suncrest-blue); font-weight: 900; margin-top: 0; margin-bottom: 30px; text-align: center; }
         .ships-list-container { display: grid; grid-template-columns: 1fr; gap: 20px; }
@@ -121,7 +123,7 @@
 </head>
 <body>
 
-    <!-- Sticky Menu Top Bar -->
+    <!-- Sticky Main Header Navigation Menu -->
     <nav>
         <div class="nav-logo-box">
             <img src="logo.png" alt="Suncrest Cruise Line Logo" onerror="this.style.display='none';">
@@ -135,7 +137,7 @@
         </div>
     </nav>
 
-    <!-- Split Banner Blocks -->
+    <!-- Marketing Core Splitting Layout Components -->
     <section class="hero-split-container">
         <div class="hero-left-banner">
             <h2 id="tagline">Loading...</h2>
@@ -150,15 +152,16 @@
         </div>
     </section>
 
-    <!-- Top Destination Offers Grid -->
+    <!-- Hot Sales Blocks Display Section Wrapper -->
     <h2 class="section-title">Our Top Destinations Are On Sale</h2>
     <div class="container">
         <div id="deals-container" class="deals-grid"></div>
     </div>
 
-    <!-- CARNIVAL-STYLE BIGGEST SHIPS & FINANCING SECTION -->
+    <!-- CARNIVAL-STYLE BIGGEST SHIPS & FINANCING DYNAMIC INTERFACE SECTION -->
     <div class="container">
         <div class="mega-section-split">
+            <!-- Left Financing View -->
             <div class="finance-panel">
                 <h2 id="finance-title">Book Today. Pay Over Time.</h2>
                 <div class="powered-by" id="finance-subtitle">Financing Powered by FlexPay</div>
@@ -168,12 +171,3 @@
                     <div id="f-deal3">Loading option...</div>
                 </div>
                 <button class="shop-deal-btn">Shop This Deal</button>
-            </div>
-
-            <div class="ships-panel">
-                <h2>Book Our Biggest, Newest Ships</h2>
-                <div id="ships-container" class="ships-list-container"></div>
-            </div>
-        </div>
-    </div>
-
