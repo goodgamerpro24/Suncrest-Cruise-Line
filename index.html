@@ -1,5 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- This tag is CRITICAL. It tells tablets and phones to scale the website correctly! -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suncrest Cruise Line</title>
+    <style>
+        /* --- GLOBAL STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* --- HEADER NAVIGATION --- */
+        header {
+            background-color: #ffffff;
+            border-bottom: 3px solid #6fa8dc;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 24px;
+            color: #104f9b;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #104f9b;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- HERO SECTION (Flex/Grid) --- */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        /* Blue Banner */
+        .main-hero {
+            background: linear-gradient(135deg, #4293d1, #1e5799);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 250px;
+        }
+
+        .main-hero h1 {
+            font-size: 36px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .main-hero h2 {
+            font-size: 24px;
+            color: #ffe599;
+            margin-bottom: 25px;
+            font-weight: normal;
+        }
+
+        /* Red Call-to-Action Buttons */
+        .btn-red {
+            background-color: #e03a3e;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 14px;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+
+        .btn-red:hover {
+            background-color: #c02d30;
+        }
+
+        /* Side Promo Panels */
+        .side-promos {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .promo-card-dark {
+            background-color: #0b2240;
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .promo-card-dark h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .promo-card-light {
+            background-color: #e8f0fe;
+            border: 1px solid #b4cffc;
+            padding: 20px;
+            border-radius: 12px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .promo-card-light h3 {
+            color: #104f9b;
+            font-size: 18px;
+        }
+
+        /* --- DESTINATIONS SECTION --- */
+        .section-title {
+            text-align: center;
+            color: #104f9b;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+
+        /* Responsive Grid for Destination Cards */
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .destination-card {
+            background-color: #f1f6fb;
+            border: 1px solid #d0e1f3;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+            padding-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .destination-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .spotlight-tag {
+            color: #e03a3e;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .card-title {
+            color: #104f9b;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            min-height: 44px; /* Keeps heights aligned */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .price-tag {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .price-tag span {
+            font-size: 24px;
+            font-weight: bold;
+            color: #104f9b;
+        }
+
+        /* Outline Book Now Buttons */
+        .btn-outline {
+            border: 2px solid #104f9b;
+            color: #104f9b;
+            background-color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+            font-size: 13px;
+        }
+
+        .btn-outline:hover {
+            background-color: #104f9b;
+            color: white;
+        }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        
+        /* Tablets (Landscape & Portrait) */
+        @media (max-width: 900px) {
+            .hero-section {
+                grid-template-columns: 1fr; /* Stacks side promos below the main banner */
+            }
+
+            .destinations-grid {
+                grid-template-columns: repeat(2, 1fr); /* Drops to 2 cards per row so they don't squish */
+            }
+        }
+
+        /* Mobile Phones */
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .main-hero {
+                padding: 25px;
+                text-align: center;
+                align-items: center;
+            }
+
+            .main-hero h1 {
+                font-size: 28px;
+            }
+
+            .destinations-grid {
+                grid-template-columns: 1fr; /* 1 card per row on tiny screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation Bar -->
+    <header>
+        <a href="#" class="logo">SUNCREST</a>
+        <nav>
+            <a href="#">Plan A Cruise</a>
+            <a href="#">Our Ships</a>
+            <a href="#">Destinations</a>
+            <a href="#">Deals</a>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="main-hero">
+                <h1>Suncrest</h1>
+                <h2>Cruise Line</h2>
+                <p style="font-size: 18px; margin-bottom: 20px;">2028 Sailings Now available</p>
+                <a href="#" class="btn-red">Learn More</a>
+            </div>
+
+            <div class="side-promos">
+                <!-- Dark Promo Card -->
+                <div class="promo-card-dark">
+                    <div>
+                        <h3>Book Today. Pay Over Time.</h3>
+                        <p style="font-size: 11px; color: #a0b2c6; text-transform: uppercase; letter-spacing: 0.5px;">Financing Powered by Flexpay</p>
+                    </div>
+                    <div style="font-size: 13px; color: #e0e0e0; margin-top: 15px;">
+                        <em>Select Flexpay at checkout.</em>
+                    </div>
+                </div>
+                <!-- Light Promo Card -->
+                <div class="promo-card-light">
+                    <h3>Book Our Biggest, Newest Ships</h3>
+                    <a href="#" class="btn-red" style="align-self: flex-start; padding: 8px 20px; font-size: 11px; margin-top: 10px;">Book Now</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Destination Offer Title -->
+        <h2 class="section-title">Our Top Destinations Are On Sale</h2>
+
+        <!-- Grid of 4 Promo Cards -->
         <section class="destinations-grid">
 
+            <!-- Card 1: Bahamas -->
             <div class="destination-card">
                 <img src="bahamas.JPG" alt="The Bahamas">
                 <div class="card-content">
@@ -13,6 +346,7 @@
                 </div>
             </div>
 
+            <!-- Card 2: Caribbean -->
             <div class="destination-card">
                 <img src="caribbean.png" alt="Caribbean">
                 <div class="card-content">
@@ -26,6 +360,7 @@
                 </div>
             </div>
 
+            <!-- Card 3: Mexico -->
             <div class="destination-card">
                 <img src="mexico.png" alt="Mexico">
                 <div class="card-content">
@@ -39,6 +374,7 @@
                 </div>
             </div>
 
+            <!-- Card 4: Olann Island (Spotlight) -->
             <div class="destination-card" style="border: 1px solid #f9cb9c; background-color: #fffaf5;">
                 <img src="olann.png" alt="Olann Island">
                 <div class="card-content">
@@ -54,3 +390,8 @@
             </div>
 
         </section>
+
+    </div>
+
+</body>
+</html>
