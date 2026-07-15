@@ -3,200 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suncrest Cruise Line - Home</title>
+    <title>SUNCREST Cruise Line</title>
     <style>
-        /* SUNCREST HOMEPAGE THEME */
-        :root {
-            --primary-blue: #104c81;
-            --accent-red: #e63946;
-            --light-gray: #f4f6f9;
-            --dark-blue: #0b3154;
-            --text-dark: #222;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
-            background-color: var(--light-gray);
-            color: var(--text-dark);
+            padding: 0;
+            background-color: #f4f4f4;
         }
-
-        /* Navigation */
-        .navbar {
-            background-color: white;
-            padding: 15px 30px;
+        .header {
+            background-color: #104c81;
+            color: white;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-
-        .brand {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--primary-blue);
-            text-decoration: none;
-        }
-
-        /* Banner Promos */
-        .promo-banner {
-            background-color: var(--primary-blue);
+        .header h1 { margin: 0; }
+        .nav-links a {
             color: white;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .promo-btn {
-            background-color: var(--accent-red);
-            color: white;
-            padding: 10px 20px;
             text-decoration: none;
-            font-weight: bold;
-            border-radius: 5px;
             margin-left: 15px;
-            display: inline-block;
+            font-weight: bold;
         }
-
-        /* Card Layout */
-        .section-title {
-            text-align: center;
-            color: var(--dark-blue);
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        .promo-container {
+            display: flex;
             gap: 20px;
+            padding: 20px;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
         }
-
+        .promo-banner {
+            background-color: #2b70b4;
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            flex: 2;
+        }
+        .side-promo {
+            background-color: #e6eef8;
+            padding: 30px;
+            border-radius: 8px;
+            flex: 1;
+            border: 1px solid #d0e0f5;
+        }
+        .btn-learn, .btn-book-now {
+            background-color: #e63946;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .destinations-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .destinations-title {
+            text-align: center;
+            color: #104c81;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
         .card {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 15px;
             text-align: center;
-            padding: 20px;
-            border: 1px solid #e2e8f0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            border: 1px solid #e0e0e0;
         }
-
         .card img {
             width: 100%;
             height: 150px;
             object-fit: cover;
             border-radius: 8px;
-            margin-bottom: 15px;
         }
-
-        .card h3 {
-            color: var(--dark-blue);
-            margin: 0 0 10px 0;
-            font-size: 18px;
-        }
-
-        .card p {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        .card strong {
-            color: var(--primary-blue);
-            font-size: 20px;
-        }
-
-        .btn-book {
+        .card h3 { color: #104c81; margin: 10px 0 5px 0; }
+        .card p { color: #666; font-size: 14px; }
+        .card strong { color: #104c81; font-size: 18px; }
+        .btn-card-book {
             background-color: white;
-            color: var(--primary-blue);
-            border: 2px solid var(--primary-blue);
-            padding: 10px 20px;
+            color: #104c81;
+            border: 2px solid #104c81;
+            padding: 8px 20px;
             border-radius: 20px;
             font-weight: bold;
+            cursor: pointer;
             text-decoration: none;
             display: inline-block;
-            transition: 0.2s;
+            margin-top: 10px;
         }
-
-        .btn-book:hover {
-            background-color: var(--primary-blue);
-            color: white;
+        .spotlight-card {
+            background-color: #fff9f2;
+            border: 1px solid #ffe4cc;
         }
-
-        /* Spotlight Card Styling */
-        .card.spotlight {
-            border: 2px solid #ffe8cc;
-            background-color: #fffaf5;
-        }
-
-        .spotlight-badge {
-            background-color: #ff922b;
-            color: white;
+        .spotlight-tag {
+            color: #ff922b;
             font-size: 11px;
             font-weight: bold;
-            padding: 3px 8px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-bottom: 8px;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <div class="navbar">
-        <a href="index.html" class="brand">SUNCREST</a>
+    <div class="header">
+        <h1>SUNCREST</h1>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Plan a Cruise</a>
+            <a href="#">Our Ships</a>
+            <a href="#">Destinations</a>
+            <a href="#">Deals</a>
+        </div>
     </div>
 
-    <!-- PROMO HERO -->
-    <div class="promo-banner">
-        <h2>2028 Sailings Now Available</h2>
-        <p>Book your dream cruise today. <a href="#" class="promo-btn">LEARN MORE</a></p>
+    <div class="promo-container">
+        <div class="promo-banner">
+            <h2>2028 Sailings Now Available</h2>
+            <a href="#" class="btn-learn">LEARN MORE</a>
+        </div>
+        <div class="side-promo">
+            <h3>Book Our Biggest, Newest Ships</h3>
+            <a href="#" class="btn-book-now">BOOK NOW</a>
+        </div>
     </div>
 
-    <!-- DESTINATIONS SECTION -->
-    <h2 class="section-title">Our Top Destinations Are On Sale</h2>
-    
-    <div class="cards-grid">
-        <!-- Bahamas Card -->
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1548574505-5e239809ee19?auto=format&fit=crop&w=500&q=80" alt="Bahamas">
-            <h3>The Bahamas Sailings</h3>
-            <p>starting at <strong>$191</strong> per person</p>
-            <a href="bahamas.html" class="btn-book">BOOK NOW</a>
-        </div>
-
-        <!-- Caribbean Card -->
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=500&q=80" alt="Caribbean">
-            <h3>Caribbean Sailings</h3>
-            <p>starting at <strong>$257</strong> per person</p>
-            <a href="#" class="btn-book">BOOK NOW</a>
-        </div>
-
-        <!-- Mexico Card -->
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=500&q=80" alt="Mexico">
-            <h3>Mexico Sailings</h3>
-            <p>starting at <strong>$213</strong> per person</p>
-            <a href="#" class="btn-book">BOOK NOW</a>
-        </div>
-
-        <!-- Olann Island Spotlight Card -->
-        <div class="card spotlight">
-            <span class="spotlight-badge">Spotlight</span>
-            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=500&q=80" alt="Olann Island">
-            <h3>Olann Island</h3>
-            <p>starting at <strong>$191</strong> per person</p>
-            <a href="#" class="btn-book">BOOK NOW</a>
+    <div class="destinations-section">
+        <h2 class="destinations-title">Our Top Destinations Are On Sale</h2>
+        <div class="cards-grid">
+            <div class="card">
+                <img src="bahamas.JPG" alt="Bahamas">
+                <h3>The Bahamas Sailings</h3>
+                <p>starting at <strong>$191</strong> per person</p>
+                <a href="./bahamas.html" class="btn-card-book">BOOK NOW</a>
+            </div>
+            <div class="card">
+                <img src="caribbean.png" alt="Caribbean">
+                <h3>Caribbean Sailings</h3>
+                <p>starting at <strong>$257</strong> per person</p>
+                <a href="#" class="btn-card-book">BOOK NOW</a>
+            </div>
+            <div class="card">
+                <img src="mexico.png" alt="Mexico">
+                <h3>Mexico Sailings</h3>
+                <p>starting at <strong>$213</strong> per person</p>
+                <a href="#" class="btn-card-book">BOOK NOW</a>
+            </div>
+            <div class="card spotlight-card">
+                <span class="spotlight-tag">SPOTLIGHT</span>
+                <img src="olann.png" alt="Olann Island">
+                <h3>Olann Island</h3>
+                <p>starting at <strong>$191</strong> per person</p>
+                <a href="#" class="btn-card-book">BOOK NOW</a>
+            </div>
         </div>
     </div>
 
