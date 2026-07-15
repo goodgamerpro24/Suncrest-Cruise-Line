@@ -3,175 +3,659 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUNCREST Cruise Line</title>
+    <title>Suncrest Cruise Line - Bahamas Sailings</title>
     <style>
+        :root {
+            --primary-blue: #104c81;
+            --accent-red: #e63946;
+            --light-gray: #f4f6f9;
+            --dark-blue: #0b3154;
+            --text-dark: #222;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+            background-color: var(--light-gray);
+            color: var(--text-dark);
         }
-        .header {
-            background-color: #104c81;
+
+        /* Navigation */
+        .navbar {
+            background-color: var(--primary-blue);
             color: white;
-            padding: 20px;
+            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .header h1 { margin: 0; }
-        .nav-links a {
+
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
             color: white;
             text-decoration: none;
-            margin-left: 15px;
-            font-weight: bold;
         }
-        .promo-container {
-            display: flex;
-            gap: 20px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .promo-banner {
-            background-color: #2b70b4;
+
+        .back-btn {
+            background-color: var(--accent-red);
             color: white;
-            padding: 30px;
-            border-radius: 8px;
-            flex: 2;
-        }
-        .side-promo {
-            background-color: #e6eef8;
-            padding: 30px;
-            border-radius: 8px;
-            flex: 1;
-            border: 1px solid #d0e0f5;
-        }
-        .btn-learn, .btn-book-now {
-            background-color: #e63946;
-            color: white;
-            padding: 10px 20px;
-            border: none;
+            text-decoration: none;
+            padding: 8px 16px;
             border-radius: 5px;
             font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
+            font-size: 14px;
         }
-        .destinations-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .destinations-title {
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(rgba(16, 76, 129, 0.75), rgba(11, 49, 84, 0.85)), url('bahamas.JPG') center/cover;
+            color: white;
             text-align: center;
-            color: #104c81;
-            font-size: 24px;
-            margin-bottom: 20px;
+            padding: 60px 20px;
         }
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-        .card {
+
+        .hero h1 { margin: 0; font-size: 36px; }
+        .hero p { margin: 10px 0 0 0; font-size: 18px; }
+
+        /* Filter Panel */
+        .search-engine {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            padding: 15px;
-            text-align: center;
-            border: 1px solid #e0e0e0;
-        }
-        .card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
+            max-width: 1100px;
+            margin: -30px auto 30px auto;
             border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
         }
-        .card h3 { color: #104c81; margin: 10px 0 5px 0; }
-        .card p { color: #666; font-size: 14px; }
-        .card strong { color: #104c81; font-size: 18px; }
-        .btn-card-book {
-            background-color: white;
-            color: #104c81;
-            border: 2px solid #104c81;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 10px;
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
         }
-        .spotlight-card {
-            background-color: #fff9f2;
-            border: 1px solid #ffe4cc;
-        }
-        .spotlight-tag {
-            color: #ff922b;
+
+        .filter-group label {
             font-size: 11px;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            display: block;
+            color: #666;
             margin-bottom: 5px;
+        }
+
+        .filter-group select {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        /* Results Counter */
+        .results-header {
+            max-width: 1100px;
+            margin: 0 auto 15px auto;
+            padding: 0 20px;
+            font-size: 18px;
+            color: var(--dark-blue);
+            font-weight: bold;
+        }
+
+        /* Itinerary List styling */
+        .itinerary-list {
+            max-width: 1100px;
+            margin: 0 auto 50px auto;
+            padding: 0 20px;
+        }
+
+        .itinerary-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+        }
+
+        .card-main {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            align-items: center;
+        }
+
+        .ship-img {
+            width: 220px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .card-details {
+            flex: 1;
+            padding: 0 20px;
+            min-width: 280px;
+        }
+
+        .card-details h2 {
+            margin: 0 0 5px 0;
+            color: var(--dark-blue);
+            font-size: 22px;
+        }
+
+        .ship-badge {
+            display: inline-block;
+            background-color: #eef4fa;
+            color: var(--primary-blue);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .route-path {
+            font-size: 14px;
+            color: #444;
+        }
+
+        .card-action {
+            text-align: right;
+            min-width: 160px;
+        }
+
+        .price-label { font-size: 12px; color: #666; }
+        .price-value { font-size: 32px; font-weight: bold; color: var(--dark-blue); margin-bottom: 10px; }
+
+        .btn-view-dates {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-view-dates:hover {
+            background-color: var(--accent-red);
+        }
+
+        /* Day Timeline */
+        .timeline-section {
+            background-color: #fafbfc;
+            border-top: 1px solid #f0f0f0;
+            padding: 15px 20px;
+        }
+
+        .timeline-title { font-size: 13px; font-weight: bold; color: #555; margin-bottom: 8px; }
+        
+        .timeline-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .timeline-day {
+            background-color: #eef2f6;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--dark-blue);
+        }
+
+        /* Pricing Dropdown */
+        .pricing-dropdown {
+            display: none;
+            background-color: #f8fafc;
+            border-top: 1px dashed #cbd5e1;
+            padding: 20px;
+        }
+
+        .pricing-dropdown.active {
+            display: block;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .price-card {
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .price-header {
+            background-color: #e2e8f0;
+            color: var(--dark-blue);
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            font-size: 13px;
+        }
+
+        .category-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 12px;
+        }
+
+        .category-row:last-of-type { border-bottom: none; }
+
+        .book-now-btn {
+            display: block;
+            background-color: var(--accent-red);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>SUNCREST</h1>
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">Plan a Cruise</a>
-            <a href="#">Our Ships</a>
-            <a href="#">Destinations</a>
-            <a href="#">Deals</a>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <a href="index.html" class="brand">SUNCREST</a>
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>Bahamas Sailings</h1>
+        <p>Your paradise getaway is waiting onboard the Suncrest Fleet</p>
+    </div>
+
+    <!-- SEARCH PANEL -->
+    <div class="search-engine">
+        <div class="filter-group">
+            <label for="filter-year">Sailing Year</label>
+            <select id="filter-year" onchange="updateFilters()">
+                <option value="2026">2026 Sailings</option>
+                <option value="2027">2027 Sailings</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="filter-port">Sailing From (Homeport)</label>
+            <select id="filter-port" onchange="updateFilters()">
+                <option value="all">-- All Homeports --</option>
+                <option value="Miami">Miami, FL</option>
+                <option value="Orlando">Orlando (Port Canaveral), FL</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="filter-duration">Duration</label>
+            <select id="filter-duration" onchange="updateFilters()">
+                <option value="all">-- All Durations --</option>
+                <option value="3">3 Days</option>
+                <option value="4">4 Days</option>
+                <option value="5">5 Days</option>
+            </select>
         </div>
     </div>
 
-    <div class="promo-container">
-        <div class="promo-banner">
-            <h2>2028 Sailings Now Available</h2>
-            <a href="#" class="btn-learn">LEARN MORE</a>
-        </div>
-        <div class="side-promo">
-            <h3>Book Our Biggest, Newest Ships</h3>
-            <a href="#" class="btn-book-now">BOOK NOW</a>
-        </div>
-    </div>
+    <!-- MAIN CONTAINER -->
+    <div class="results-header" id="results-count">Showing Results...</div>
+    <div class="itinerary-list" id="itinerary-list"></div>
 
-    <div class="destinations-section">
-        <h2 class="destinations-title">Our Top Destinations Are On Sale</h2>
-        <div class="cards-grid">
-            <div class="card">
-                <img src="bahamas.JPG" alt="Bahamas">
-                <h3>The Bahamas Sailings</h3>
-                <p>starting at <strong>$191</strong> per person</p>
-                <a href="./bahamas.html" class="btn-card-book">BOOK NOW</a>
-            </div>
-            <div class="card">
-                <img src="caribbean.png" alt="Caribbean">
-                <h3>Caribbean Sailings</h3>
-                <p>starting at <strong>$257</strong> per person</p>
-                <a href="#" class="btn-card-book">BOOK NOW</a>
-            </div>
-            <div class="card">
-                <img src="mexico.png" alt="Mexico">
-                <h3>Mexico Sailings</h3>
-                <p>starting at <strong>$213</strong> per person</p>
-                <a href="#" class="btn-card-book">BOOK NOW</a>
-            </div>
-            <div class="card spotlight-card">
-                <span class="spotlight-tag">SPOTLIGHT</span>
-                <img src="olann.png" alt="Olann Island">
-                <h3>Olann Island</h3>
-                <p>starting at <strong>$191</strong> per person</p>
-                <a href="#" class="btn-card-book">BOOK NOW</a>
-            </div>
-        </div>
-    </div>
+    <script>
+        // MASTER DYNAMIC ITINERARIES DATABASE
+        const database = [
+            // SUNCREST OCEANIC (MIAMI)
+            {
+                id: "sc-oceanic-3d",
+                ship: "Suncrest Oceanic",
+                year: "all",
+                homeport: "Miami",
+                duration: 3,
+                basePrice: 191,
+                route: "Miami > Day at Sea > Unsunken City of Atlantis > Miami",
+                days: [
+                    "Miami (Embarkation)",
+                    "Fun Day at Sea",
+                    "Unsunken City of Atlantis®️ (Private Destination)",
+                    "Miami (Disembarkation)"
+                ],
+                dates: [
+                    { range: "Jan 15 - 18", prices: { interior: 191, oceanview: 241, balcony: 341, suite: 541 } },
+                    { range: "Feb 12 - 15", prices: { interior: 199, oceanview: 249, balcony: 359, suite: 559 } }
+                ]
+            },
+            {
+                id: "sc-oceanic-4d",
+                ship: "Suncrest Oceanic",
+                year: "all",
+                homeport: "Miami",
+                duration: 4,
+                basePrice: 239,
+                route: "Miami > Day at Sea > Nassau > Olann Island > Miami",
+                days: [
+                    "Miami (Embarkation)",
+                    "Fun Day at Sea",
+                    "Nassau (Public Port)",
+                    "Olann Island™️ (Private Destination)",
+                    "Miami (Disembarkation)"
+                ],
+                dates: [
+                    { range: "Mar 11 - 15", prices: { interior: 239, oceanview: 289, balcony: 419, suite: 649 } },
+                    { range: "Apr 08 - 12", prices: { interior: 249, oceanview: 299, balcony: 439, suite: 669 } }
+                ]
+            },
+            {
+                id: "sc-oceanic-5d",
+                ship: "Suncrest Oceanic",
+                year: "all",
+                homeport: "Miami",
+                duration: 5,
+                basePrice: 289,
+                route: "Miami > Day at Sea > Nassau > Unsunken City of Atlantis > Empress Cays > Miami",
+                days: [
+                    "Miami (Embarkation)",
+                    "Fun Day at Sea",
+                    "Nassau (Public Port)",
+                    "Unsunken City of Atlantis®️ (Private Destination)",
+                    "Empress Cays®️ (Private Destination)",
+                    "Miami (Disembarkation)"
+                ],
+                dates: [
+                    { range: "May 20 - 25", prices: { interior: 289, oceanview: 349, balcony: 499, suite: 799 } }
+                ]
+            },
 
+            // UTOPIA (MIAMI)
+            {
+                id: "sc-utopia-4d",
+                ship: "Suncrest Utopia",
+                year: "all",
+                homeport: "Miami",
+                duration: 4,
+                basePrice: 249,
+                route: "Miami > Day at Sea > Nassau > Unsunken City of Atlantis > Miami",
+                days: [
+                    "Miami (Embarkation)",
+                    "Fun Day at Sea",
+                    "Nassau (Public Port)",
+                    "Unsunken City of Atlantis®️ (Private Destination)",
+                    "Miami (Disembarkation)"
+                ],
+                dates: [
+                    { range: "Jan 22 - 26", prices: { interior: 249, oceanview: 299, balcony: 429, suite: 659 } }
+                ]
+            },
+            {
+                id: "sc-utopia-4d-seasonal",
+                ship: "Suncrest Utopia",
+                year: "all",
+                homeport: "Miami",
+                duration: 4,
+                basePrice: 259,
+                route: "Miami > Day at Sea > Bimini > Nassau > Miami (Spring Seasonal)",
+                days: [
+                    "Miami (Embarkation)",
+                    "Fun Day at Sea",
+                    "Bimini (Public Port)",
+                    "Nassau (Public Port)",
+                    "Miami (Disembarkation)"
+                ],
+                dates: [
+                    { range: "Mar 18 - 22 (Spring Break)", prices: { interior: 259, oceanview: 309, balcony: 449, suite: 679 } }
+                ]
+            },
+            {
+                id: "sc-utopia-5d",
+                ship: "Suncrest Utopia",
+                year: "all",
+                homeport: "Miami",
+                duration: 5,
+                basePrice: 299,
+                route: "Miami > Day at Sea > Empress Cays > Freeport > Olann Island > Miami",
+                days: [
+                    "Miami (Embarkation)",
+                    "Fun Day at Sea",
+                    "Empress Cays®️ (Private Destination)",
+                    "Freeport (Public Port)",
+                    "Olann Island™️ (Private Destination)",
+                    "Miami (Disembarkation)"
+                ],
+                dates: [
+                    { range: "Jun 14 - 19", prices: { interior: 299, oceanview: 369, balcony: 519, suite: 829 } }
+                ]
+            },
+
+            // SUNCREST VICTORY (ORLANDO / PORT CANAVERAL)
+            {
+                id: "sc-victory-3d-olann",
+                ship: "Suncrest Victory",
+                year: "all",
+                homeport: "Orlando",
+                duration: 3,
+                basePrice: 195,
+                route: "Orlando > Day at Sea > Olann Island > Orlando",
+                days: [
+                    "Orlando (Embarkation)",
+                    "Fun Day at Sea",
+                    "Olann Island™️ (Private Destination)",
+                    "Orlando (Disembarkation)"
+                ],
+                dates: [
+                    { range: "Oct 12 - 15", prices: { interior: 195, oceanview: 245, balcony: 345, suite: 545 } }
+                ]
+            },
+            {
+                id: "sc-victory-3d-public",
+                ship: "Suncrest Victory",
+                year: "all",
+                homeport: "Orlando",
+                duration: 3,
+                basePrice: 189,
+                route: "Orlando > Day at Sea > Nassau > Orlando",
+                days: [
+                    "Orlando (Embarkation)",
+                    "Fun Day at Sea",
+                    "Nassau (Public Port)",
+                    "Orlando (Disembarkation)"
+                ],
+                dates: [
+                    { range: "Nov 05 - 08", prices: { interior: 189, oceanview: 239, balcony: 339, suite: 529 } }
+                ]
+            },
+            {
+                id: "sc-victory-4d-var1",
+                ship: "Suncrest Victory",
+                year: "all",
+                homeport: "Orlando",
+                duration: 4,
+                basePrice: 245,
+                route: "Orlando > Day at Sea > Nassau > Unsunken City of Atlantis > Orlando",
+                days: [
+                    "Orlando (Embarkation)",
+                    "Fun Day at Sea",
+                    "Nassau (Public Port)",
+                    "Unsunken City of Atlantis®️ (Private Destination)",
+                    "Orlando (Disembarkation)"
+                ],
+                dates: [
+                    { range: "Sep 18 - 22", prices: { interior: 245, oceanview: 295, balcony: 415, suite: 635 } }
+                ]
+            },
+            {
+                id: "sc-victory-4d-doubleprivate",
+                ship: "Suncrest Victory",
+                year: "all",
+                homeport: "Orlando",
+                duration: 4,
+                basePrice: 269,
+                route: "Orlando > Day at Sea > Olann Island > Empress Cays > Orlando",
+                days: [
+                    "Orlando (Embarkation)",
+                    "Fun Day at Sea",
+                    "Olann Island™️ (Private Destination)",
+                    "Empress Cays®️ (Private Destination)",
+                    "Orlando (Disembarkation)"
+                ],
+                dates: [
+                    { range: "Dec 10 - 14", prices: { interior: 269, oceanview: 329, balcony: 449, suite: 699 } }
+                ]
+            },
+            {
+                id: "sc-victory-5d",
+                ship: "Suncrest Victory",
+                year: "all",
+                homeport: "Orlando",
+                duration: 5,
+                basePrice: 305,
+                route: "Orlando > Day at Sea > Bimini > Freeport > Olann Island > Orlando",
+                days: [
+                    "Orlando (Embarkation)",
+                    "Fun Day at Sea",
+                    "Bimini (Public Port)",
+                    "Freeport (Public Port)",
+                    "Olann Island™️ (Private Destination)",
+                    "Orlando (Disembarkation)"
+                ],
+                dates: [
+                    { range: "Jul 20 - 25", prices: { interior: 305, oceanview: 375, balcony: 525, suite: 845 } }
+                ]
+            },
+
+            // SEASONAL SHIPS DEPLOYMENT DEMO
+            {
+                id: "sc-magic-pc",
+                ship: "Suncrest Magic",
+                year: "2026",
+                homeport: "Orlando",
+                duration: 5,
+                basePrice: 319,
+                route: "Orlando > Day at Sea > Olann Island > Bimini > Orlando",
+                days: [
+                    "Orlando (Embarkation)",
+                    "Fun Day at Sea",
+                    "Olann Island™️ (Private Destination)",
+                    "Bimini (Public Port)",
+                    "Orlando (Disembarkation)"
+                ],
+                dates: [
+                    { range: "Jun 05 - 10", prices: { interior: 319, oceanview: 389, balcony: 539, suite: 859 } }
+                ]
+            }
+        ];
+
+        function renderItineraries(list) {
+            const container = document.getElementById("itinerary-list");
+            const counter = document.getElementById("results-count");
+            container.innerHTML = "";
+
+            counter.innerText = `${list.length} Cruise${list.length === 1 ? "" : "s"} Found Matching Your Search`;
+
+            if(list.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding: 40px; font-weight:bold; color:#555;">No cruises found matching these options.</div>`;
+                return;
+            }
+
+            list.forEach(item => {
+                // Generate timeline
+                let timelineHTML = "";
+                item.days.forEach((day, index) => {
+                    timelineHTML += `<div class="timeline-day">Day ${index + 1}: ${day}</div>`;
+                });
+
+                // Generate dates grid
+                let datesHTML = "";
+                item.dates.forEach(date => {
+                    datesHTML += `
+                        <div class="price-card">
+                            <div class="price-header">${date.range}</div>
+                            <div class="category-row">
+                                <span>Interior</span>
+                                <strong>$${date.prices.interior}*</strong>
+                            </div>
+                            <div class="category-row">
+                                <span>Ocean View</span>
+                                <strong>$${date.prices.oceanview}*</strong>
+                            </div>
+                            <div class="category-row">
+                                <span>Balcony</span>
+                                <strong>$${date.prices.balcony}*</strong>
+                            </div>
+                            <div class="category-row">
+                                <span>Suite</span>
+                                <strong>$${date.prices.suite}*</strong>
+                            </div>
+                            <a href="#" class="book-now-btn">Start Booking</a>
+                        </div>
+                    `;
+                });
+
+                const cardHTML = `
+                    <div class="itinerary-card">
+                        <div class="card-main">
+                            <img src="bahamas.JPG" class="ship-img" alt="${item.ship}">
+                            <div class="card-details">
+                                <span class="ship-badge">🚢 ${item.ship}</span>
+                                <h2>${item.duration}-Day Bahamas Cruise</h2>
+                                <p class="route-path"><strong>Route:</strong> ${item.route}</p>
+                            </div>
+                            <div class="card-action">
+                                <span class="price-label">Starting at</span>
+                                <div class="price-value">$${item.basePrice}*</div>
+                                <button class="btn-view-dates" onclick="togglePricing('${item.id}')">Show Dates</button>
+                            </div>
+                        </div>
+                        <div class="timeline-section">
+                            <div class="timeline-title">ITINERARY PATHWAY</div>
+                            <div class="timeline-grid">${timelineHTML}</div>
+                        </div>
+                        <div class="pricing-dropdown" id="dropdown-${item.id}">
+                            <div style="font-weight:bold; color:var(--dark-blue); margin-bottom:10px;">Select Dates & Room Category</div>
+                            <div class="pricing-grid">${datesHTML}</div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        function togglePricing(id) {
+            const dropdown = document.getElementById(`dropdown-${id}`);
+            dropdown.classList.toggle("active");
+        }
+
+        function updateFilters() {
+            const selectedYear = document.getElementById("filter-year").value;
+            const selectedPort = document.getElementById("filter-port").value;
+            const selectedDur = document.getElementById("filter-duration").value;
+
+            const filteredList = database.filter(item => {
+                const yearMatch = (item.year === "all" || item.year === selectedYear);
+                const portMatch = (selectedPort === "all" || item.homeport === selectedPort);
+                const durationMatch = (selectedDur === "all" || item.duration.toString() === selectedDur);
+                return yearMatch && portMatch && durationMatch;
+            });
+
+            renderItineraries(filteredList);
+        }
+
+        // Run on load
+        window.onload = function() {
+            updateFilters();
+        };
+    </script>
 </body>
 </html>
