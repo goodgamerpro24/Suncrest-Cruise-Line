@@ -1,3 +1,60 @@
+        <section class="destinations-grid">
+
+            <div class="destination-card">
+                <img src="bahamas.JPG" alt="The Bahamas">
+                <div class="card-content">
+                    <div>
+                        <div class="card-title">The Bahamas Sailings</div>
+                    </div>
+                    <div>
+                        <div class="price-tag">starting at <span>$191</span>*<br>per person</div>
+                        <a href="#" class="btn-outline">BOOK NOW</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="destination-card">
+                <img src="caribbean.png" alt="Caribbean">
+                <div class="card-content">
+                    <div>
+                        <div class="card-title">Caribbean Sailings</div>
+                    </div>
+                    <div>
+                        <div class="price-tag">starting at <span>$257</span>*<br>per person</div>
+                        <a href="#" class="btn-outline">BOOK NOW</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="destination-card">
+                <img src="mexico.png" alt="Mexico">
+                <div class="card-content">
+                    <div>
+                        <div class="card-title">Mexico Sailings</div>
+                    </div>
+                    <div>
+                        <div class="price-tag">starting at <span>$213</span>*<br>per person</div>
+                        <a href="#" class="btn-outline">BOOK NOW</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="destination-card" style="border: 1px solid #f9cb9c; background-color: #fffaf5;">
+                <img src="olann.png" alt="Olann Island">
+                <div class="card-content">
+                    <div>
+                        <div class="spotlight-tag">Spotlight</div>
+                        <div class="card-title" style="min-height: auto; margin-bottom: 15px;">Olann Island</div>
+                    </div>
+                    <div>
+                        <div class="price-tag">starting at <span>$191</span>*<br>per person</div>
+                        <a href="#" class="btn-outline">BOOK NOW</a>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+<a href="bahamas.html" class="btn-book">BOOK NOW</a>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,12 +86,18 @@
             flex-wrap: wrap;
         }
 
+        /* SUNCREST text is now an active back link */
         .logo {
             font-weight: bold;
             font-size: 24px;
             color: #104f9b;
             text-decoration: none;
             letter-spacing: 1px;
+            transition: color 0.2s;
+        }
+
+        .logo:hover {
+            color: #6fa8dc;
         }
 
         nav {
@@ -58,6 +121,26 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+        }
+
+        /* --- BACK BUTTON --- */
+        .back-nav {
+            margin-bottom: 15px;
+        }
+
+        .btn-back-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: #104f9b;
+            font-weight: bold;
+            font-size: 14px;
+            gap: 5px;
+            transition: color 0.2s;
+        }
+
+        .btn-back-link:hover {
+            color: #6fa8dc;
         }
 
         /* --- BAHAMAS HERO BANNER --- */
@@ -112,7 +195,7 @@
         }
 
         .filter-panel label {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
             color: #104f9b;
             margin-bottom: 8px;
@@ -318,6 +401,7 @@
 
     <!-- Header Navigation -->
     <header>
+        <!-- The Logo is now an active link back to your index page -->
         <a href="index.html" class="logo">SUNCREST</a>
         <nav>
             <a href="index.html">Home</a>
@@ -329,6 +413,11 @@
     </header>
 
     <div class="container">
+
+        <!-- Back Button Option -->
+        <div class="back-nav">
+            <a href="index.html" class="btn-back-link">← Back to Destinations</a>
+        </div>
 
         <!-- Hero Banner -->
         <section class="bahamas-hero">
@@ -348,7 +437,7 @@
             </div>
 
             <!-- Homeport Dropdown -->
-            <div class="filter-group">
+            <div class="filter-group" style="margin-top: 10px;">
                 <label for="portSelect">Select Your Departure Homeport</label>
                 <select id="portSelect" class="search-select" onchange="filterItineraries()">
                     <option value="all">-- Show All Ports --</option>
@@ -364,102 +453,136 @@
                     <option value="tampa">Tampa, FL</option>
                 </select>
             </div>
+
+            <!-- Duration Filter Dropdown -->
+            <div class="filter-group" style="margin-top: 10px;">
+                <label for="durationSelect">Filter By Cruise Length</label>
+                <select id="durationSelect" class="search-select" onchange="filterItineraries()">
+                    <option value="all">-- All Durations --</option>
+                    <option value="short">3–4 Days (Quick Getaway)</option>
+                    <option value="medium">5–6 Days (Tropical Break)</option>
+                    <option value="long">7+ Days (Grand Voyage)</option>
+                </select>
+            </div>
         </section>
 
         <!-- Dynamic Results Section -->
         <h2 class="results-section-title" id="resultsTitle">Featured Bahamas Sailings</h2>
         <section class="itinerary-grid" id="itineraryContainer">
-            <!-- JavaScript will populate itinerary cards here dynamically -->
+            <!-- JavaScript populates Sorted & Filtered cards here -->
         </section>
 
     </div>
 
-    <!-- SCRIPT HANDLING DYNAMIC TIMELINE & PORT LOGIC -->
+    <!-- SCRIPT HANDLING CHEAPEST-TO-PRICIEST, DAY DURATION & TIMELINE LOGIC -->
     <script>
-        // Active timeline tracking variable
         let currentYear = '2026';
 
-        // Master Fleet Deployment Schedules
+        // Master Fleet Deployment Schedules (with days property added for exact filtering)
         const cruiseData = [
-            // Baltimore (Gateway holds down Baltimore. Miracle is off in Seattle/not available)
-            { port: "baltimore", ship: "Suncrest Gateway", duration: "7-8 Days", title: "Grand Gateway to Bahamas", stops: ["Freeport", "Nassau", "Empress Cays", "Olann Island™"], price: 399, years: ["2026", "2027"] },
+            // Baltimore
+            { port: "baltimore", ship: "Suncrest Gateway", duration: "7 Days", days: 7, title: "Grand Gateway to Bahamas", stops: ["Freeport", "Nassau", "Empress Cays", "Olann Island™"], price: 399, years: ["2026", "2027"] },
+            { port: "baltimore", ship: "Suncrest Gateway", duration: "8 Days", title: "Premium Mid-Atlantic Explorer", stops: ["Bimini", "Nassau", "Empress Cays", "Olann Island™"], price: 449, years: ["2026", "2027"] },
 
-            // Galveston (Hideaway, Nova, and Miracle deployment logic)
+            // Galveston (Includes multiple itineraries for Panamax & Nova)
             { port: "galveston", ship: "Suncrest Panamax", duration: "8 Days", title: "Texas to Bahamas & Key West", stops: ["Key West", "Freeport", "Nassau", "Empress Cays"], price: 389, years: ["2026", "2027"] },
             { port: "galveston", ship: "Suncrest Mirage", duration: "7 Days", title: "Gulf Coast Island Explorer", stops: ["Key West", "Bimini", "Nassau"], price: 369, years: ["2026", "2027"] },
-            // Glow is in Galveston until 2027
             { port: "galveston", ship: "Suncrest Glow", duration: "8 Days", title: "Galveston Bahamian Bliss", stops: ["Key West", "Nassau", "Olann Island™"], price: 409, years: ["2026"] },
-            // Hideaway moves to Galveston in 2027+
             { port: "galveston", ship: "Suncrest Hideaway", duration: "8 Days", title: "Lone Star Paradise Escape", stops: ["Key West", "Empress Cays", "Olann Island™"], price: 449, years: ["2027"] },
-            // Nova moves to Galveston in 2027+ (6-7 days)
-            { port: "galveston", ship: "Suncrest Nova", duration: "6-7 Days", title: "Texan Sun & Key West", stops: ["Key West", "Nassau", "Olann Island™"], price: 429, years: ["2027"] },
+            { port: "galveston", ship: "Suncrest Nova", duration: "6 Days", title: "Texan Sun Express", stops: ["Key West", "Nassau", "Olann Island™"], price: 399, years: ["2027"] },
+            { port: "galveston", ship: "Suncrest Nova", duration: "7 Days", title: "Grand Western Gulf Odyssey", stops: ["Key West", "Nassau", "Empress Cays", "Olann Island™"], price: 429, years: ["2027"] },
 
-            // Jacksonville (Elation runs 4-6 day cruises)
-            { port: "jacksonville", ship: "Suncrest Elation", duration: "4-6 Days", title: "First Coast Island Escape", stops: ["Nassau", "Bimini", "Empress Cays"], price: 199, years: ["2026", "2027"] },
+            // Jacksonville (Elation 4 and 5-6 Day options)
+            { port: "jacksonville", ship: "Suncrest Elation", duration: "4 Days", title: "Quick Bahamian Break", stops: ["Nassau", "Bimini"], price: 179, years: ["2026", "2027"] },
+            { port: "jacksonville", ship: "Suncrest Elation", duration: "5 Days", title: "First Coast Island Escape", stops: ["Nassau", "Freeport", "Empress Cays"], price: 219, years: ["2026", "2027"] },
+            { port: "jacksonville", ship: "Suncrest Elation", duration: "6 Days", title: "Extended Sunshine Journey", stops: ["Nassau", "Freeport", "Empress Cays", "Bimini"], price: 269, years: ["2026", "2027"] },
 
-            // Miami (Nova moves out in 2027)
-            { port: "miami", ship: "Suncrest Oceanic", duration: "3-5 Days", title: "Tropical Weekend Quick-Escape", stops: ["Bimini", "Nassau"], price: 169, years: ["2026", "2027"] },
-            { port: "miami", ship: "Suncrest Utopia", duration: "4-5 Nights", title: "Magic City Bahamian Getaway", stops: ["Empress Cays", "Olann Island™"], price: 239, years: ["2026", "2027"] },
+            // Miami
+            { port: "miami", ship: "Suncrest Oceanic", duration: "3 Days", title: "Quick Weekend Escape", stops: ["Bimini"], price: 149, years: ["2026", "2027"] },
+            { port: "miami", ship: "Suncrest Oceanic", duration: "5 Days", title: "Tropical Midweek Getaway", stops: ["Bimini", "Nassau", "Empress Cays"], price: 199, years: ["2026", "2027"] },
+            { port: "miami", ship: "Suncrest Utopia", duration: "4 Nights", title: "Magic City Classic", stops: ["Nassau", "Empress Cays"], price: 189, years: ["2026", "2027"] },
+            { port: "miami", ship: "Suncrest Utopia", duration: "5 Nights", title: "Bahamas Private Island Tour", stops: ["Empress Cays", "Olann Island™"], price: 239, years: ["2026", "2027"] },
             { port: "miami", ship: "Suncrest Nova", duration: "5 Days", title: "Breezy Miami Sun-Sation", stops: ["Nassau", "Bimini", "Empress Cays"], price: 249, years: ["2026"] },
 
-            // Mobile (Glow rotates here during Spring Season in 2027+; Panamax & Atlantica run 6-8 days)
+            // Mobile (Glow Seasonal, Panamax 6 & 8 Day options)
             { port: "mobile", ship: "Suncrest Atlantica", duration: "7 Days", title: "Cavalcade of Key West & Bahamas", stops: ["Key West", "Nassau", "Olann Island™"], price: 349, years: ["2026", "2027"] },
+            { port: "mobile", ship: "Suncrest Panamax", duration: "6 Days", title: "Gulf Quick-Run to Key West", stops: ["Key West", "Nassau"], price: 319, years: ["2026", "2027"] },
             { port: "mobile", ship: "Suncrest Panamax", duration: "8 Days", title: "Grand Gulf Coast Explorer", stops: ["Key West", "Nassau", "Empress Cays", "Olann Island™"], price: 399, years: ["2026", "2027"] },
-            { port: "mobile", ship: "Suncrest Glow", duration: "7-8 Days", title: "Bama Springtime Oasis", stops: ["Key West", "Bimini", "Olann Island™"], price: 389, years: ["2027"] }, // Seasonal
+            { port: "mobile", ship: "Suncrest Glow", duration: "8 Days", title: "Bama Springtime Oasis", stops: ["Key West", "Bimini", "Olann Island™"], price: 389, years: ["2027"] },
 
-            // New Orleans (NOLA - Glow joins in 2027+)
+            // New Orleans
             { port: "new-orleans", ship: "Suncrest Atlantica", duration: "7 Days", title: "Crescent City Key West Special", stops: ["Key West", "Nassau", "Olann Island™"], price: 359, years: ["2026", "2027"] },
             { port: "new-orleans", ship: "Suncrest Pacifica", duration: "8 Days", title: "Bayou To Bahamian Cays", stops: ["Key West", "Freeport", "Nassau", "Empress Cays"], price: 399, years: ["2026", "2027"] },
             { port: "new-orleans", ship: "Suncrest Glow", duration: "8 Days", title: "Southern Star Escape", stops: ["Key West", "Bimini", "Nassau", "Olann Island™"], price: 419, years: ["2027"] },
 
-            // New York (Triangle handles NYC)
-            { port: "new-york", ship: "Suncrest Triangle", duration: "7+ Days", title: "Manhattan To Tropical Cays", stops: ["Nassau", "Empress Cays", "Olann Island™"], price: 459, years: ["2026", "2027"] },
+            // New York
+            { port: "new-york", ship: "Suncrest Triangle", duration: "7 Days", title: "Empire to Bahamas Cruise", stops: ["Nassau", "Empress Cays", "Olann Island™"], price: 459, years: ["2026", "2027"] },
 
-            // Norfolk (Hideaway moves out, Magic moves in for 2027+)
-            { port: "norfolk", ship: "Suncrest Hideaway", duration: "7+ Days", title: "Virginia Beach Signature Run", stops: ["Freeport", "Nassau", "Olann Island™"], price: 349, years: ["2026"] },
-            { port: "norfolk", ship: "Suncrest Magic", duration: "7+ Days", title: "Virginia To Paradise Expedition", stops: ["Nassau", "Empress Cays", "Olann Island™"], price: 329, years: ["2027"] },
+            // Norfolk
+            { port: "norfolk", ship: "Suncrest Hideaway", duration: "7 Days", title: "Virginia Beach Signature Run", stops: ["Freeport", "Nassau", "Olann Island™"], price: 349, years: ["2026"] },
+            { port: "norfolk", ship: "Suncrest Magic", duration: "7 Days", title: "Virginia To Paradise Expedition", stops: ["Nassau", "Empress Cays", "Olann Island™"], price: 329, years: ["2027"] },
 
-            // Port Canaveral (Magic moves to Norfolk in 2027; Paradise debuts in 2027)
-            { port: "port-canaveral", ship: "Suncrest Victory", duration: "3-5 Days", title: "Space Coast Express Escape", stops: ["Nassau", "Empress Cays"], price: 189, years: ["2026", "2027"] },
+            // Port Canaveral
+            { port: "port-canaveral", ship: "Suncrest Victory", duration: "3 Days", title: "Space Coast Express Escape", stops: ["Nassau"], price: 149, years: ["2026", "2027"] },
+            { port: "port-canaveral", ship: "Suncrest Victory", duration: "5 Days", title: "Extended Canaveral Sunshine", stops: ["Nassau", "Empress Cays", "Bimini"], price: 199, years: ["2026", "2027"] },
             { port: "port-canaveral", ship: "Suncrest Aurora", duration: "5 Days", title: "Private Island Exploration", stops: ["Olann Island™", "Empress Cays"], price: 239, years: ["2026", "2027"] },
-            { port: "port-canaveral", ship: "Suncrest Sunrise", duration: "4-5 Days", title: "Sunshine State Explorer", stops: ["Nassau", "Olann Island™"], price: 199, years: ["2026", "2027"] },
-            { port: "port-canaveral", ship: "Tropical™", duration: "3-5 Days", title: "Classic Tropical Run", stops: ["Nassau", "Empress Cays"], price: 179, years: ["2026", "2027"] },
+            { port: "port-canaveral", ship: "Suncrest Sunrise", duration: "4 Days", title: "Sunshine State Explorer", stops: ["Nassau", "Olann Island™"], price: 189, years: ["2026", "2027"] },
+            { port: "port-canaveral", ship: "Tropical™", duration: "4 Days", title: "Classic Tropical Run", stops: ["Nassau", "Empress Cays"], price: 179, years: ["2026", "2027"] },
             { port: "port-canaveral", ship: "Suncrest Magic", duration: "5 Days", title: "Space Coast Bahamian Magic", stops: ["Nassau", "Bimini", "Freeport"], price: 229, years: ["2026"] },
             { port: "port-canaveral", ship: "Suncrest Paradise (Coming 2027)", duration: "5 Days", title: "Next-Gen Launch Cruise", stops: ["Olann Island™", "Nassau", "Bimini"], price: 299, years: ["2027"] },
 
-            // Tampa (All Tampa routes are 5-6 days and include Key West)
-            { port: "tampa", ship: "Suncrest Excitement", duration: "5-6 Days", title: "West Florida Bay Breeze", stops: ["Key West", "Nassau", "Bimini"], price: 249, years: ["2026", "2027"] },
-            { port: "tampa", ship: "Suncrest Panamax", duration: "5-6 Days", title: "Tampa to Empress Cays Explorer", stops: ["Key West", "Nassau", "Empress Cays"], price: 299, years: ["2026", "2027"] }
+            // Tampa (Panamax with multiple dynamic day-duration routes)
+            { port: "tampa", ship: "Suncrest Excitement", duration: "5 Days", title: "West Florida Bay Breeze", stops: ["Key West", "Nassau"], price: 229, years: ["2026", "2027"] },
+            { port: "tampa", ship: "Suncrest Excitement", duration: "6 Days", title: "Tampa Bay Breezy Getaway", stops: ["Key West", "Nassau", "Bimini"], price: 259, years: ["2026", "2027"] },
+            { port: "tampa", ship: "Suncrest Panamax", duration: "5 Days", title: "Tampa West Coast Explorer", stops: ["Key West", "Nassau"], price: 249, years: ["2026", "2027"] },
+            { port: "tampa", ship: "Suncrest Panamax", duration: "6 Days", title: "Gulf to Empress Cays Odyssey", stops: ["Key West", "Nassau", "Empress Cays"], price: 299, years: ["2026", "2027"] }
         ];
 
-        // Handles the season toggle button clicks
+        // Helper to get number of days from duration strings
+        function parseDays(durationStr) {
+            // Extracts the first number found (e.g. "7 Days" -> 7, "7-8 Days" -> 7, "4 Nights" -> 4)
+            const matches = durationStr.match(/\d+/);
+            return matches ? parseInt(matches[0], 10) : 5;
+        }
+
         function setYear(year) {
             currentYear = year;
-            
-            // Adjust visual button states
             document.getElementById("btn2026").classList.toggle("active", year === '2026');
             document.getElementById("btn2027").classList.toggle("active", year === '2027');
-
-            // Recalculate and filter cards
             filterItineraries();
         }
 
-        // Filters matches based on both the Homeport choice and the active Season Year
         function filterItineraries() {
             const selectedPort = document.getElementById("portSelect").value;
+            const selectedDuration = document.getElementById("durationSelect").value;
             const container = document.getElementById("itineraryContainer");
             const titleElement = document.getElementById("resultsTitle");
 
             container.innerHTML = "";
 
-            // Filter data by chosen port AND the matching operational year
-            const filteredData = cruiseData.filter(item => {
+            // Filter data by chosen Port, Year, and Duration
+            let filteredData = cruiseData.filter(item => {
                 const portMatch = (selectedPort === "all" || item.port === selectedPort);
                 const yearMatch = item.years.includes(currentYear);
-                return portMatch && yearMatch;
+                
+                // Duration filter logic (checks the parsed numeric days)
+                const daysCount = item.days || parseDays(item.duration);
+                let durationMatch = true;
+                if (selectedDuration === "short") {
+                    durationMatch = (daysCount >= 3 && daysCount <= 4);
+                } else if (selectedDuration === "medium") {
+                    durationMatch = (daysCount >= 5 && daysCount <= 6);
+                } else if (selectedDuration === "long") {
+                    durationMatch = (daysCount >= 7);
+                }
+
+                return portMatch && yearMatch && durationMatch;
             });
 
-            // Format title based on the state selected
+            // CRUCIAL: Sort itineraries from CHEAPEST TO PRICIEST
+            filteredData.sort((a, b) => a.price - b.price);
+
+            // Dynamic Header Updates
             const seasonLabel = currentYear === '2026' ? 'Current Season' : '2027 & Beyond';
             if (selectedPort === "all") {
                 titleElement.textContent = `Featured Bahamas Sailings (${seasonLabel})`;
@@ -468,13 +591,12 @@
                 titleElement.textContent = `Sailings out of ${formattedPortName} (${seasonLabel})`;
             }
 
-            // Fallback for empty results
             if (filteredData.length === 0) {
-                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #666; font-size: 16px; margin-top: 30px;">No operational sailings scheduled for this port during the selected season.</p>`;
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #666; font-size: 16px; margin-top: 30px;">No operational sailings match your active filters.</p>`;
                 return;
             }
 
-            // Print Cards
+            // Print sorted Cards
             filteredData.forEach(item => {
                 const stopsHTML = item.stops.map(stop => `<li>${stop}</li>`).join("");
                 
@@ -491,7 +613,7 @@
                             </ul>
                             <div class="card-footer">
                                 <div class="price-display">starting at<br><span>$${item.price}</span>*</div>
-                                <button class="btn-book" onclick="alert('Booking for ${item.ship} is simulated! Operational departures scheduled.')">Book Now</button>
+                                <button class="btn-book" onclick="alert('Booking for ${item.ship} is simulated!')">Book Now</button>
                             </div>
                         </div>
                     </div>
@@ -500,8 +622,8 @@
             });
         }
 
-        // Load content immediately on start
         window.onload = filterItineraries;
     </script>
 </body>
 </html>
+
