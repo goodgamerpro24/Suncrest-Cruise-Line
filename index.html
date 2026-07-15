@@ -10,7 +10,7 @@
             --suncrest-sky: #e1f5fe;
             --suncrest-red: #dc2626;
             --text-dark: #0f172a;
-            --gold: #d4af37;
+            --navy-finance: #06183a;
         }
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -20,7 +20,7 @@
             color: var(--text-dark);
         }
 
-        /* Top Navigation Header matching Carnival */
+        /* Navigation Header */
         nav {
             background-color: #ffffff;
             padding: 15px 30px;
@@ -32,145 +32,97 @@
             top: 0;
             z-index: 1000;
         }
-        .nav-logo-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .nav-logo-box img {
-            height: 50px;
-            width: auto;
-        }
-        .nav-links a {
-            color: #334155;
-            text-decoration: none;
-            margin-left: 25px;
-            font-weight: bold;
-            font-size: 0.95rem;
-        }
+        .nav-logo-box { display: flex; align-items: center; gap: 10px; }
+        .nav-logo-box img { height: 50px; width: auto; }
+        .nav-links a { color: #334155; text-decoration: none; margin-left: 25px; font-weight: bold; font-size: 0.95rem; }
         .nav-links a:hover { color: var(--suncrest-blue); }
 
-        /* Multi-Section Split Hero Banner mimicking references */
-        .hero-split-container {
-            display: grid;
-            grid-template-columns: 1fr;
-        }
-        @media(min-width: 768px) {
-            .hero-split-container { grid-template-columns: 1.2fr 0.8fr; }
-        }
-
-        /* Left Main Banner Panel */
+        /* Split Hero Header Section */
+        .hero-split-container { display: grid; grid-template-columns: 1fr; }
+        @media(min-width: 768px) { .hero-split-container { grid-template-columns: 1.2fr 0.8fr; } }
+        
         .hero-left-banner {
             background: linear-gradient(rgba(0,119,200,0.45), rgba(0,86,145,0.7)), url('https://unsplash.com');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 80px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            position: relative;
+            background-size: cover; background-position: center; color: white; padding: 80px 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
         }
         .hero-left-banner h2 { font-size: 1.5rem; text-transform: uppercase; font-weight: bold; letter-spacing: 2px; margin: 0; }
-        .hero-left-banner h1 { font-size: 3.5rem; font-weight: 900; margin: 10px 0; line-height: 1.1; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        .hero-left-banner h1 { font-size: 3.5rem; font-weight: 900; margin: 10px 0; line-height: 1.1; }
         .hero-left-banner .season-tag { font-size: 1.8rem; font-weight: bold; color: #ffeb3b; margin-bottom: 25px; }
-
-        /* Right Bundle Promo Box Panel */
-        .hero-right-promo {
-            background-color: var(--suncrest-sky);
-            padding: 60px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            border-left: 4px solid #b3e5fc;
-        }
+        
+        .hero-right-promo { background-color: var(--suncrest-sky); padding: 60px 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-left: 4px solid #b3e5fc; }
         .hero-right-promo h3 { font-size: 2rem; color: var(--suncrest-blue); font-weight: 900; margin-top: 0; }
         .hero-right-promo p { font-size: 1.2rem; line-height: 1.6; font-weight: bold; color: #1e293b; margin-bottom: 30px; }
 
-        /* Pill Action Buttons */
-        .btn-red {
-            background-color: var(--suncrest-red);
-            color: white;
-            border: none;
-            padding: 14px 35px;
-            font-weight: bold;
-            font-size: 1rem;
-            border-radius: 25px;
-            cursor: pointer;
-            text-transform: uppercase;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-        }
-        .btn-red:hover { background-color: #b91c1c; }
+        .btn-red { background-color: var(--suncrest-red); color: white; border: none; padding: 14px 35px; font-weight: bold; font-size: 1rem; border-radius: 25px; cursor: pointer; text-transform: uppercase; }
 
-        /* Showcase Grid Heading styling */
-        .section-title {
-            text-align: center;
-            font-size: 2.4rem;
-            color: var(--suncrest-blue);
-            margin: 60px 0 25px;
-            font-weight: 900;
-        }
-
-        /* Layout Grid Wrapper */
-        .container { max-width: 1200px; margin: 0 auto 80px; padding: 0 25px; }
+        /* Section Layout Wrappers */
+        .section-title { text-align: center; font-size: 2.4rem; color: var(--suncrest-blue); margin: 60px 0 25px; font-weight: 900; }
+        .container { max-width: 1200px; margin: 0 auto 40px; padding: 0 25px; }
         .deals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
 
-        /* Square block layouts matching inspiration card design */
-        .deal-card {
-            background-color: var(--suncrest-sky);
-            border-radius: 20px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.06);
-            border: 1px solid #b3e5fc;
-            transition: transform 0.2s;
-        }
-        .deal-card:hover { transform: translateY(-4px); }
+        /* Destination Deals Promo Box Layouts */
+        .deal-card { background-color: var(--suncrest-sky); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 6px 15px rgba(0,0,0,0.06); border: 1px solid #b3e5fc; }
         .image-container { width: 100%; height: 200px; overflow: hidden; }
         .deal-img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .deal-info {
-            padding: 30px 20px;
+        .deal-info { padding: 30px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-grow: 1; text-align: center; }
+        .spotlight-badge { color: var(--suncrest-red); font-weight: 900; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 6px; }
+        .deal-title { font-size: 1.4rem; font-weight: bold; color: var(--suncrest-blue); margin: 0 0 10px 0; }
+        .deal-price { font-size: 0.95rem; color: var(--text-dark); margin-bottom: 25px; }
+        .deal-price span { font-size: 2.2rem; font-weight: 900; color: var(--suncrest-blue); }
+        .book-btn { background-color: #ffffff; color: var(--suncrest-blue); border: 2px solid var(--suncrest-blue); padding: 10px 40px; font-weight: bold; font-size: 0.95rem; border-radius: 25px; cursor: pointer; text-transform: uppercase; }
+        .book-btn:hover { background-color: var(--suncrest-blue); color: white; }
+
+        /* Fleet Section Split Container Layout */
+        .mega-section-split {
+            display: grid;
+            grid-template-columns: 1fr;
+            margin-top: 60px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 60px;
+        }
+        @media(min-width: 992px) { .mega-section-split { grid-template-columns: 0.8fr 1.2fr; } }
+
+        /* Left Side: Deep Blue Financing Module */
+        .finance-panel {
+            background-color: var(--navy-finance);
+            color: white;
+            padding: 50px 40px;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            flex-grow: 1;
+            align-items: center;
             text-align: center;
+            background-image: radial-gradient(circle at 20% 30%, rgba(0,119,200,0.15) 0%, transparent 60%);
         }
-        .spotlight-badge {
-            color: var(--suncrest-red);
-            font-weight: 900;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-        }
-        .deal-title { font-size: 1.4rem; font-weight: bold; color: var(--suncrest-blue); margin: 0 0 10px 0; }
-        .deal-price { font-size: 0.95rem; color: var(--text-dark); margin-bottom: 25px; line-height: 1.4; }
-        .deal-price span { font-size: 2.2rem; font-weight: 900; color: var(--suncrest-blue); }
+        .finance-panel h2 { font-size: 2.5rem; font-weight: 900; margin: 0 0 10px 0; line-height: 1.1; }
+        .finance-panel .powered-by { font-size: 1rem; color: var(--suncrest-sky); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 40px; }
+        .finance-deals { font-size: 1.2rem; font-weight: bold; line-height: 2; margin-bottom: 40px; text-align: left; width: 100%; }
+        .finance-deals div { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0; width: 100%; }
+        .shop-deal-btn { background-color: var(--suncrest-red); color: white; border: none; padding: 14px 40px; font-weight: bold; border-radius: 25px; cursor: pointer; text-transform: uppercase; }
 
-        .book-btn {
-            background-color: #ffffff;
-            color: var(--suncrest-blue);
-            border: 2px solid var(--suncrest-blue);
-            padding: 10px 40px;
-            font-weight: bold;
-            font-size: 0.95rem;
-            border-radius: 25px;
-            cursor: pointer;
-            text-transform: uppercase;
+        /* Right Side: Ship Showcase Grid Layout */
+        .ships-panel { background-color: #f8fafc; padding: 50px 40px; }
+        .ships-panel h2 { font-size: 2.2rem; color: var(--suncrest-blue); font-weight: 900; margin-top: 0; margin-bottom: 30px; text-align: center; }
+        .ships-list-container { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media(min-width: 576px) { .ships-list-container { grid-template-columns: repeat(2, 1fr); } }
+
+        .ship-row-card {
+            background: white; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         }
-        .book-btn:hover { background-color: var(--suncrest-blue); color: white; }
+        .ship-img-box { width: 100%; height: 140px; overflow: hidden; }
+        .ship-img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .ship-details { padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; justify-content: space-between; flex-grow: 1; }
+        .ship-name { font-size: 1.2rem; font-weight: bold; color: var(--text-dark); margin: 0 0 4px 0; }
+        .ship-location { font-size: 0.9rem; color: #64748b; margin-bottom: 15px; }
+        .search-ship-btn { background-color: white; color: var(--suncrest-blue); border: 2px solid var(--suncrest-blue); padding: 8px 25px; font-weight: bold; font-size: 0.85rem; border-radius: 20px; cursor: pointer; text-transform: uppercase; }
+        .search-ship-btn:hover { background-color: var(--suncrest-blue); color: white; }
     </style>
 </head>
 <body>
 
-    <!-- Main Sticky Navigation Bar with Local Logo integration -->
+    <!-- Sticky Main Header Navigation Menu -->
     <nav>
         <div class="nav-logo-box">
             <img src="logo.png" alt="Suncrest Cruise Line Logo" onerror="this.style.display='none';">
@@ -184,65 +136,38 @@
         </div>
     </nav>
 
-    <!-- Split Marketing Hero Panels matching Carnival layout screenshots -->
+    <!-- Visual Marketing Split Panel Header Banner -->
     <section class="hero-split-container">
         <div class="hero-left-banner">
-            <h2 id="tagline">Loading...</h2>
+            <h2>Sailing to Paradise destinations</h2>
             <h1>SUNCREST<br>CRUISE LINE</h1>
-            <div class="season-tag" id="season-display">Summer 2029</div>
+            <div class="season-tag">2028 Sailings Now available</div>
             <button class="btn-red">Learn More</button>
         </div>
         <div class="hero-right-promo">
-            <h3 id="promo-title">Loading Offer...</h3>
-            <p id="promo-details">Connecting to itineraries...</p>
+            <h3>Upgrade Your Fun Bundle & Save</h3>
+            <p>$500* onboard credit + 25% Off select onboard experiences</p>
             <button class="btn-red">Book Now</button>
         </div>
     </section>
 
+    <!-- Top Destination Sale Matrix Container Grid -->
     <h2 class="section-title">Our Top Destinations Are On Sale</h2>
-
-    <!-- Dynamic Layout Showcase Area -->
     <div class="container">
-        <div id="deals-container" class="deals-grid"></div>
-    </div>
+        <div class="deals-grid">
+            
+            <!-- Card 1: Bahamas -->
+            <div class="deal-card">
+                <div class="image-container"><img class="deal-img" src="bahamas.JPG" alt="The Bahamas"></div>
+                <div class="deal-info">
+                    <h3 class="deal-title">The Bahamas Sailings</h3>
+                    <p class="deal-price">starting at <span>$191*</span><br>per person</p>
+                    <button class="book-btn">Book Now</button>
+                </div>
+            </div>
 
-    <!-- JavaScript Data Binding Script -->
-    <script>
-        fetch('data.json')
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('tagline').innerText = data.heroTagline;
-                document.getElementById('season-display').innerText = data.heroSeason;
-                document.getElementById('promo-title').innerText = data.promoTitle;
-                document.getElementById('promo-details').innerText = data.promoDetails;
-
-                const container = document.getElementById('deals-container');
-                container.innerHTML = '';
-
-                data.deals.forEach(deal => {
-                    const card = document.createElement('div');
-                    card.className = 'deal-card';
-
-                    const spotlightHTML = deal.isSpotlight ? `<div class="spotlight-badge">SPOTLIGHT</div>` : '';
-
-                    card.innerHTML = `
-                        <div class="image-container">
-                            <img class="deal-img" src="${deal.image}" alt="${deal.title}">
-                        </div>
-                        <div class="deal-info">
-                            ${spotlightHTML}
-                            <h3 class="deal-title">${deal.title}</h3>
-                            <p class="deal-price">starting at <span>$${deal.price}*</span><br>per person</p>
-                            <button class="book-btn">Book Now</button>
-                        </div>
-                    `;
-                    container.appendChild(card);
-                });
-            })
-            .catch(err => {
-                console.error("Database connection failure:", err);
-                document.getElementById('deals-container').innerText = "Database connection error.";
-            });
-    </script>
-</body>
-</html>
+            <!-- Card 2: Caribbean -->
+            <div class="deal-card">
+                <div class="image-container"><img class="deal-img" src="caribbean.png" alt="Caribbean"></div>
+                <div class="deal-info">
+                    <h3 class="deal-title">Caribbean Sailings</h3>
