@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suncrest Cruise Line - Luxury Travel Platform</title>
+    <title>Suncrest Cruise Line - School Coding Project</title>
     <style>
         :root {
             --suncrest-blue: #0077c8;
@@ -40,6 +40,7 @@
         /* Split Hero Cover Section */
         .hero-split-container { display: grid; grid-template-columns: 1fr; }
         @media(min-width: 768px) { .hero-split-container { grid-template-columns: 1.2fr 0.8fr; } }
+        
         .hero-left-banner {
             background: linear-gradient(rgba(0,119,200,0.45), rgba(0,86,145,0.7)), url('https://unsplash.com');
             background-size: cover; background-position: center; color: white; padding: 80px 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
@@ -47,6 +48,7 @@
         .hero-left-banner h2 { font-size: 1.5rem; text-transform: uppercase; font-weight: bold; letter-spacing: 2px; margin: 0; }
         .hero-left-banner h1 { font-size: 3.5rem; font-weight: 900; margin: 10px 0; line-height: 1.1; }
         .hero-left-banner .season-tag { font-size: 1.8rem; font-weight: bold; color: #ffeb3b; margin-bottom: 25px; }
+        
         .hero-right-promo { background-color: var(--suncrest-sky); padding: 60px 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-left: 4px solid #b3e5fc; }
         .hero-right-promo h3 { font-size: 2rem; color: var(--suncrest-blue); font-weight: 900; margin-top: 0; }
         .hero-right-promo p { font-size: 1.2rem; line-height: 1.6; font-weight: bold; color: #1e293b; margin-bottom: 30px; }
@@ -120,7 +122,7 @@
 </head>
 <body>
 
-    <!-- Main Navigation Bar with Local Logo reference hook -->
+    <!-- Main Navigation Bar -->
     <nav>
         <div class="nav-logo-box">
             <img src="logo.png" alt="Suncrest Cruise Line Logo" onerror="this.style.display='none';">
@@ -134,17 +136,17 @@
         </div>
     </nav>
 
-    <!-- Visual Marketing Split Panel Header Banner -->
+    <!-- Marketing Hero Split Panel Header Banner -->
     <section class="hero-split-container">
         <div class="hero-left-banner">
-            <h2 id="tagline">Loading...</h2>
+            <h2>Sailing to Paradise destinations</h2>
             <h1>SUNCREST<br>CRUISE LINE</h1>
-            <div class="season-tag" id="season-display">2028 Sailings Now available</div>
+            <div class="season-tag">2028 Sailings Now available</div>
             <button class="btn-red">Learn More</button>
         </div>
         <div class="hero-right-promo">
-            <h3 id="promo-title">Loading Offer...</h3>
-            <p id="promo-details">Connecting to itineraries...</p>
+            <h3>Upgrade Your Fun Bundle & Save</h3>
+            <p>$500* onboard credit + 25% Off select onboard experiences</p>
             <button class="btn-red">Book Now</button>
         </div>
     </section>
@@ -152,20 +154,20 @@
     <!-- Top Destination Sale Matrix Container Grid -->
     <h2 class="section-title">Our Top Destinations Are On Sale</h2>
     <div class="container">
-        <div id="deals-container" class="deals-grid"></div>
-    </div>
-
-    <!-- CARNIVAL-STYLE BIGGEST SHIPS & FINANCING DYNAMIC LAYOUT -->
-    <div class="container">
-        <div class="mega-section-split">
-            <!-- Left Financing Box view -->
-            <div class="finance-panel">
-                <h2 id="finance-title">Book Today. Pay Over Time.</h2>
-                <div class="powered-by" id="finance-subtitle">Financing Powered by FlexPay</div>
-                <div class="finance-deals">
-                    <div id="f-deal1">Loading option...</div>
-                    <div id="f-deal2">Loading option...</div>
-                    <div id="f-deal3">Loading option...</div>
+        <div class="deals-grid">
+            
+            <!-- Card 1: Bahamas -->
+            <div class="deal-card">
+                <div class="image-container"><img class="deal-img" src="bahamas.jpg" alt="The Bahamas"></div>
+                <div class="deal-info">
+                    <h3 class="deal-title">The Bahamas Sailings</h3>
+                    <p class="deal-price">starting at <span>$191*</span><br>per person</p>
+                    <button class="book-btn">Book Now</button>
                 </div>
-                <button class="shop-deal-btn">Shop This Deal</button>
             </div>
+
+            <!-- Card 2: Caribbean -->
+            <div class="deal-card">
+                <div class="image-container"><img class="deal-img" src="caribbean.png" alt="Caribbean"></div>
+                <div class="deal-info">
+                    <h3 class="deal-title">Caribbean Sailings</h3>
