@@ -1,1 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bahamas Sailings - Suncrest Cruise Line</title>
+    <style>
+        /* --- GLOBAL STYLES --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
 
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* --- HEADER NAVIGATION --- */
+        header {
+            background-color: #ffffff;
+            border-bottom: 3px solid #6fa8dc;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Logo links back to your homepage */
+        .logo {
+            font-weight: bold;
+            font-size: 24px;
+            color: #104f9b;
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: color 0.2s;
+        }
+
+        .logo:hover {
+            color: #6fa8dc;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #104f9b;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- CONTAINER --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- BACK BUTTON --- */
+        .back-nav {
+            margin-bottom: 15px;
+        }
+
+        /* Links back to index.html instead of scrolling */
+        .btn-back-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: #104f9b;
+            font-weight: bold;
+            font-size: 14px;
+            gap: 5px;
+            transition: color 0.2s;
+        }
+
+        .btn-back-link:hover {
+            color: #6fa8dc;
+        }
+
+        /* --- BAHAMAS HERO BANNER --- */
+        .bahamas-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('bahamas.JPG') no-repeat center center/cover;
+            color: white;
+            padding: 60px 40px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bahamas-hero h1 {
+            font-size: 42px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+
+        .bahamas-hero p {
+            font-size: 18px;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+            color: #fffaf0;
+        }
+
+        /* --- PORT & SEASON FILTER PANEL --- */
+        .filter-panel {
+            background-color: white;
+            border: 1px solid #d0e1f3;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .filter-panel label {
+            font-size: 13px;
+            font-weight: bold;
+            color: #104f9b;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .search-select {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #6fa8dc;
+            border-radius: 25px;
+            color: #104f9b;
+            background-color: white;
+            font-weight: bold;
+            outline: none;
+            cursor: pointer;
+            transition: border 0.2s;
+            text-align-last: center;
+        }
+
+        .search-select:focus {
+            border-color: #104f9b;
+        }
+
+        /* Toggle Buttons for Year/Season */
+        .toggle-container {
+            display: flex;
+            background-color: #e8f0fe;
+            border-radius: 25px;
+            padding: 4px;
+            width: 100%;
+            max-width: 320px;
+            justify-content: space-between;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            background: none;
+            font-size: 14px;
+            font-weight: bold;
+            color: #104f9b;
+            border-radius: 21px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .toggle-btn.active {
+            background-color: #104f9b;
+            color: white;
+        }
+
+        /* --- RESULTS GRID --- */
+        .results-section-title {
+            color: #104f9b;
+            font-size: 24px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #d0e1f3;
+            padding-bottom: 10px;
+        }
+
+        .itinerary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        /* --- ITINERARY CARD --- */
+        .itinerary-card {
+            background-color: #ffffff;
+            border: 1px solid #d0e1f3;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .itinerary-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background-color: #e8f0fe;
+            padding: 15px 20px;
+            border-bottom: 1px solid #b4cffc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .duration-badge {
+            background-color: #104f9b;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        .ship-name-tag {
+            color: #333;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .card-body {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .itinerary-title {
+            color: #104f9b;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .stops-list {
+            margin-bottom: 20px;
+            list-style: none;
+        }
+
+        .stops-list li {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #555;
+            display: flex;
+            align-items: center;
+        }
+
+        .stops-list li::before {
+            content: "📍";
+            margin-right: 8px;
+            font-size: 12px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed #d0e1f3;
+            padding-top: 15px;
+        }
+
+        .price-display {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .price-display span {
+            font-size: 22px;
+            font-weight: bold;
+            color: #104f9b;
+        }
+
+        .btn-book {
+            background-color: #e03a3e;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 12px;
+            transition: background 0.2s;
+        }
+
+        .btn-book:hover {
+            background-color: #c02d30;
+        }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 950px) {
+            .itinerary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+            .itinerary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bahamas-hero h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">SUNCREST</a>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="#">Plan A Cruise</a>
+            <a href="#">Our Ships</a>
+            <a href="#">Destinations</a>
+            <a href="#">Deals</a>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <div class="back-nav">
+            <a href="index.html" class="btn-back-link">← Back to Destinations</a>
+        </div>
+
+        <section class="bahamas-hero">
+            <h1>Bahamas Sailings</h1>
+            <p>Find your slice of paradise with departures up and down the East Coast and Gulf.</p>
+        </section>
+
+        <section class="filter-panel">
+            <div class="filter-group">
+                <label>Select Deployment Year</label>
+                <div class="toggle-container">
+                    <button class="toggle-btn active" id="btn2026" onclick="setYear('2026')">Current Season</button>
+                    <button class="toggle-btn" id="btn2027" onclick="setYear('2027')">2027 & Beyond</button>
+                </div>
+            </div>
+
+            <div class="filter-group" style="margin-top: 10px;">
+                <label for="portSelect">Select Your Departure Homeport</label>
+                <select id="portSelect" class="search-select" onchange="filterItineraries()">
+                    <option value="all">-- Show All Ports --</option>
+                    <option value="baltimore">Baltimore, MD</option>
+                    <option value="galveston">Galveston, TX</option>
+                    <option value="jacksonville">Jacksonville, FL</option>
+                    <option value="miami">Miami, FL</option>
+                    <option value="mobile">Mobile, AL</option>
+                    <option value="new-orleans">New Orleans, LA</option>
+                    <option value="new-york">New York, NY</option>
+                    <option value="norfolk">Norfolk, VA</option>
+                    <option value="port-canaveral">Port Canaveral, FL</option>
+                    <option value="tampa">Tampa, FL</option>
+                </select>
+            </div>
+
+            <div class="filter-group" style="margin-top: 10px;">
+                <label for="durationSelect">Filter By Cruise Length</label>
+                <select id="durationSelect" class="search-select" onchange="filterItineraries()">
+                    <option value="all">-- All Durations --</option>
+                    <option value="short">3–4 Days (Quick Getaway)</option>
+                    <option value="medium">5–6 Days (Tropical Break)</option>
+                    <option value="long">7+ Days (Grand Voyage)</option>
+                </select>
+            </div>
+        </section>
+
+        <h2 class="results-section-title" id="resultsTitle">Featured Bahamas Sailings</h2>
+        <section class="itinerary-grid" id="itineraryContainer">
+            </section>
+
+    </div>
+
+    <script>
+        let currentYear = '2026';
+
+        const cruiseData = [
+            // Baltimore
+            { port: "baltimore", ship: "Suncrest Gateway", duration: "7 Days", days: 7, title: "Grand Gateway to Bahamas", stops: ["Freeport", "Nassau", "Empress Cays", "Olann Island™"], price: 399, years: ["2026", "2027"] },
+            { port: "baltimore", ship: "Suncrest Gateway", duration: "8 Days", title: "Premium Mid-Atlantic Explorer", stops: ["Bimini", "Nassau", "Empress Cays", "Olann Island™"], price: 449, years: ["2026", "2027"] },
+
+            // Galveston
+            { port: "galveston", ship: "Suncrest Panamax", duration: "8 Days", days: 8, title: "Texas to Bahamas & Key West", stops: ["Key West", "Freeport", "Nassau", "Empress Cays"], price: 389, years: ["2026", "2027"] },
+            { port: "galveston", ship: "Suncrest Mirage", duration: "7 Days", days: 7, title: "Gulf Coast Island Explorer", stops: ["Key West", "Bimini", "Nassau"], price: 369, years: ["2026", "2027"] },
+            { port: "galveston", ship: "Suncrest Glow", duration: "8 Days", days: 8, title: "Galveston Bahamian Bliss", stops: ["Key West", "Nassau", "Olann Island™"], price: 409, years: ["2026"] },
+            { port: "galveston", ship: "Suncrest Hideaway", duration: "8 Days", days: 8, title: "Lone Star Paradise Escape", stops: ["Key West", "Empress Cays", "Olann Island™"], price: 449, years: ["2027"] },
+            { port: "galveston", ship: "Suncrest Nova", duration: "6 Days", days: 6, title: "Texan Sun Express", stops: ["Key West", "Nassau", "Olann Island™"], price: 399, years: ["2027"] },
+            { port: "galveston", ship: "Suncrest Nova", duration: "7 Days", days: 7, title: "Grand Western Gulf Odyssey", stops: ["Key West", "Nassau", "Empress Cays", "Olann Island™"], price: 429, years: ["2027"] },
+
+            // Jacksonville
+            { port: "jacksonville", ship: "Suncrest Elation", duration: "4 Days", days: 4, title: "Quick Bahamian Break", stops: ["Nassau", "Bimini"], price: 179, years: ["2026", "2027"] },
+            { port: "jacksonville", ship: "Suncrest Elation", duration: "5 Days", days: 5, title: "First Coast Island Escape", stops: ["Nassau", "Freeport", "Empress Cays"], price: 219, years: ["2026", "2027"] },
+            { port: "jacksonville", ship: "Suncrest Elation", duration: "6 Days", days: 6, title: "Extended Sunshine Journey", stops: ["Nassau", "Freeport", "Empress Cays", "Bimini"], price: 269, years: ["2026", "2027"] },
+
+            // Miami
+            { port: "miami", ship: "Suncrest Oceanic", duration: "3 Days", days: 3, title: "Quick Weekend Escape", stops: ["Bimini"], price: 149, years: ["2026", "2027"] },
+            { port: "miami", ship: "Suncrest Oceanic", duration: "5 Days", days: 5, title: "Tropical Midweek Getaway", stops: ["Bimini", "Nassau", "Empress Cays"], price: 199, years: ["2026", "2027"] },
+            { port: "miami", ship: "Suncrest Utopia", duration: "4 Nights", days: 4, title: "Magic City Classic", stops: ["Nassau", "Empress Cays"], price: 189, years: ["2026", "2027"] },
+            { port: "miami", ship: "Suncrest Utopia", duration: "5 Nights", days: 5, title: "Bahamas Private Island Tour", stops: ["Empress Cays", "Olann Island™"], price: 239, years: ["2026", "2027"] },
+            { port: "miami", ship: "Suncrest Nova", duration: "5 Days", days: 5, title: "Breezy Miami Sun-Sation", stops: ["Nassau", "Bimini", "Empress Cays"], price: 249, years: ["2026"] },
+
+            // Mobile
+            { port: "mobile", ship: "Suncrest Atlantica", duration: "7 Days", days: 7, title: "Cavalcade of Key West & Bahamas", stops: ["Key West", "Nassau", "Olann Island™"], price: 349, years: ["2026", "2027"] },
+            { port: "mobile", ship: "Suncrest Panamax", duration: "6 Days", days: 6, title: "Gulf Quick-Run to Key West", stops: ["Key West", "Nassau"], price: 319, years: ["2026", "2027"] },
+            { port: "mobile", ship: "Suncrest Panamax", duration: "8 Days", days: 8, title: "Grand Gulf Coast Explorer", stops: ["Key West", "Nassau", "Empress Cays", "Olann Island™"], price: 399, years: ["2026", "2027"] },
+            { port: "mobile", ship: "Suncrest Glow", duration: "8 Days", days: 8, title: "Bama Springtime Oasis", stops: ["Key West", "Bimini", "Olann Island™"], price: 389, years: ["2027"] },
+
+            // New Orleans
+            { port: "new-orleans", ship: "Suncrest Atlantica", duration: "7 Days", days: 7, title: "Crescent City Key West Special", stops: ["Key West", "Nassau", "Olann Island™"], price: 359, years: ["2026", "2027"] },
+            { port: "new-orleans", ship: "Suncrest Pacifica", duration: "8 Days", days: 8, title: "Bayou To Bahamian Cays", stops: ["Key West", "Freeport", "Nassau", "Empress Cays"], price: 399, years: ["2026", "2027"] },
+            { port: "new-orleans", ship: "Suncrest Glow", duration: "8 Days", days: 8, title: "Southern Star Escape", stops: ["Key West", "Bimini", "Nassau", "Olann Island™"], price: 419, years: ["2027"] },
+
+            // New York
+            { port: "new-york", ship: "Suncrest Triangle", duration: "7 Days", days: 7, title: "Empire to Bahamas Cruise", stops: ["Nassau", "Empress Cays", "Olann Island™"], price: 459, years: ["2026", "2027"] },
+
+            // Norfolk
+            { port: "norfolk", ship: "Suncrest Hideaway", duration: "7 Days", days: 7, title: "Virginia Beach Signature Run", stops: ["Freeport", "Nassau", "Olann Island™"], price: 349, years: ["2026"] },
+            { port: "norfolk", ship: "Suncrest Magic", duration: "7 Days", days: 7, title: "Virginia To Paradise Expedition", stops: ["Nassau", "Empress Cays", "Olann Island™"], price: 329, years: ["2027"] },
+
+            // Port Canaveral
+            { port: "port-canaveral", ship: "Suncrest Victory", duration: "3 Days", days: 3, title: "Space Coast Express Escape", stops: ["Nassau"], price: 149, years: ["2026", "2027"] },
+            { port: "port-canaveral", ship: "Suncrest Victory", duration: "5 Days", days: 5, title: "Extended Canaveral Sunshine", stops: ["Nassau", "Empress Cays", "Bimini"], price: 199, years: ["2026", "2027"] },
+            { port: "port-canaveral", ship: "Suncrest Aurora", duration: "5 Days", days: 5, title: "Private Island Exploration", stops: ["Olann Island™", "Empress Cays"], price: 239, years: ["2026", "2027"] },
+            { port: "port-canaveral", ship: "Suncrest Sunrise", duration: "4 Days", days: 4, title: "Sunshine State Explorer", stops: ["Nassau", "Olann Island™"], price: 189, years: ["2026", "2027"] },
+            { port: "port-canaveral", ship: "Tropical™", duration: "4 Days", days: 4, title: "Classic Tropical Run", stops: ["Nassau", "Empress Cays"], price: 179, years: ["2026", "2027"] },
+            { port: "port-canaveral", ship: "Suncrest Magic", duration: "5 Days", days: 5, title: "Space Coast Bahamian Magic", stops: ["Nassau", "Bimini", "Freeport"], price: 229, years: ["2026"] },
+            { port: "port-canaveral", ship: "Suncrest Paradise (Coming 2027)", duration: "5 Days", days: 5, title: "Next-Gen Launch Cruise", stops: ["Olann Island™", "Nassau", "Bimini"], price: 299, years: ["2027"] },
+
+            // Tampa
+            { port: "tampa", ship: "Suncrest Excitement", duration: "5 Days", days: 5, title: "West Florida Bay Breeze", stops: ["Key West", "Nassau"], price: 229, years: ["2026", "2027"] },
+            { port: "tampa", ship: "Suncrest Excitement", duration: "6 Days", days: 6, title: "Tampa Bay Breezy Getaway", stops: ["Key West", "Nassau", "Bimini"], price: 259, years: ["2026", "2027"] },
+            { port: "tampa", ship: "Suncrest Panamax", duration: "5 Days", days: 5, title: "Tampa West Coast Explorer", stops: ["Key West", "Nassau"], price: 249, years: ["2026", "2027"] },
+            { port: "tampa", ship: "Suncrest Panamax", duration: "6 Days", days: 6, title: "Gulf to Empress Cays Odyssey", stops: ["Key West", "Nassau", "Empress Cays"], price: 299, years: ["2026", "2027"] }
+        ];
+
+        function setYear(year) {
+            currentYear = year;
+            document.getElementById("btn2026").classList.toggle("active", year === '2026');
+            document.getElementById("btn2027").classList.toggle("active", year === '2027');
+            filterItineraries();
+        }
+
+        function filterItineraries() {
+            const selectedPort = document.getElementById("portSelect").value;
+            const selectedDuration = document.getElementById("durationSelect").value;
+            const container = document.getElementById("itineraryContainer");
+            const titleElement = document.getElementById("resultsTitle");
+
+            container.innerHTML = "";
+
+            let filteredData = cruiseData.filter(item => {
+                const portMatch = (selectedPort === "all" || item.port === selectedPort);
+                const yearMatch = item.years.includes(currentYear);
+                
+                let durationMatch = true;
+                if (selectedDuration === "short") {
+                    durationMatch = (item.days >= 3 && item.days <= 4);
+                } else if (selectedDuration === "medium") {
+                    durationMatch = (item.days >= 5 && item.days <= 6);
+                } else if (selectedDuration === "long") {
+                    durationMatch = (item.days >= 7);
+                }
+
+                return portMatch && yearMatch && durationMatch;
+            });
+
+            // Sort from cheapest to priciest
+            filteredData.sort((a, b) => a.price - b.price);
+
+            const seasonLabel = currentYear === '2026' ? 'Current Season' : '2027 & Beyond';
+            if (selectedPort === "all") {
+                titleElement.textContent = `Featured Bahamas Sailings (${seasonLabel})`;
+            } else {
+                const formattedPortName = document.getElementById("portSelect").options[document.getElementById("portSelect").selectedIndex].text;
+                titleElement.textContent = `Sailings out of ${formattedPortName} (${seasonLabel})`;
+            }
+
+            if (filteredData.length === 0) {
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #666; font-size: 16px; margin-top: 30px;">No operational sailings match your active filters.</p>`;
+                return;
+            }
+
+            filteredData.forEach(item => {
+                const stopsHTML = item.stops.map(stop => `<li>${stop}</li>`).join("");
+                
+                const cardHTML = `
+                    <div class="itinerary-card">
+                        <div class="card-header">
+                            <span class="ship-name-tag">${item.ship}</span>
+                            <span class="duration-badge">${item.duration}</span>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="itinerary-title">${item.title}</h3>
+                            <ul class="stops-list">
+                                ${stopsHTML}
+                            </ul>
+                            <div class="card-footer">
+                                <div class="price-display">starting at<br><span>$${item.price}</span>*</div>
+                                <button class="btn-book" onclick="alert('Booking for ${item.ship} is simulated!')">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        window.onload = filterItineraries;
+    </script>
+</body>
+</html>
