@@ -47,7 +47,7 @@
         }
 
         .hero {
-            background: linear-gradient(rgba(11, 49, 84, 0.45), rgba(16, 76, 129, 0.7)), url('mexico.JPG') center/cover no-repeat;
+            background: linear-gradient(rgba(11, 49, 84, 0.45), rgba(16, 76, 129, 0.7)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
             color: white;
             text-align: center;
             padding: 90px 20px;
@@ -134,9 +134,9 @@
             align-items: center;
         }
 
-        .ship-img {
-            width: 220px;
-            height: 140px;
+        .port-img {
+            width: 240px;
+            height: 150px;
             object-fit: cover;
             border-radius: 6px;
         }
@@ -322,6 +322,17 @@
     <div class="itinerary-list" id="itinerary-list"></div>
 
     <script>
+        // Your curated, beautiful high-quality travel and nature links
+        const portImages = {
+            ensenada: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=600&q=80", 
+            catalina: "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&w=600&q=80", 
+            cabo: "https://images.unsplash.com/photo-1516690561799-46d8f74f90f6?auto=format&fit=crop&w=600&q=80", // Beautiful Camilo beach rocks/bay
+            vallarta: "https://images.unsplash.com/photo-1498503182468-3b51cbb6cb24?auto=format&fit=crop&w=600&q=80", // Aerial coastal view with city
+            cortez: "https://images.unsplash.com/photo-1568402102990-bc541580b59f?auto=format&fit=crop&w=600&q=80", // Beautiful Baja sandy beach and hillside
+            whale: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80", // Beautiful humpback whale tail
+            hawaii: "" // Leave blank or placeholder until you select the perfect one!
+        };
+
         const itineraryTemplates = [
             // --- 3 DAY ---
             {
@@ -330,9 +341,10 @@
                 duration: 3,
                 variant: "Baja Mexico Escape",
                 basePrice: 249,
+                imgUrl: portImages.ensenada,
                 route: "Long Beach > Day at Sea > Ensenada, Mexico > Long Beach",
                 days: ["Long Beach (Embarkation)", "Day at Sea", "Ensenada, Mexico", "Long Beach (Disembarkation)"],
-                applicableShips: ["SUNCREST ROMANCE", "SUNCREST VALOR", "SUNCREST LUMINOSA", "SUNCREST RETREAT", "SUNCREST ECLIPSE"]
+                applicableShips: ["SUNCREST ROMANCE", "SUNCREST VALOR", "SUNCREST RETREAT", "SUNCREST ECLIPSE"]
             },
             // --- 4 DAY ---
             {
@@ -341,9 +353,10 @@
                 duration: 4,
                 variant: "Baja Coastal Escape",
                 basePrice: 329,
+                imgUrl: portImages.cortez, // Sandy beach / hillside houses view
                 route: "San Francisco > Day at Sea > Ensenada, Mexico > Day at Sea > San Francisco",
                 days: ["San Francisco (Embarkation)", "Day at Sea", "Ensenada, Mexico", "Day at Sea", "San Francisco (Disembarkation)"],
-                applicableShips: ["SUNCREST ROMANCE", "SUNCREST VALOR", "SUNCREST LUMINOSA"]
+                applicableShips: ["SUNCREST LUMINOSA"]
             },
             {
                 id: "la-4d-baja-catalina",
@@ -351,6 +364,7 @@
                 duration: 4,
                 variant: "Catalina & Baja",
                 basePrice: 299,
+                imgUrl: portImages.catalina,
                 route: "Long Beach > Catalina Island > Ensenada, Mexico > Day at Sea > Long Beach",
                 days: ["Long Beach (Embarkation)", "Catalina Island, CA", "Ensenada, Mexico", "Day at Sea", "Long Beach (Disembarkation)"],
                 applicableShips: ["SUNCREST RETREAT", "SUNCREST ECLIPSE", "SUNCREST VALOR"]
@@ -362,9 +376,10 @@
                 duration: 5,
                 variant: "California & Baja Explorer",
                 basePrice: 399,
+                imgUrl: portImages.catalina,
                 route: "San Francisco > Day at Sea > Catalina Island > Ensenada, Mexico > Day at Sea > San Francisco",
                 days: ["San Francisco (Embarkation)", "Day at Sea", "Catalina Island, CA", "Ensenada, Mexico", "Day at Sea", "San Francisco (Disembarkation)"],
-                applicableShips: ["SUNCREST ROMANCE", "SUNCREST VALOR", "SUNCREST LUMINOSA"]
+                applicableShips: ["SUNCREST LUMINOSA"]
             },
             {
                 id: "la-5d-riviera",
@@ -372,6 +387,7 @@
                 duration: 5,
                 variant: "Cabo Getaway",
                 basePrice: 429,
+                imgUrl: portImages.cabo, // Camilo beach rock formation
                 route: "Long Beach > Day at Sea > Cabo San Lucas, Mexico > Day at Sea > Ensenada, Mexico > Long Beach",
                 days: ["Long Beach (Embarkation)", "Day at Sea", "Cabo San Lucas, Mexico", "Day at Sea", "Ensenada, Mexico", "Long Beach (Disembarkation)"],
                 applicableShips: ["SUNCREST RETREAT", "SUNCREST ECLIPSE"]
@@ -383,6 +399,7 @@
                 duration: 6,
                 variant: "Cabo Intensive",
                 basePrice: 549,
+                imgUrl: portImages.cabo,
                 route: "Long Beach > Day at Sea > Cabo San Lucas, Mexico (Overnight) > Cabo San Lucas > Day at Sea > Long Beach",
                 days: ["Long Beach (Embarkation)", "Day at Sea", "Cabo San Lucas, Mexico (Arrive)", "Cabo San Lucas, Mexico (Depart)", "Day at Sea", "Long Beach (Disembarkation)"],
                 applicableShips: ["SUNCREST RETREAT", "SUNCREST ECLIPSE"]
@@ -394,9 +411,10 @@
                 duration: 7,
                 variant: "Mexican Riviera Classic",
                 basePrice: 629,
+                imgUrl: portImages.vallarta, // Beautiful city & coast aerial
                 route: "Long Beach > Day at Sea > Cabo San Lucas > Mazatlán > Puerto Vallarta > 2 Days at Sea > Long Beach",
                 days: ["Long Beach (Embarkation)", "Day at Sea", "Cabo San Lucas, Mexico", "Mazatlán, Mexico", "Puerto Vallarta, Mexico", "Day at Sea", "Day at Sea", "Long Beach (Disembarkation)"],
-                applicableShips: ["SUNCREST ROMANCE", "SUNCREST VALOR", "SUNCREST LUMINOSA"]
+                applicableShips: ["SUNCREST ROMANCE", "SUNCREST VALOR"]
             },
             // --- 8 DAY ---
             {
@@ -405,6 +423,7 @@
                 duration: 8,
                 variant: "Sea of Cortez & Riviera",
                 basePrice: 749,
+                imgUrl: portImages.whale, // Whale tail breaching the Sea of Cortez
                 route: "Long Beach > 2 Days at Sea > Puerto Vallarta > Mazatlán > La Paz > Cabo San Lucas > Day at Sea > Long Beach",
                 days: ["Long Beach (Embarkation)", "Day at Sea", "Day at Sea", "Puerto Vallarta, Mexico", "Mazatlán, Mexico", "La Paz, Mexico", "Cabo San Lucas, Mexico", "Day at Sea", "Long Beach (Disembarkation)"],
                 applicableShips: ["SUNCREST RETREAT", "SUNCREST ECLIPSE"]
@@ -415,9 +434,10 @@
                 duration: 8,
                 variant: "Extended Riviera Adventure",
                 basePrice: 759,
+                imgUrl: portImages.cabo,
                 route: "Long Beach > Day at Sea > 2 Days at Cabo San Lucas > Mazatlán > Puerto Vallarta > 2 Days at Sea > Long Beach",
                 days: ["Long Beach (Embarkation)", "Day at Sea", "Cabo San Lucas, Mexico (Arrive)", "Cabo San Lucas (Depart)", "Mazatlán, Mexico", "Puerto Vallarta, Mexico", "Day at Sea", "Day at Sea", "Long Beach (Disembarkation)"],
-                applicableShips: ["SUNCREST ROMANCE", "SUNCREST VALOR", "SUNCREST LUMINOSA"]
+                applicableShips: ["SUNCREST ROMANCE", "SUNCREST VALOR"]
             },
 
             // --- HIDDEN ITINERARIES (14 DAYS) ---
@@ -427,6 +447,7 @@
                 duration: 14,
                 variant: "Ultimate Southern Riviera (Rare Event)",
                 basePrice: 1299,
+                imgUrl: portImages.vallarta,
                 route: "Long Beach > 4 Days at Sea > Huatulco > Acapulco > Zihuatanejo (Ixtapa) > Manzanillo > Puerto Vallarta > Mazatlán > Cabo San Lucas > 2 Days at Sea > Long Beach",
                 days: [
                     "Long Beach (Embarkation)", "Day at Sea", "Day at Sea", "Day at Sea", "Day at Sea", 
@@ -434,7 +455,7 @@
                     "Puerto Vallarta, Mexico", "Mazatlán, Mexico", "Cabo San Lucas, Mexico", "Day at Sea", "Day at Sea", "Long Beach (Disembarkation)"
                 ],
                 applicableShips: ["SUNCREST ECLIPSE"],
-                seasonalRestriction: "twice-yearly" // Handled in DB rendering
+                seasonalRestriction: "twice-yearly"
             },
             {
                 id: "la-14d-hidden-hawaii",
@@ -442,6 +463,7 @@
                 duration: 14,
                 variant: "Hawaiian Islands Explorer",
                 basePrice: 1399,
+                imgUrl: portImages.hawaii || "https://images.unsplash.com/photo-1542856391-010fb87dcfed?auto=format&fit=crop&w=600&q=80", // Default lush island palms until you choose!
                 route: "Long Beach > 4 Days at Sea > Kahului, Maui > Honolulu, Oahu > Nawiliwili, Kauai > Hilo, Hawaii > 4 Days at Sea > Ensenada, Mexico > Long Beach",
                 days: [
                     "Long Beach (Embarkation)", "Day at Sea", "Day at Sea", "Day at Sea", "Day at Sea", 
@@ -449,17 +471,16 @@
                     "Day at Sea", "Day at Sea", "Day at Sea", "Day at Sea", "Ensenada, Mexico", "Long Beach (Disembarkation)"
                 ],
                 applicableShips: ["SUNCREST RETREAT", "SUNCREST VALOR"],
-                seasonalRestriction: "summer" // Handled in DB rendering
+                seasonalRestriction: "summer"
             }
         ];
 
-        // Keeps calculations accurate based on standard ship offset tiers (to ensure realistic price variances)
         function getPriceOffset(ship) {
             const shipUpper = ship.toUpperCase();
-            if (shipUpper === "SUNCREST ECLIPSE") return 120; // Premium Flagship
-            if (shipUpper === "SUNCREST ROMANCE" || shipUpper === "SUNCREST LUMINOSA") return 80; // Standard High Tier
-            if (shipUpper === "SUNCREST VALOR") return 20; // Mid-class value
-            if (shipUpper === "SUNCREST RETREAT") return -20; // Retrofitted legacy class budget rate
+            if (shipUpper === "SUNCREST ECLIPSE") return 120;
+            if (shipUpper === "SUNCREST ROMANCE" || shipUpper === "SUNCREST LUMINOSA") return 80;
+            if (shipUpper === "SUNCREST VALOR") return 20;
+            if (shipUpper === "SUNCREST RETREAT") return -20;
             return 0;
         }
 
@@ -473,7 +494,6 @@
                         const offset = getPriceOffset(ship);
                         let rangeStr = "";
 
-                        // Handle logic for the Summer Hawaii sailings and Twice-Yearly Mexico runs
                         if (tpl.seasonalRestriction === "summer") {
                             rangeStr = "Jul 10 - Jul 24, " + year + " (Summer Exclusive)";
                         } else if (tpl.seasonalRestriction === "twice-yearly") {
@@ -507,6 +527,7 @@
                 basePrice: finalBasePrice,
                 route: tpl.route,
                 days: tpl.days,
+                imgUrl: tpl.imgUrl,
                 dates: [
                     {
                         range: dateRange,
@@ -572,7 +593,7 @@
                 const cardHTML = `
                     <div class="itinerary-card">
                         <div class="card-main">
-                            <img src="mexico.JPG" class="ship-img" alt="${item.ship}">
+                            <img src="${item.imgUrl}" class="port-img" alt="${item.variant}">
                             <div class="card-details">
                                 <span class="ship-badge">🚢 ${item.ship}</span>
                                 <h2>${item.duration}-Day ${item.variant}</h2>
