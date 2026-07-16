@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suncrest Cruise Line - Caribbean & Bahamas Sailings</title>
+    <title>Suncrest Cruise Line - Caribbean Sailings</title>
     <style>
         :root {
             --primary-blue: #104c81;
@@ -11,6 +11,7 @@
             --light-gray: #f4f6f9;
             --dark-blue: #0b3154;
             --text-dark: #222;
+            --gold: #f4a261;
         }
 
         body {
@@ -46,26 +47,40 @@
             font-size: 14px;
         }
 
+        /* Hero section featuring your gorgeous beach image with a darkened overlay to keep text highly legible */
         .hero {
-            background: linear-gradient(rgba(16, 76, 129, 0.75), rgba(11, 49, 84, 0.85)), url('caribbean.JPG') center/cover;
+            background: linear-gradient(rgba(11, 49, 84, 0.4), rgba(16, 76, 129, 0.65)), url('caribbean.JPG') center/cover no-repeat;
             color: white;
             text-align: center;
-            padding: 60px 20px;
+            padding: 90px 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
         }
 
-        .hero h1 { margin: 0; font-size: 36px; }
-        .hero p { margin: 10px 0 0 0; font-size: 18px; }
+        .hero h1 { 
+            margin: 0; 
+            font-size: 48px; 
+            letter-spacing: 1px;
+            font-family: 'Georgia', serif;
+        }
+        .hero p { 
+            margin: 15px 0 0 0; 
+            font-size: 21px; 
+            font-weight: bold;
+            color: #f1f5f9;
+        }
 
         .search-engine {
             background: white;
             max-width: 1100px;
-            margin: -30px auto 30px auto;
+            margin: -40px auto 30px auto;
             border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 25px rgba(0,0,0,0.2);
             padding: 20px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 15px;
+            position: relative;
+            z-index: 10;
         }
 
         .filter-group {
@@ -137,14 +152,14 @@
         .card-details h2 {
             margin: 0 0 5px 0;
             color: var(--dark-blue);
-            font-size: 20px;
+            font-size: 22px;
         }
 
         .ship-badge {
             display: inline-block;
             background-color: #eef4fa;
             color: var(--primary-blue);
-            padding: 4px 8px;
+            padding: 5px 10px;
             border-radius: 4px;
             font-size: 12px;
             font-weight: bold;
@@ -155,7 +170,7 @@
             display: inline-block;
             background-color: #ffeef0;
             color: var(--accent-red);
-            padding: 4px 8px;
+            padding: 5px 10px;
             border-radius: 4px;
             font-size: 11px;
             font-weight: bold;
@@ -163,9 +178,22 @@
             margin-left: 5px;
         }
 
+        .tech-badge {
+            display: inline-block;
+            background-color: #fef9c3;
+            color: #713f12;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            margin-left: 5px;
+            border: 1px solid #fde047;
+        }
+
         .route-path {
             font-size: 13px;
-            color: #555;
+            color: #444;
             line-height: 1.4;
         }
 
@@ -280,9 +308,10 @@
         <a href="index.html" class="back-btn">← Back to Home</a>
     </div>
 
+    <!-- Updated Title, Subtitle, and Class styling for the background beach image -->
     <div class="hero">
-        <h1>Caribbean & Bahamas Sailings</h1>
-        <p>Dynamic fleets sailing from your favorite domestic homeports</p>
+        <h1>Caribbean Sailings</h1>
+        <p>Sun-drenched shores, private island sanctuaries, and ultimate ocean thrills await!</p>
     </div>
 
     <div class="search-engine">
@@ -334,7 +363,7 @@
                 homeport: "New Orleans",
                 duration: 4,
                 variant: "Western Caribbean",
-                basePrice: 329,
+                basePrice: 350,
                 route: "New Orleans > Fun Day at Sea > Cozumel, Mexico > Fun Day at Sea > New Orleans",
                 days: ["New Orleans (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Fun Day at Sea", "New Orleans (Disembarkation)"],
                 applicableShips: ["SUNCREST GLOW", "SUNCREST PACIFICA", "SUNCREST ATLANTICA"]
@@ -344,7 +373,7 @@
                 homeport: "New Orleans",
                 duration: 5,
                 variant: "Western Caribbean",
-                basePrice: 389,
+                basePrice: 410,
                 route: "New Orleans > Fun Day at Sea > Cozumel, Mexico > Progreso, Yucatán > Fun Day at Sea > New Orleans",
                 days: ["New Orleans (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Progreso, Yucatán", "Fun Day at Sea", "New Orleans (Disembarkation)"],
                 applicableShips: ["SUNCREST GLOW", "SUNCREST PACIFICA", "SUNCREST ATLANTICA"]
@@ -354,7 +383,7 @@
                 homeport: "New Orleans",
                 duration: 6,
                 variant: "Western Caribbean",
-                basePrice: 449,
+                basePrice: 480,
                 route: "New Orleans > Fun Day at Sea > Cozumel, Mexico > Belize City, Belize > Fun Day at Sea > Fun Day at Sea > New Orleans",
                 days: ["New Orleans (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Belize City, Belize", "Fun Day at Sea", "Fun Day at Sea", "New Orleans (Disembarkation)"],
                 applicableShips: ["SUNCREST GLOW", "SUNCREST PACIFICA", "SUNCREST ATLANTICA"]
@@ -364,19 +393,9 @@
                 homeport: "New Orleans",
                 duration: 7,
                 variant: "Western Caribbean (Compass Rose)",
-                basePrice: 549,
+                basePrice: 570,
                 route: "New Orleans > Fun Day at Sea > Cozumel, Mexico > Belize City, Belize > Isla Compass Rose Cay (Roatan) > Fun Day at Sea > Fun Day at Sea > New Orleans",
-                days: ["New Orleans (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Belize City, Belize", "Isla Compass Rose Cay (Roatan)", "Fun Day at Sea", "Fun Day at Sea", "New Orleans (Disembarkation)"],
-                applicableShips: ["SUNCREST GLOW", "SUNCREST PACIFICA", "SUNCREST ATLANTICA"]
-            },
-            {
-                id: "nola-7d-west-b",
-                homeport: "New Orleans",
-                duration: 7,
-                variant: "Western Caribbean Explorer",
-                basePrice: 569,
-                route: "New Orleans > Fun Day at Sea > Montego Bay, Jamaica > Grand Cayman > Cozumel, Mexico > Fun Day at Sea > New Orleans",
-                days: ["New Orleans (Embarkation)", "Fun Day at Sea", "Montego Bay, Jamaica", "Grand Cayman", "Cozumel, Mexico", "Fun Day at Sea", "New Orleans (Disembarkation)"],
+                days: ["New Orleans (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Belize City, Belize", "Isla Compass Rose Cay (Roatan Private Paradise)", "Fun Day at Sea", "Fun Day at Sea", "New Orleans (Disembarkation)"],
                 applicableShips: ["SUNCREST GLOW", "SUNCREST PACIFICA", "SUNCREST ATLANTICA"]
             },
 
@@ -386,60 +405,30 @@
                 homeport: "Galveston",
                 duration: 4,
                 variant: "Western Caribbean Getaway",
-                basePrice: 349,
+                basePrice: 360,
                 route: "Galveston > Fun Day at Sea > Cozumel, Mexico > Fun Day at Sea > Galveston",
                 days: ["Galveston (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Fun Day at Sea", "Galveston (Disembarkation)"],
                 applicableShips: ["SUNCREST GLOW", "SUNCREST PANAMAX", "SUNCREST NOVA"]
-            },
-            {
-                id: "galv-5d-west",
-                homeport: "Galveston",
-                duration: 5,
-                variant: "Western Caribbean Duo",
-                basePrice: 419,
-                route: "Galveston > Fun Day at Sea > Cozumel, Mexico > Progreso, Yucatán > Fun Day at Sea > Galveston",
-                days: ["Galveston (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Progreso, Yucatán", "Fun Day at Sea", "Galveston (Disembarkation)"],
-                applicableShips: ["SUNCREST GLOW", "SUNCREST PANAMAX"]
             },
             {
                 id: "galv-6d-west-a",
                 homeport: "Galveston",
                 duration: 6,
                 variant: "Western Caribbean (Rose Cay Escape)",
-                basePrice: 489,
+                basePrice: 510,
                 route: "Galveston > Fun Day at Sea > Cozumel, Mexico > Isla Compass Rose Cay (Roatan) > Fun Day at Sea > Fun Day at Sea > Galveston",
-                days: ["Galveston (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Isla Compass Rose Cay (Roatan)", "Fun Day at Sea", "Fun Day at Sea", "Galveston (Disembarkation)"],
+                days: ["Galveston (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Isla Compass Rose Cay (Roatan Private Paradise)", "Fun Day at Sea", "Fun Day at Sea", "Galveston (Disembarkation)"],
                 applicableShips: ["SUNCREST BAY", "SUNCREST HIDEAWAY", "SUNCREST NOVA"]
-            },
-            {
-                id: "galv-6d-west-b",
-                homeport: "Galveston",
-                duration: 6,
-                variant: "Western Caribbean Triple Port",
-                basePrice: 499,
-                route: "Galveston > Fun Day at Sea > Costa Maya, Mexico > Belize City, Belize > Cozumel, Mexico > Fun Day at Sea > Galveston",
-                days: ["Galveston (Embarkation)", "Fun Day at Sea", "Costa Maya, Mexico", "Belize City, Belize", "Cozumel, Mexico", "Fun Day at Sea", "Galveston (Disembarkation)"],
-                applicableShips: ["SUNCREST BAY", "SUNCREST HIDEAWAY"]
             },
             {
                 id: "galv-7d-west",
                 homeport: "Galveston",
                 duration: 7,
                 variant: "Western Caribbean Classic",
-                basePrice: 579,
+                basePrice: 590,
                 route: "Galveston > Fun Day at Sea > Montego Bay, Jamaica > Grand Cayman > Cozumel, Mexico > Fun Day at Sea > Galveston",
                 days: ["Galveston (Embarkation)", "Fun Day at Sea", "Montego Bay, Jamaica", "Grand Cayman", "Cozumel, Mexico", "Fun Day at Sea", "Galveston (Disembarkation)"],
                 applicableShips: ["SUNCREST BAY", "SUNCREST HIDEAWAY"]
-            },
-            {
-                id: "galv-8d-west",
-                homeport: "Galveston",
-                duration: 8,
-                variant: "Grand Western Caribbean",
-                basePrice: 699,
-                route: "Galveston > Fun Day at Sea > Fun Day at Sea > Montego Bay, Jamaica > Grand Cayman > Isla Compass Rose Cay (Roatan) > Fun Day at Sea > Fun Day at Sea > Galveston",
-                days: ["Galveston (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Montego Bay, Jamaica", "Grand Cayman", "Isla Compass Rose Cay (Roatan)", "Fun Day at Sea", "Fun Day at Sea", "Galveston (Disembarkation)"],
-                applicableShips: ["SUNCREST GLOW", "SUNCREST PANAMAX", "SUNCREST HIDEAWAY"]
             },
 
             // --- MOBILE ---
@@ -448,9 +437,9 @@
                 homeport: "Mobile",
                 duration: 7,
                 variant: "Western Caribbean Pathway",
-                basePrice: 519,
+                basePrice: 530,
                 route: "Mobile > Fun Day at Sea > Cozumel, Mexico > Belize City, Belize > Isla Compass Rose Cay (Roatan) > Fun Day at Sea > Fun Day at Sea > Mobile",
-                days: ["Mobile (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Belize City, Belize", "Isla Compass Rose Cay (Roatan)", "Fun Day at Sea", "Fun Day at Sea", "Mobile (Disembarkation)"],
+                days: ["Mobile (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Belize City, Belize", "Isla Compass Rose Cay (Roatan Private Paradise)", "Fun Day at Sea", "Fun Day at Sea", "Mobile (Disembarkation)"],
                 applicableShips: ["SUNCREST PANAMAX"]
             },
 
@@ -460,132 +449,72 @@
                 homeport: "Miami",
                 duration: 5,
                 variant: "Western Caribbean Escape",
-                basePrice: 399,
+                basePrice: 410,
                 route: "Miami > Fun Day at Sea > Ocho Rios, Jamaica > Grand Cayman > Fun Day at Sea > Miami",
                 days: ["Miami (Embarkation)", "Fun Day at Sea", "Ocho Rios, Jamaica", "Grand Cayman", "Fun Day at Sea", "Miami (Disembarkation)"],
-                applicableShips: ["SUNCREST UTOPIA", "SUNCREST NOVA"] // Dedicated 5-day ships
-            },
-            {
-                id: "miami-5d-west-b",
-                homeport: "Miami",
-                duration: 5,
-                variant: "Western Highlights",
-                basePrice: 389,
-                route: "Miami > Fun Day at Sea > Grand Cayman > Cozumel, Mexico > Fun Day at Sea > Miami",
-                days: ["Miami (Embarkation)", "Fun Day at Sea", "Grand Cayman", "Cozumel, Mexico", "Fun Day at Sea", "Miami (Disembarkation)"],
-                applicableShips: ["SUNCREST UTOPIA", "SUNCREST NOVA"] // Dedicated 5-day ships
+                applicableShips: ["SUNCREST UTOPIA", "SUNCREST NOVA"]
             },
             {
                 id: "miami-5d-east-a",
                 homeport: "Miami",
                 duration: 5,
                 variant: "Eastern Caribbean Explorer",
-                basePrice: 429,
+                basePrice: 440,
                 route: "Miami > Fun Day at Sea > Grand Turk > Unsunken City of Atlantis®️ > Nassau, Bahamas > Miami",
                 days: ["Miami (Embarkation)", "Fun Day at Sea", "Grand Turk, Turks & Caicos", "Unsunken City of Atlantis®️", "Nassau, Bahamas", "Miami (Disembarkation)"],
-                applicableShips: ["SUNCREST ROMANCE", "SUNCREST UTOPIA", "SUNCREST NOVA"] // Dedicated 5-day ships
-            },
-            {
-                id: "miami-5d-east-b",
-                homeport: "Miami",
-                duration: 5,
-                variant: "Eastern Cays & Bay",
-                basePrice: 439,
-                route: "Miami > Fun Day at Sea > Grand Turk > Emerald Bay (Dominican Rep.) > Fun Day at Sea > Miami",
-                days: ["Miami (Embarkation)", "Fun Day at Sea", "Grand Turk, Turks & Caicos", "Emerald Bay, Dominican Rep.", "Fun Day at Sea", "Miami (Disembarkation)"],
-                applicableShips: ["SUNCREST ROMANCE", "SUNCREST UTOPIA", "SUNCREST NOVA"] // Dedicated 5-day ships
+                applicableShips: ["SUNCREST ROMANCE", "SUNCREST UTOPIA", "SUNCREST NOVA"]
             },
             {
                 id: "miami-6d-west",
                 homeport: "Miami",
                 duration: 6,
                 variant: "Western Caribbean & Olann Island",
-                basePrice: 499,
+                basePrice: 520,
                 route: "Miami > Fun Day at Sea > Ocho Rios, Jamaica > Grand Cayman > Fun Day at Sea > Olann Island™️ > Miami",
-                days: ["Miami (Embarkation)", "Fun Day at Sea", "Ocho Rios, Jamaica", "Grand Cayman", "Fun Day at Sea", "Olann Island™️, Bahamas", "Miami (Disembarkation)"],
-                applicableShips: ["SUNCREST SUNKISSED", "SUNCREST TRIANGLE", "SUNCREST ROMANCE"] // Legacy & Utopia excluded
+                days: ["Miami (Embarkation)", "Fun Day at Sea", "Ocho Rios, Jamaica", "Grand Cayman", "Fun Day at Sea", "Olann Island™️ Private Haven", "Miami (Disembarkation)"],
+                applicableShips: ["SUNCREST SUNKISSED", "SUNCREST TRIANGLE", "SUNCREST ROMANCE"]
             },
             {
                 id: "miami-6d-east",
                 homeport: "Miami",
                 duration: 6,
                 variant: "Eastern Caribbean & Olann Island",
-                basePrice: 519,
+                basePrice: 540,
                 route: "Miami > Fun Day at Sea > Emerald Bay (Dominican Rep.) > Grand Turk > Fun Day at Sea > Olann Island™️ > Miami",
-                days: ["Miami (Embarkation)", "Fun Day at Sea", "Emerald Bay, Dominican Rep.", "Grand Turk, Turks & Caicos", "Fun Day at Sea", "Olann Island™️, Bahamas", "Miami (Disembarkation)"],
-                applicableShips: ["SUNCREST SUNKISSED", "SUNCREST TRIANGLE", "SUNCREST ROMANCE"] // Legacy & Utopia excluded
+                days: ["Miami (Embarkation)", "Fun Day at Sea", "Emerald Bay, Dominican Rep.", "Grand Turk, Turks & Caicos", "Fun Day at Sea", "Olann Island™️ Private Haven", "Miami (Disembarkation)"],
+                applicableShips: ["SUNCREST SUNKISSED", "SUNCREST TRIANGLE", "SUNCREST ROMANCE"]
             },
             {
                 id: "miami-7d-east",
                 homeport: "Miami",
                 duration: 7,
                 variant: "Eastern Paradise Path",
-                basePrice: 599,
+                basePrice: 620,
                 route: "Miami > Fun Day at Sea > Fun Day at Sea > St. Maarten > San Juan, Puerto Rico > Fun Day at Sea > Unsunken City of Atlantis®️ > Miami",
                 days: ["Miami (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Philipsburg, St. Maarten", "San Juan, Puerto Rico", "Fun Day at Sea", "Unsunken City of Atlantis®️", "Miami (Disembarkation)"],
-                applicableShips: ["SUNCREST SUNKISSED", "SUNCREST TRIANGLE"] // Legacy & Utopia excluded
-            },
-            {
-                id: "miami-7d-west",
-                homeport: "Miami",
-                duration: 7,
-                variant: "Western Explorer (Rose Cay)",
-                basePrice: 579,
-                route: "Miami > Fun Day at Sea > Fun Day at Sea > Isla Compass Rose Cay (Roatan) > Cozumel, Mexico > Ocho Rios, Jamaica > Fun Day at Sea > Miami",
-                days: ["Miami (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Isla Compass Rose Cay (Roatan)", "Cozumel, Mexico", "Ocho Rios, Jamaica", "Fun Day at Sea", "Miami (Disembarkation)"],
-                applicableShips: ["SUNCREST SUNKISSED", "SUNCREST TRIANGLE"] // Legacy & Utopia excluded
-            },
-            {
-                id: "miami-8d-east",
-                homeport: "Miami",
-                duration: 8,
-                variant: "Grand Eastern Caribbean",
-                basePrice: 689,
-                route: "Miami > Fun Day at Sea > Fun Day at Sea > St. Maarten > Charlotte Amalie, St. Thomas > San Juan, Puerto Rico > Fun Day at Sea > Olann Island™️ > Miami",
-                days: ["Miami (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Philipsburg, St. Maarten", "Charlotte Amalie, St. Thomas", "San Juan, Puerto Rico", "Fun Day at Sea", "Olann Island™️, Bahamas", "Miami (Disembarkation)"],
-                applicableShips: ["SUNCREST SUNKISSED"] // Legacy & Utopia excluded
-            },
-            {
-                id: "miami-8d-west",
-                homeport: "Miami",
-                duration: 8,
-                variant: "Grand Western Pathways",
-                basePrice: 669,
-                route: "Miami > Fun Day at Sea > Cozumel, Mexico > Belize City, Belize > Isla Compass Rose Cay (Roatan) > Costa Maya, Mexico > Fun Day at Sea > Fun Day at Sea > Miami",
-                days: ["Miami (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Belize City, Belize", "Isla Compass Rose Cay (Roatan)", "Costa Maya, Mexico", "Fun Day at Sea", "Fun Day at Sea", "Miami (Disembarkation)"],
-                applicableShips: ["SUNCREST SUNKISSED"] // Legacy & Utopia excluded
+                applicableShips: ["SUNCREST SUNKISSED", "SUNCREST TRIANGLE"]
             },
             
-            // --- DEEP SOUTHERN / ABC ISLANDS (Dedicated Legacy Routes) ---
+            // --- DEEP SOUTHERN / ABC ISLANDS (Dedicated Legacy & Flagship Routes) ---
             {
                 id: "miami-8d-south-a",
                 homeport: "Miami",
                 duration: 8,
                 variant: "Southern ABC Islands",
-                basePrice: 749,
+                basePrice: 760,
                 route: "Miami > Fun Day at Sea > Fun Day at Sea > Oranjestad, Aruba > Kralendijk, Bonaire > Willemstad, Curaçao > Fun Day at Sea > Fun Day at Sea > Miami",
                 days: ["Miami (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Oranjestad, Aruba", "Kralendijk, Bonaire", "Willemstad, Curaçao", "Fun Day at Sea", "Fun Day at Sea", "Miami (Disembarkation)"],
-                applicableShips: ["SUNCREST LEGACY", "SUNCREST SUNKISSED"] // Legacy is active here, shared with Sunkissed
-            },
-            {
-                id: "miami-8d-south-b",
-                homeport: "Miami",
-                duration: 8,
-                variant: "Southern Cays & Turks",
-                basePrice: 729,
-                route: "Miami > Fun Day at Sea > Fun Day at Sea > Oranjestad, Aruba > Kralendijk, Bonaire > Fun Day at Sea > Grand Turk > Fun Day at Sea > Miami",
-                days: ["Miami (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Oranjestad, Aruba", "Kralendijk, Bonaire", "Fun Day at Sea", "Grand Turk, Turks & Caicos", "Fun Day at Sea", "Miami (Disembarkation)"],
-                applicableShips: ["SUNCREST LEGACY", "SUNCREST SUNKISSED"] // Legacy is active here, shared with Sunkissed
+                applicableShips: ["SUNCREST LEGACY", "SUNCREST SUNKISSED"]
             },
             {
                 id: "miami-8d-south-c",
                 homeport: "Miami",
                 duration: 8,
                 variant: "Southern Emerald & ABCs",
-                basePrice: 759,
+                basePrice: 770,
                 route: "Miami > Fun Day at Sea > Grand Turk > Emerald Bay (Dominican Rep.) > Kralendijk, Bonaire > Willemstad, Curaçao > Fun Day at Sea > Fun Day at Sea > Miami",
                 days: ["Miami (Embarkation)", "Fun Day at Sea", "Grand Turk, Turks & Caicos", "Emerald Bay, Dominican Rep.", "Kralendijk, Bonaire", "Willemstad, Curaçao", "Fun Day at Sea", "Fun Day at Sea", "Miami (Disembarkation)"],
-                applicableShips: ["SUNCREST LEGACY", "SUNCREST SUNKISSED"] // Legacy is active here, shared with Sunkissed
+                applicableShips: ["SUNCREST LEGACY", "SUNCREST SUNKISSED"]
             },
 
             // --- PORT CANAVERAL ---
@@ -594,7 +523,7 @@
                 homeport: "Port Canaveral",
                 duration: 5,
                 variant: "Western Escape",
-                basePrice: 399,
+                basePrice: 420,
                 route: "Port Canaveral > Fun Day at Sea > Cozumel, Mexico > Progreso, Yucatán > Fun Day at Sea > Port Canaveral",
                 days: ["Port Canaveral (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Progreso, Yucatán", "Fun Day at Sea", "Port Canaveral (Disembarkation)"],
                 applicableShips: ["TROPICAL™️", "SUNCREST ROMANCE", "SUNCREST AURORA", "SUNCREST MAGIC"]
@@ -604,7 +533,7 @@
                 homeport: "Port Canaveral",
                 duration: 7,
                 variant: "Eastern Sunshine",
-                basePrice: 589,
+                basePrice: 610,
                 route: "Port Canaveral > Fun Day at Sea > Fun Day at Sea > Philipsburg, St. Maarten > Charlotte Amalie, St. Thomas > Fun Day at Sea > Unsunken City of Atlantis®️ > Port Canaveral",
                 days: ["Port Canaveral (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Philipsburg, St. Maarten", "Charlotte Amalie, St. Thomas", "Fun Day at Sea", "Unsunken City of Atlantis®️", "Port Canaveral (Disembarkation)"],
                 applicableShips: ["TROPICAL™️", "SUNCREST TRIANGLE", "SUNCREST PARADISE", "SUNCREST AURORA"]
@@ -616,20 +545,10 @@
                 homeport: "Tampa",
                 duration: 5,
                 variant: "Gulf Breeze Getaway",
-                basePrice: 339,
+                basePrice: 350,
                 route: "Tampa > Fun Day at Sea > Key West, FL > Cozumel, Mexico > Fun Day at Sea > Tampa",
                 days: ["Tampa (Embarkation)", "Fun Day at Sea", "Key West, FL", "Cozumel, Mexico", "Fun Day at Sea", "Tampa (Disembarkation)"],
                 applicableShips: ["SUNCREST EXCITEMENT"]
-            },
-            {
-                id: "tampa-7d-west",
-                homeport: "Tampa",
-                duration: 7,
-                variant: "Gulf & Western Explorer",
-                basePrice: 529,
-                route: "Tampa > Fun Day at Sea > Key West, FL > Cozumel, Mexico > Belize City, Belize > Fun Day at Sea > Fun Day at Sea > Tampa",
-                days: ["Tampa (Embarkation)", "Fun Day at Sea", "Key West, FL", "Cozumel, Mexico", "Belize City, Belize", "Fun Day at Sea", "Fun Day at Sea", "Tampa (Disembarkation)"],
-                applicableShips: ["SUNCREST VALOR"]
             },
 
             // --- NEW YORK (MANHATTAN) ---
@@ -638,20 +557,10 @@
                 homeport: "New York",
                 duration: 7,
                 variant: "Atlantic Run",
-                basePrice: 629,
+                basePrice: 650,
                 route: "Manhattan > Fun Day at Sea > Fun Day at Sea > Nassau, Bahamas > Olann Island™️ > Fun Day at Sea > Fun Day at Sea > Manhattan",
-                days: ["Manhattan (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Nassau, Bahamas", "Olann Island™️, Bahamas", "Fun Day at Sea", "Fun Day at Sea", "Manhattan (Disembarkation)"],
+                days: ["Manhattan (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Nassau, Bahamas", "Olann Island™️ Private Haven", "Fun Day at Sea", "Fun Day at Sea", "Manhattan (Disembarkation)"],
                 applicableShips: ["SUNCREST ROMANCE"]
-            },
-            {
-                id: "ny-9d-bermuda",
-                homeport: "New York",
-                duration: 9,
-                variant: "Bermuda & Eastern Caribbean",
-                basePrice: 849,
-                route: "Manhattan > Fun Day at Sea > Fun Day at Sea > Kings Wharf, Bermuda > Kings Wharf, Bermuda > Grand Turk > Nassau, Bahamas > Fun Day at Sea > Fun Day at Sea > Manhattan",
-                days: ["Manhattan (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Kings Wharf, Bermuda", "Kings Wharf, Bermuda", "Grand Turk, Turks & Caicos", "Nassau, Bahamas", "Fun Day at Sea", "Fun Day at Sea", "Manhattan (Disembarkation)"],
-                applicableShips: ["SUNCREST TRIANGLE"]
             },
 
             // --- BALTIMORE ---
@@ -660,14 +569,92 @@
                 homeport: "Baltimore",
                 duration: 9,
                 variant: "Eastern Escape & Bahamas",
-                basePrice: 799,
+                basePrice: 820,
                 route: "Baltimore > Fun Day at Sea > Fun Day at Sea > Grand Turk > San Juan, Puerto Rico > Charlotte Amalie, St. Thomas > Fun Day at Sea > Fun Day at Sea > Fun Day at Sea > Baltimore",
                 days: ["Baltimore (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Grand Turk, Turks & Caicos", "San Juan, Puerto Rico", "Charlotte Amalie, St. Thomas", "Fun Day at Sea", "Fun Day at Sea", "Fun Day at Sea", "Baltimore (Disembarkation)"],
                 applicableShips: ["SUNCREST MIRACLE", "SUNCREST GATEWAY"]
             }
         ];
 
-        // This generator maps sailing seasons to specific fleet members using schedule rules
+        // This engine returns price offsets & feature descriptors based on the real ship era configuration
+        function getShipClassInformation(ship) {
+            const shipUpper = ship.toUpperCase();
+
+            // 1. PARADISE CLASS (Excel-Class equivalent - Ultimate Flagship)
+            if (shipUpper === "TROPICAL™️" || shipUpper === "SUNCREST SUNKISSED" || shipUpper === "SUNCREST MIRAGE" || shipUpper === "SUNCREST PARADISE" || shipUpper === "SUNCREST KEY") {
+                return {
+                    offset: 220, // Flagship premium price
+                    classBadge: "🌴 PARADISE CLASS FLAGSHIP",
+                    techFeature: "⚡ Zeus Coaster | SplashWorks Ultra | Weather Contingency Sail-away"
+                };
+            }
+
+            // 2. AURORA CLASS (Modern Space-themed)
+            if (shipUpper === "SUNCREST AURORA" || shipUpper === "SUNCREST NOVA" || shipUpper === "SUNCREST ECLIPSE") {
+                return {
+                    offset: 140,
+                    classBadge: "✨ AURORA CLASS",
+                    techFeature: "🎭 Digital Atrium Centerpiece | Inside-Out Weather Protection"
+                };
+            }
+
+            // 3. HYBRID & ACQUISITIONS FLEETS (Festa Hybrid Class)
+            if (shipUpper === "SUNCREST ROMANCE" || shipUpper === "SUNCREST TRIANGLE" || shipUpper === "SUNCREST LUMINOSA") {
+                return {
+                    offset: 100,
+                    classBadge: "🇮🇹 FESTA HYBRID CLASS",
+                    techFeature: "☀️ Retractable Glass Lido Roof | Mediterranean Styling"
+                };
+            }
+
+            // 4. RADIANCE CLASS (Legacy Class 2.0 / Vista-style)
+            if (shipUpper === "SUNCREST RADIANCE" || shipUpper === "SUNCREST GLOW" || shipUpper === "SUNCREST BRILLIANCE" || shipUpper === "SUNCREST SUNRISE" || shipUpper === "SUNCREST SUNSET") {
+                return {
+                    offset: 80,
+                    classBadge: "🔆 RADIANCE CLASS",
+                    techFeature: "📺 Flat LED Atrium Dome | Liquid Lounge"
+                };
+            }
+
+            // 5. LEGACY CLASS (First Mega-Ships / Dream-class style)
+            if (shipUpper === "SUNCREST LEGACY" || shipUpper === "SUNCREST HORIZON" || shipUpper === "SUNCREST DREAM" || shipUpper === "SUNCREST NIGHTMARE") {
+                return {
+                    offset: 50,
+                    classBadge: "🚢 LEGACY CLASS",
+                    techFeature: "🌊 Lanai Deck | Cove Balconies | SplashWorks Park"
+                };
+            }
+
+            // 6. PANAMAX / SPIRIT CLASS
+            if (shipUpper === "SUNCREST PANAMAX" || shipUpper === "SUNCREST GATEWAY" || shipUpper === "SUNCREST MIRACLE" || shipUpper === "SUNCREST VALOR") {
+                return {
+                    offset: 10,
+                    classBadge: "⚓ PANAMAX CLASS",
+                    techFeature: "🔭 Split-Lido Dome | Canal Optimized Design"
+                };
+            }
+
+            // 7. HIDEAWAY CLASS (Destiny/Sunshine style - Completely Modernized "Sun+Fun" Era)
+            if (shipUpper === "SUNCREST HIDEAWAY" || shipUpper === "SUNCREST UTOPIA" || shipUpper === "SUNCREST RETREAT") {
+                return {
+                    offset: -20,
+                    classBadge: "🔥 HIDEAWAY CLASS (SUN+FUN REBORN)",
+                    techFeature: "💦 Complete Modernization | SplashWorks Complex | SportSquare"
+                };
+            }
+
+            // 8. SEABREEZE CLASS (Fantasy-class style / Skyway bridges clearance)
+            if (shipUpper === "SUNCREST SEABREEZE" || shipUpper === "SUNCREST ISLAND" || shipUpper === "SUNCREST CORAL" || shipUpper === "SUNCREST EXCITEMENT" || shipUpper === "ELATION") {
+                return {
+                    offset: -60, // Best Value Pricing!
+                    classBadge: "⚓ SEABREEZE CLASS (SKYWAY DESIGN)",
+                    techFeature: "🔲 Retrofitted Welded-Hull Balconies | Panoramic Scenic Oceanviews"
+                };
+            }
+
+            return { offset: 0, classBadge: "🚢 SUNCREST FLEET", techFeature: "☀️ Sun+Fun Signature Amenities" };
+        }
+
         function generateSailingsDatabase() {
             const sailings = [];
             const years = ["2026", "2027", "2028"];
@@ -675,36 +662,25 @@
             itineraryTemplates.forEach(function(tpl) {
                 years.forEach(function(year) {
                     tpl.applicableShips.forEach(function(ship) {
-                        // Applying your exact deployment limitations
+                        const classInfo = getShipClassInformation(ship);
+                        
+                        // Applying specific deployment scheduling limitations
                         if (ship === "SUNCREST TRIANGLE" && tpl.homeport === "Miami" && year === "2027") {
-                            // Triangle is in Miami only Mar-June '27
-                            sailings.push(createSailingInstance(tpl, ship, year, "May 16 - 23, 2027", 0));
+                            sailings.push(createSailingInstance(tpl, ship, year, "May 16 - 22, 2027", classInfo));
                         } else if (ship === "SUNCREST ROMANCE" && tpl.homeport === "Miami" && year === "2027") {
-                            // Romance is in Miami June-Sept '27
-                            sailings.push(createSailingInstance(tpl, ship, year, "Jul 18 - 23, 2027", 10));
+                            sailings.push(createSailingInstance(tpl, ship, year, "Jul 18 - 23, 2027", classInfo));
                         } else if (ship === "SUNCREST NOVA" && tpl.homeport === "Galveston" && year === "2027") {
-                            // Nova arrives in Galveston June 2027
-                            sailings.push(createSailingInstance(tpl, ship, year, "Jul 02 - 08, 2027", 30));
+                            sailings.push(createSailingInstance(tpl, ship, year, "Jul 02 - 08, 2027", classInfo));
                         } else if (ship === "SUNCREST HIDEAWAY" && tpl.homeport === "Galveston" && year === "2027") {
-                            // Hideaway arrives in Galveston July 2027
-                            sailings.push(createSailingInstance(tpl, ship, year, "Aug 15 - 21, 2027", 20));
+                            sailings.push(createSailingInstance(tpl, ship, year, "Aug 15 - 21, 2027", classInfo));
                         } else if (ship === "SUNCREST GLOW" && tpl.homeport === "New Orleans" && year === "2027") {
-                            // Glow arrives in Nola April 2027
-                            sailings.push(createSailingInstance(tpl, ship, year, "May 09 - 16, 2027", 10));
-                        } else if (ship === "SUNCREST MAGIC" && tpl.homeport === "Norfolk" && year === "2027") {
-                            // Magic arrives in Norfolk June 2027
-                            sailings.push(createSailingInstance(tpl, ship, year, "Aug 12 - 18, 2027", 15));
+                            sailings.push(createSailingInstance(tpl, ship, year, "May 09 - 16, 2027", classInfo));
                         } else if (ship === "SUNCREST ROMANCE" && tpl.homeport === "Port Canaveral" && year === "2027") {
-                            // Romance arrives PC September 2027
-                            sailings.push(createSailingInstance(tpl, ship, year, "Oct 10 - 15, 2027", 25));
+                            sailings.push(createSailingInstance(tpl, ship, year, "Oct 10 - 15, 2027", classInfo));
                         } else if (ship === "SUNCREST PARADISE" && year === "2026") {
-                            // Paradise does not exist in 2026 (Debuts Feb 2028)
-                            return;
+                            return; // Debuts in 2027
                         } else if (ship === "SUNCREST PARADISE" && year === "2027") {
-                            return;
-                        } else if (ship === "SUNCREST MAGIC" && tpl.homeport === "Port Canaveral" && year === "2027") {
-                            // Magic departures PC June 2027, only allow late spring 2027
-                            sailings.push(createSailingInstance(tpl, ship, year, "Mar 14 - 19, 2027", -10));
+                            sailings.push(createSailingInstance(tpl, ship, year, "Dec 05 - 12, 2027", classInfo));
                         } else {
                             // Standard static deployments
                             let rangeStr = "";
@@ -715,7 +691,7 @@
                             } else {
                                 rangeStr = "Jan 09 - " + (9 + tpl.duration) + ", 2028";
                             }
-                            sailings.push(createSailingInstance(tpl, ship, year, rangeStr, 0));
+                            sailings.push(createSailingInstance(tpl, ship, year, rangeStr, classInfo));
                         }
                     });
                 });
@@ -723,8 +699,9 @@
             return sailings;
         }
 
-        function createSailingInstance(tpl, ship, year, dateRange, priceOffset) {
-            const intPrice = tpl.basePrice + priceOffset;
+        function createSailingInstance(tpl, ship, year, dateRange, classInfo) {
+            // Apply dynamic math mapping based on actual class launch eras!
+            const finalBasePrice = tpl.basePrice + classInfo.offset;
             return {
                 id: tpl.id + "-" + ship.toLowerCase().replace(/[\s™️®️]/g, "-") + "-" + year,
                 ship: ship,
@@ -732,17 +709,19 @@
                 homeport: tpl.homeport,
                 duration: tpl.duration,
                 variant: tpl.variant,
-                basePrice: intPrice,
+                basePrice: finalBasePrice,
                 route: tpl.route,
                 days: tpl.days,
+                classBadge: classInfo.classBadge,
+                techFeature: classInfo.techFeature,
                 dates: [
                     {
                         range: dateRange,
                         prices: {
-                            interior: intPrice,
-                            oceanview: Math.round(intPrice * 1.18),
-                            balcony: Math.round(intPrice * 1.45),
-                            suite: Math.round(intPrice * 2.1)
+                            interior: finalBasePrice,
+                            oceanview: Math.round(finalBasePrice * 1.18),
+                            balcony: Math.round(finalBasePrice * 1.45),
+                            suite: Math.round(finalBasePrice * 2.1)
                         }
                     }
                 ]
@@ -758,7 +737,7 @@
             if (!container || !counter) return;
             
             container.innerHTML = "";
-            counter.innerText = list.length + " Cruise" + (list.length === 1 ? "" : "s") + " Found Matching Your Search";
+            counter.innerText = list.length + " Caribbean Cruise" + (list.length === 1 ? "" : "s") + " Found";
 
             if (list.length === 0) {
                 container.innerHTML = '<div style="text-align:center; padding: 40px; font-weight:bold; color:#555;">No cruises found matching these options.</div>';
@@ -803,7 +782,8 @@
                             <img src="caribbean.JPG" class="ship-img" alt="${item.ship}">
                             <div class="card-details">
                                 <span class="ship-badge">🚢 ${item.ship}</span>
-                                <span class="variant-badge">${item.variant}</span>
+                                <span class="variant-badge">${item.classBadge}</span>
+                                <span class="tech-badge">${item.techFeature}</span>
                                 <h2>${item.duration}-Day Caribbean Cruise (${item.homeport})</h2>
                                 <p class="route-path"><strong>Route:</strong> ${item.route}</p>
                             </div>
