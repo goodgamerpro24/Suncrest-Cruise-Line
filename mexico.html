@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suncrest Cruise Line - Mexico Sailings</title>
+    <style>
+        :root {
+            --primary-blue: #104c81;
+            --accent-red: #e63946;
+            --light-gray: #f4f6f9;
+            --dark-blue: #0b3154;
+            --text-dark: #222;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+        }
+
+        .navbar {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .back-btn {
+            background-color: var(--accent-red);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(11, 49, 84, 0.45), rgba(16, 76, 129, 0.7)), url('mexico.JPG') center/cover no-repeat;
+            color: white;
+            text-align: center;
+            padding: 90px 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        .hero h1 { 
+            margin: 0; 
+            font-size: 48px; 
+            letter-spacing: 1px;
+            font-family: 'Georgia', serif;
+        }
+        .hero p { 
+            margin: 15px 0 0 0; 
+            font-size: 21px; 
+            font-weight: bold;
+            color: #f1f5f9;
+        }
+
+        .search-engine {
+            background: white;
+            max-width: 1100px;
+            margin: -40px auto 30px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.2);
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .filter-group select {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .results-header {
+            max-width: 1100px;
+            margin: 0 auto 15px auto;
+            padding: 0 20px;
+            font-size: 18px;
+            color: var(--dark-blue);
+            font-weight: bold;
+        }
+
+        .itinerary-list {
+            max-width: 1100px;
+            margin: 0 auto 50px auto;
+            padding: 0 20px;
+        }
+
+        .itinerary-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+        }
+
+        .card-main {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            align-items: center;
+        }
+
+        .ship-img {
+            width: 220px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .card-details {
+            flex: 1;
+            padding: 0 20px;
+            min-width: 280px;
+        }
+
+        .card-details h2 {
+            margin: 0 0 5px 0;
+            color: var(--dark-blue);
+            font-size: 22px;
+        }
+
+        .ship-badge {
+            display: inline-block;
+            background-color: #eef4fa;
+            color: var(--primary-blue);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            border: 1px solid #d0e1fd;
+        }
+
+        .route-path {
+            font-size: 13px;
+            color: #444;
+            line-height: 1.4;
+        }
+
+        .card-action {
+            text-align: right;
+            min-width: 160px;
+        }
+
+        .price-label { font-size: 12px; color: #666; }
+        .price-value { font-size: 32px; font-weight: bold; color: var(--dark-blue); margin-bottom: 10px; }
+
+        .btn-view-dates {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-view-dates:hover {
+            background-color: var(--accent-red);
+        }
+
+        .timeline-section {
+            background-color: #fafbfc;
+            border-top: 1px solid #f0f0f0;
+            padding: 15px 20px;
+        }
+
+        .timeline-title { font-size: 13px; font-weight: bold; color: #555; margin-bottom: 8px; }
+        
+        .timeline-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .timeline-day {
+            background-color: #eef2f6;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--dark-blue);
+        }
+
+        .pricing-dropdown {
+            display: none;
+            background-color: #f8fafc;
+            border-top: 1px dashed #cbd5e1;
+            padding: 20px;
+        }
+
+        .pricing-dropdown.active {
+            display: block;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .price-card {
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .price-header {
+            background-color: #e2e8f0;
+            color: var(--dark-blue);
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            font-size: 13px;
+        }
+
+        .category-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 12px;
+        }
+
+        .category-row:last-of-type { border-bottom: none; }
+
+        .book-now-btn {
+            display: block;
+            background-color: var(--accent-red);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="index.html" class="brand">SUNCREST</a>
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </div>
+
+    <div class="hero">
+        <h1>Baja & Mexican Riviera Sailings</h1>
+        <p>Explore beautiful ports, iconic islands, and incredible coastal escapes from California!</p>
+    </div>
+
+    <div class="search-engine">
+        <div class="filter-group">
+            <label for="filter-year">Sailing Year</label>
+            <select id="filter-year" onchange="updateFilters()">
+                <option value="all">-- All Sailings --</option>
+                <option value="2026">Late 2026</option>
+                <option value="2027">2027 Sailings</option>
+                <option value="2028">2028 Sailings</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="filter-port">Homeport</label>
+            <select id="filter-port" onchange="updateFilters()">
+                <option value="all">-- All Homeports --</option>
+                <option value="Los Angeles">Los Angeles (Long Beach), CA</option>
+                <option value="San Francisco">San Francisco, CA</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="filter-duration">Duration</label>
+            <select id="filter-duration" onchange="updateFilters()">
+                <option value="all">-- All Durations --</option>
+                <option value="short">Short (3-5 Days)</option>
+                <option value="medium">Medium (6-8 Days)</option>
+                <option value="long">Extended / Hidden (14+ Days)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="results-header" id="results-count">Showing Results...</div>
+    <div class="itinerary-list" id="itinerary-list"></div>
+
+    <script>
+        const itineraryTemplates = [
+            // --- 3 DAY ---
+            {
+                id: "la-3d-baja",
+                homeport: "Los Angeles",
+                duration: 3,
+                variant: "Baja Mexico Escape",
+                basePrice: 249,
+                route: "Long Beach > Day at Sea > Ensenada, Mexico > Long Beach",
+                days: ["Long Beach (Embarkation)", "Day at Sea", "Ensenada, Mexico", "Long Beach (Disembarkation)"],
+                applicableShips: ["SUNCREST ROMANCE", "SUNCREST VALOR", "SUNCREST LUMINOSA", "SUNCREST RETREAT", "SUNCREST ECLIPSE"]
+            },
+            // --- 4 DAY ---
+            {
+                id: "sf-4d-baja",
+                homeport: "San Francisco",
+                duration: 4,
+                variant: "Baja Coastal Escape",
+                basePrice: 329,
+                route: "San Francisco > Day at Sea > Ensenada, Mexico > Day at Sea > San Francisco",
+                days: ["San Francisco (Embarkation)", "Day at Sea", "Ensenada, Mexico", "Day at Sea", "San Francisco (Disembarkation)"],
+                applicableShips: ["SUNCREST ROMANCE", "SUNCREST VALOR", "SUNCREST LUMINOSA"]
+            },
+            {
+                id: "la-4d-baja-catalina",
+                homeport: "Los Angeles",
+                duration: 4,
+                variant: "Catalina & Baja",
+                basePrice: 299,
+                route: "Long Beach > Catalina Island > Ensenada, Mexico > Day at Sea > Long Beach",
+                days: ["Long Beach (Embarkation)", "Catalina Island, CA", "Ensenada, Mexico", "Day at Sea", "Long Beach (Disembarkation)"],
+                applicableShips: ["SUNCREST RETREAT", "SUNCREST ECLIPSE", "SUNCREST VALOR"]
+            },
+            // --- 5 DAY ---
+            {
+                id: "sf-5d-baja",
+                homeport: "San Francisco",
+                duration: 5,
+                variant: "California & Baja Explorer",
+                basePrice: 399,
+                route: "San Francisco > Day at Sea > Catalina Island > Ensenada, Mexico > Day at Sea > San Francisco",
+                days: ["San Francisco (Embarkation)", "Day at Sea", "Catalina Island, CA", "Ensenada, Mexico", "Day at Sea", "San Francisco (Disembarkation)"],
+                applicableShips: ["SUNCREST ROMANCE", "SUNCREST VALOR", "SUNCREST LUMINOSA"]
+            },
+            {
+                id: "la-5d-riviera",
+                homeport: "Los Angeles",
+                duration: 5,
+                variant: "Cabo Getaway",
+                basePrice: 429,
+                route: "Long Beach > Day at Sea > Cabo San Lucas, Mexico > Day at Sea > Ensenada, Mexico > Long Beach",
+                days: ["Long Beach (Embarkation)", "Day at Sea", "Cabo San Lucas, Mexico", "Day at Sea", "Ensenada, Mexico", "Long Beach (Disembarkation)"],
+                applicableShips: ["SUNCREST RETREAT", "SUNCREST ECLIPSE"]
+            },
+            // --- 6 DAY ---
+            {
+                id: "la-6d-riviera",
+                homeport: "Los Angeles",
+                duration: 6,
+                variant: "Cabo Intensive",
+                basePrice: 549,
+                route: "Long Beach > Day at Sea > Cabo San Lucas, Mexico (Overnight) > Cabo San Lucas > Day at Sea > Long Beach",
+                days: ["Long Beach (Embarkation)", "Day at Sea", "Cabo San Lucas, Mexico (Arrive)", "Cabo San Lucas, Mexico (Depart)", "Day at Sea", "Long Beach (Disembarkation)"],
+                applicableShips: ["SUNCREST RETREAT", "SUNCREST ECLIPSE"]
+            },
+            // --- 7 DAY ---
+            {
+                id: "la-7d-riviera",
+                homeport: "Los Angeles",
+                duration: 7,
+                variant: "Mexican Riviera Classic",
+                basePrice: 629,
+                route: "Long Beach > Day at Sea > Cabo San Lucas > Mazatlán > Puerto Vallarta > 2 Days at Sea > Long Beach",
+                days: ["Long Beach (Embarkation)", "Day at Sea", "Cabo San Lucas, Mexico", "Mazatlán, Mexico", "Puerto Vallarta, Mexico", "Day at Sea", "Day at Sea", "Long Beach (Disembarkation)"],
+                applicableShips: ["SUNCREST ROMANCE", "SUNCREST VALOR", "SUNCREST LUMINOSA"]
+            },
+            // --- 8 DAY ---
+            {
+                id: "la-8d-riviera-lapaz",
+                homeport: "Los Angeles",
+                duration: 8,
+                variant: "Sea of Cortez & Riviera",
+                basePrice: 749,
+                route: "Long Beach > 2 Days at Sea > Puerto Vallarta > Mazatlán > La Paz > Cabo San Lucas > Day at Sea > Long Beach",
+                days: ["Long Beach (Embarkation)", "Day at Sea", "Day at Sea", "Puerto Vallarta, Mexico", "Mazatlán, Mexico", "La Paz, Mexico", "Cabo San Lucas, Mexico", "Day at Sea", "Long Beach (Disembarkation)"],
+                applicableShips: ["SUNCREST RETREAT", "SUNCREST ECLIPSE"]
+            },
+            {
+                id: "la-8d-riviera-cabo",
+                homeport: "Los Angeles",
+                duration: 8,
+                variant: "Extended Riviera Adventure",
+                basePrice: 759,
+                route: "Long Beach > Day at Sea > 2 Days at Cabo San Lucas > Mazatlán > Puerto Vallarta > 2 Days at Sea > Long Beach",
+                days: ["Long Beach (Embarkation)", "Day at Sea", "Cabo San Lucas, Mexico (Arrive)", "Cabo San Lucas (Depart)", "Mazatlán, Mexico", "Puerto Vallarta, Mexico", "Day at Sea", "Day at Sea", "Long Beach (Disembarkation)"],
+                applicableShips: ["SUNCREST ROMANCE", "SUNCREST VALOR", "SUNCREST LUMINOSA"]
+            },
+
+            // --- HIDDEN ITINERARIES (14 DAYS) ---
+            {
+                id: "la-14d-hidden-riviera",
+                homeport: "Los Angeles",
+                duration: 14,
+                variant: "Ultimate Southern Riviera (Rare Event)",
+                basePrice: 1299,
+                route: "Long Beach > 4 Days at Sea > Huatulco > Acapulco > Zihuatanejo (Ixtapa) > Manzanillo > Puerto Vallarta > Mazatlán > Cabo San Lucas > 2 Days at Sea > Long Beach",
+                days: [
+                    "Long Beach (Embarkation)", "Day at Sea", "Day at Sea", "Day at Sea", "Day at Sea", 
+                    "Huatulco, Mexico", "Acapulco, Mexico", "Zihuatanejo (Ixtapa), Mexico", "Manzanillo, Mexico", 
+                    "Puerto Vallarta, Mexico", "Mazatlán, Mexico", "Cabo San Lucas, Mexico", "Day at Sea", "Day at Sea", "Long Beach (Disembarkation)"
+                ],
+                applicableShips: ["SUNCREST ECLIPSE"],
+                seasonalRestriction: "twice-yearly" // Handled in DB rendering
+            },
+            {
+                id: "la-14d-hidden-hawaii",
+                homeport: "Los Angeles",
+                duration: 14,
+                variant: "Hawaiian Islands Explorer",
+                basePrice: 1399,
+                route: "Long Beach > 4 Days at Sea > Kahului, Maui > Honolulu, Oahu > Nawiliwili, Kauai > Hilo, Hawaii > 4 Days at Sea > Ensenada, Mexico > Long Beach",
+                days: [
+                    "Long Beach (Embarkation)", "Day at Sea", "Day at Sea", "Day at Sea", "Day at Sea", 
+                    "Kahului, Maui", "Honolulu, Oahu", "Nawiliwili, Kauai", "Hilo, Hawaii", 
+                    "Day at Sea", "Day at Sea", "Day at Sea", "Day at Sea", "Ensenada, Mexico", "Long Beach (Disembarkation)"
+                ],
+                applicableShips: ["SUNCREST RETREAT", "SUNCREST VALOR"],
+                seasonalRestriction: "summer" // Handled in DB rendering
+            }
+        ];
+
+        // Keeps calculations accurate based on standard ship offset tiers (to ensure realistic price variances)
+        function getPriceOffset(ship) {
+            const shipUpper = ship.toUpperCase();
+            if (shipUpper === "SUNCREST ECLIPSE") return 120; // Premium Flagship
+            if (shipUpper === "SUNCREST ROMANCE" || shipUpper === "SUNCREST LUMINOSA") return 80; // Standard High Tier
+            if (shipUpper === "SUNCREST VALOR") return 20; // Mid-class value
+            if (shipUpper === "SUNCREST RETREAT") return -20; // Retrofitted legacy class budget rate
+            return 0;
+        }
+
+        function generateSailingsDatabase() {
+            const sailings = [];
+            const years = ["2026", "2027", "2028"];
+            
+            itineraryTemplates.forEach(function(tpl) {
+                years.forEach(function(year) {
+                    tpl.applicableShips.forEach(function(ship) {
+                        const offset = getPriceOffset(ship);
+                        let rangeStr = "";
+
+                        // Handle logic for the Summer Hawaii sailings and Twice-Yearly Mexico runs
+                        if (tpl.seasonalRestriction === "summer") {
+                            rangeStr = "Jul 10 - Jul 24, " + year + " (Summer Exclusive)";
+                        } else if (tpl.seasonalRestriction === "twice-yearly") {
+                            rangeStr = "Apr 18 - May 02, " + year + " (Semi-Annual Run)";
+                        } else {
+                            if (year === "2026") {
+                                rangeStr = "Nov 14 - Nov " + (14 + tpl.duration) + ", 2026";
+                            } else if (year === "2027") {
+                                rangeStr = "Mar 12 - Mar " + (12 + tpl.duration) + ", 2027";
+                            } else {
+                                rangeStr = "Feb 05 - Feb " + (5 + tpl.duration) + ", 2028";
+                            }
+                        }
+                        
+                        sailings.push(createSailingInstance(tpl, ship, year, rangeStr, offset));
+                    });
+                });
+            });
+            return sailings;
+        }
+
+        function createSailingInstance(tpl, ship, year, dateRange, offset) {
+            const finalBasePrice = tpl.basePrice + offset;
+            return {
+                id: tpl.id + "-" + ship.toLowerCase().replace(/[\s]/g, "-") + "-" + year,
+                ship: ship,
+                year: year,
+                homeport: tpl.homeport,
+                duration: tpl.duration,
+                variant: tpl.variant,
+                basePrice: finalBasePrice,
+                route: tpl.route,
+                days: tpl.days,
+                dates: [
+                    {
+                        range: dateRange,
+                        prices: {
+                            interior: finalBasePrice,
+                            oceanview: Math.round(finalBasePrice * 1.18),
+                            balcony: Math.round(finalBasePrice * 1.45),
+                            suite: Math.round(finalBasePrice * 2.1)
+                        }
+                    }
+                ]
+            };
+        }
+
+        const database = generateSailingsDatabase();
+
+        function renderItineraries(list) {
+            const container = document.getElementById("itinerary-list");
+            const counter = document.getElementById("results-count");
+            
+            if (!container || !counter) return;
+            
+            container.innerHTML = "";
+            counter.innerText = list.length + " Sailing" + (list.length === 1 ? "" : "s") + " Found";
+
+            if (list.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding: 40px; font-weight:bold; color:#555;">No cruises found matching these options.</div>';
+                return;
+            }
+
+            list.forEach(function(item) {
+                let timelineHTML = "";
+                item.days.forEach(function(day, index) {
+                    timelineHTML += '<div class="timeline-day">Day ' + (index + 1) + ': ' + day + '</div>';
+                });
+
+                let datesHTML = "";
+                item.dates.forEach(function(date) {
+                    datesHTML += `
+                        <div class="price-card">
+                            <div class="price-header">${date.range}</div>
+                            <div class="category-row">
+                                <span>Interior</span>
+                                <strong>$${date.prices.interior}*</strong>
+                            </div>
+                            <div class="category-row">
+                                <span>Ocean View</span>
+                                <strong>$${date.prices.oceanview}*</strong>
+                            </div>
+                            <div class="category-row">
+                                <span>Balcony</span>
+                                <strong>$${date.prices.balcony}*</strong>
+                            </div>
+                            <div class="category-row">
+                                <span>Suite</span>
+                                <strong>$${date.prices.suite}*</strong>
+                            </div>
+                            <a href="#" class="book-now-btn">Start Booking</a>
+                        </div>
+                    `;
+                });
+
+                const cardHTML = `
+                    <div class="itinerary-card">
+                        <div class="card-main">
+                            <img src="mexico.JPG" class="ship-img" alt="${item.ship}">
+                            <div class="card-details">
+                                <span class="ship-badge">🚢 ${item.ship}</span>
+                                <h2>${item.duration}-Day ${item.variant}</h2>
+                                <p class="route-path"><strong>Route:</strong> ${item.route}</p>
+                            </div>
+                            <div class="card-action">
+                                <span class="price-label">Starting at</span>
+                                <div class="price-value">$${item.basePrice}*</div>
+                                <button class="btn-view-dates" onclick="togglePricing('${item.id}')">Show Dates</button>
+                            </div>
+                        </div>
+                        <div class="timeline-section">
+                            <div class="timeline-title">ITINERARY PATHWAY</div>
+                            <div class="timeline-grid">${timelineHTML}</div>
+                        </div>
+                        <div class="pricing-dropdown" id="dropdown-${item.id}">
+                            <div style="font-weight:bold; color:var(--dark-blue); margin-bottom:10px;">Select Dates & Room Category</div>
+                            <div class="pricing-grid">${datesHTML}</div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        function togglePricing(id) {
+            const dropdown = document.getElementById("dropdown-" + id);
+            if (dropdown) {
+                dropdown.classList.toggle("active");
+            }
+        }
+
+        function updateFilters() {
+            const yearSelect = document.getElementById("filter-year");
+            const portSelect = document.getElementById("filter-port");
+            const durSelect = document.getElementById("filter-duration");
+
+            if (!yearSelect || !portSelect || !durSelect) return;
+
+            const selectedYear = yearSelect.value;
+            const selectedPort = portSelect.value;
+            const selectedDur = durSelect.value;
+
+            const filteredList = database.filter(function(item) {
+                const yearMatch = (selectedYear === "all" || item.year === selectedYear);
+                
+                let portMatch = true;
+                if (selectedPort !== "all") {
+                    portMatch = (item.homeport === selectedPort);
+                }
+                
+                let durationMatch = true;
+                if (selectedDur === "short") {
+                    durationMatch = (item.duration <= 5);
+                } else if (selectedDur === "medium") {
+                    durationMatch = (item.duration >= 6 && item.duration <= 8);
+                } else if (selectedDur === "long") {
+                    durationMatch = (item.duration >= 14);
+                }
+
+                return yearMatch && portMatch && durationMatch;
+            });
+
+            renderItineraries(filteredList);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateFilters();
+        });
+    </script>
+</body>
+</html>
