@@ -32,6 +32,13 @@
       "title": "Olann Island",
       "price": "191",
       "image": "olann.png"
+    },
+    {
+      "id": 5,
+      "isSpotlight": false,
+      "title": "Bermuda Sailings",
+      "price": "410",
+      "image": "bermuda1.JPG"
     }
   ]
 }
