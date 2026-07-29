@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suncrest Cruise Line - Panama Canal Itineraries</title>
+    <style>
+        :root {
+            --primary-blue: #104c81;
+            --accent-red: #e63946;
+            --light-gray: #f4f6f9;
+            --dark-blue: #0b3154;
+            --text-dark: #222;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+        }
+
+        .navbar {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .back-btn {
+            background-color: var(--accent-red);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(11, 49, 84, 0.45), rgba(16, 76, 129, 0.65)), url('panama1.jpg') center/cover no-repeat;
+            color: white;
+            text-align: center;
+            padding: 90px 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        .hero h1 { 
+            margin: 0; 
+            font-size: 48px; 
+            letter-spacing: 1px;
+            font-family: 'Georgia', serif;
+        }
+        .hero p { 
+            margin: 15px 0 0 0; 
+            font-size: 21px; 
+            font-weight: bold;
+            color: #f1f5f9;
+        }
+
+        .search-engine {
+            background: white;
+            max-width: 1100px;
+            margin: -40px auto 30px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.2);
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .filter-group select {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .results-header {
+            max-width: 1100px;
+            margin: 0 auto 15px auto;
+            padding: 0 20px;
+            font-size: 18px;
+            color: var(--dark-blue);
+            font-weight: bold;
+        }
+
+        .itinerary-list {
+            max-width: 1100px;
+            margin: 0 auto 50px auto;
+            padding: 0 20px;
+        }
+
+        .itinerary-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+        }
+
+        .card-image-banner {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-main {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            align-items: center;
+        }
+
+        .card-details {
+            flex: 1;
+            padding: 0 20px 0 0;
+            min-width: 280px;
+        }
+
+        .card-details h2 {
+            margin: 0 0 5px 0;
+            color: var(--dark-blue);
+            font-size: 22px;
+        }
+
+        .ship-badge {
+            display: inline-block;
+            background-color: #eef4fa;
+            color: var(--primary-blue);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .route-path {
+            font-size: 13px;
+            color: #444;
+            line-height: 1.4;
+        }
+
+        .card-action {
+            text-align: right;
+            min-width: 160px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .price-label { font-size: 12px; color: #666; }
+        .price-value { font-size: 32px; font-weight: bold; color: var(--dark-blue); }
+
+        .view-dates-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            transition: background-color 0.2s;
+        }
+
+        .view-dates-btn:hover {
+            background-color: var(--dark-blue);
+        }
+
+        .timeline-section {
+            background-color: #fafbfc;
+            border-top: 1px solid #f0f0f0;
+            padding: 15px 20px;
+        }
+
+        .timeline-title { font-size: 13px; font-weight: bold; color: #555; margin-bottom: 8px; }
+        
+        .timeline-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .timeline-day {
+            background-color: #eef2f6;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--dark-blue);
+        }
+
+        .pricing-section {
+            background-color: #f8fafc;
+            border-top: 1px dashed #cbd5e1;
+            padding: 20px;
+            display: none; /* Collapsed by default until View Details & Dates is clicked */
+        }
+
+        .pricing-section.active {
+            display: block;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .price-card {
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .price-header {
+            background-color: #e2e8f0;
+            color: var(--dark-blue);
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            font-size: 13px;
+        }
+
+        .category-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 12px;
+        }
+
+        .category-row:last-of-type { border-bottom: none; }
+
+        .book-now-btn {
+            display: block;
+            background-color: var(--accent-red);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="index.html" class="brand">SUNCREST</a>
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </div>
+
+    <div class="hero">
+        <h1>Panama Canal Itineraries</h1>
+        <p>Featuring Panama Class Relocations and Regional Round Trips</p>
+    </div>
+
+    <div class="search-engine">
+        <div class="filter-group">
+            <label for="filter-year">Sailing Year</label>
+            <select id="filter-year" onchange="updateFilters()">
+                <option value="all">-- All Years (2027-2028) --</option>
+                <option value="2027">2027 Sailings</option>
+                <option value="2028">2028 Sailings</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="filter-port">Homeport</label>
+            <select id="filter-port" onchange="updateFilters()">
+                <option value="all">-- All Homeports --</option>
+                <option value="Galveston">Galveston</option>
+                <option value="Miami">Miami</option>
+                <option value="Mobile">Mobile</option>
+                <option value="New Orleans">New Orleans</option>
+                <option value="Port Canaveral">Port Canaveral</option>
+                <option value="Seattle">Seattle</option>
+                <option value="Tampa">Tampa</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="filter-duration">Duration</label>
+            <select id="filter-duration" onchange="updateFilters()">
+                <option value="all">-- All Durations --</option>
+                <option value="8">8 Days</option>
+                <option value="10">10 Days</option>
+                <option value="12">12 Days</option>
+                <option value="14">14 Days</option>
+                <option value="16">16 Days</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="results-header" id="results-count">Showing Results...</div>
+    <div class="itinerary-list" id="itinerary-list"></div>
+
+    <script>
+        const itineraryTemplates = [
+            {
+                id: "miami-panamax-arrival-2028",
+                year: "2028",
+                homeport: "Miami",
+                disembark: "Miami",
+                duration: 16,
+                type: "Arrival & Panama Transit",
+                ship: "Suncrest Panamax",
+                basePrice: 1590,
+                image: "panama1.jpg",
+                route: "Seattle to Miami (Arriving April 9, 2028 via Panama Canal Transit)",
+                datesText: "April 9, 2028 - April 25, 2028",
+                days: [
+                    "Seattle (Embark)", "At Sea", "At Sea", "Cabo San Lucas", "At Sea", 
+                    "Puntarenas", "Panama Canal Transit", "Colón", "Cartagena", "At Sea", 
+                    "Grand Cayman", "Montego Bay", "At Sea", "Olann Island (Bahamas)", "At Sea", 
+                    "Miami (Disembark - April 9, 2028)"
+                ]
+            },
+            {
+                id: "miami-canaveral-reloc-2028",
+                year: "2028",
+                homeport: "Miami",
+                disembark: "Port Canaveral",
+                duration: 14,
+                type: "Relocation One-Way",
+                ship: "Suncrest Panamax",
+                basePrice: 1490,
+                image: "panama2.jpg",
+                route: "Miami to Port Canaveral (September 9, 2028)",
+                datesText: "September 9, 2028 - September 23, 2028",
+                days: [
+                    "Miami (Embark - September 9, 2028)", "At Sea", "Grand Turk", "Emerald Bay (DR)", 
+                    "At Sea", "Cartagena", "Panama Canal Transit", "Colón", "Puntarenas", 
+                    "At Sea", "Montego Bay", "Olann Island (Bahamas)", "At Sea", 
+                    "Port Canaveral (Disembark)"
+                ]
+            },
+            {
+                id: "canaveral-baltimore-reloc-2028",
+                year: "2028",
+                homeport: "Port Canaveral",
+                disembark: "Baltimore",
+                duration: 12,
+                type: "Relocation One-Way",
+                ship: "Suncrest Panamax",
+                basePrice: 1350,
+                image: "panama3.jpg",
+                route: "Port Canaveral to Baltimore (December 11, 2028)",
+                datesText: "December 11, 2028 - December 23, 2028",
+                days: [
+                    "Port Canaveral (Embark - December 11, 2028)", "At Sea", "Olann Island (Bahamas)", 
+                    "Grand Turk", "At Sea", "Cartagena", "Panama Canal Transit", 
+                    "Limón", "At Sea", "At Sea", "At Sea", "Baltimore (Disembark)"
+                ]
+            },
+            {
+                id: "galv-10d-rt-2027",
+                year: "2027",
+                homeport: "Galveston",
+                disembark: "Galveston",
+                duration: 10,
+                type: "Round Trip",
+                ship: "Suncrest Miracle",
+                basePrice: 950,
+                image: "panama4.jpg",
+                route: "Galveston > Cozumel > Roatán > Colón > Panama Canal Transit > Grand Cayman > Galveston",
+                datesText: "October 10, 2027 - October 20, 2027",
+                days: ["Galveston (Embark)", "At Sea", "Cozumel", "Compass Rose Cay (Roatán)", "Colón", "Panama Canal Transit", "At Sea", "Grand Cayman", "At Sea", "Galveston (Disembark)"]
+            },
+            {
+                id: "tampa-12d-rt-2027",
+                year: "2027",
+                homeport: "Tampa",
+                disembark: "Tampa",
+                duration: 12,
+                type: "Round Trip",
+                ship: "Suncrest Valor",
+                basePrice: 1150,
+                image: "panama5.jpg",
+                route: "Tampa > Montego Bay > Cartagena > Panama Canal > Limón > Grand Cayman > Tampa",
+                datesText: "November 4, 2027 - November 16, 2027",
+                days: ["Tampa (Embark)", "At Sea", "Montego Bay", "Cartagena", "Panama Canal Transit", "Limón", "At Sea", "Grand Cayman", "At Sea", "At Sea", "At Sea", "Tampa (Disembark)"]
+            },
+            {
+                id: "seattle-16d-rt-2027",
+                year: "2027",
+                homeport: "Seattle",
+                disembark: "Seattle",
+                duration: 16,
+                type: "Round Trip",
+                ship: "Suncrest Pacifica",
+                basePrice: 1550,
+                image: "panama1.jpg",
+                route: "Seattle > Cabo San Lucas > Puntarenas > Panama Canal > Cartagena > Acapulco > Seattle",
+                datesText: "May 12, 2027 - May 28, 2027",
+                days: ["Seattle (Embark)", "At Sea", "At Sea", "Cabo San Lucas", "At Sea", "Puntarenas", "Panama Canal Transit", "Cartagena", "At Sea", "Acapulco", "At Sea", "At Sea", "At Sea", "At Sea", "At Sea", "Seattle (Disembark)"]
+            },
+            {
+                id: "neworleans-14d-rt-2027",
+                year: "2027",
+                homeport: "New Orleans",
+                disembark: "New Orleans",
+                duration: 14,
+                type: "Round Trip",
+                ship: "Suncrest Atlantica",
+                basePrice: 1350,
+                image: "panama2.jpg",
+                route: "New Orleans > Grand Turk > Curaçao > Aruba > Panama Canal > Colón > New Orleans",
+                datesText: "September 15, 2027 - September 29, 2027",
+                days: ["New Orleans (Embark)", "At Sea", "Grand Turk", "At Sea", "Willemstad (Curaçao)", "Oranjestad (Aruba)", "At Sea", "Panama Canal Transit", "Colón", "At Sea", "Montego Bay", "At Sea", "At Sea", "New Orleans (Disembark)"]
+            },
+            {
+                id: "mobile-10d-rt-2027",
+                year: "2027",
+                homeport: "Mobile",
+                disembark: "Mobile",
+                duration: 10,
+                type: "Round Trip",
+                ship: "Suncrest Hideaway",
+                basePrice: 920,
+                image: "panama3.jpg",
+                route: "Mobile > Cozumel > Limón > Panama Canal Transit > Grand Cayman > Mobile",
+                datesText: "October 3, 2027 - October 13, 2027",
+                days: ["Mobile (Embark)", "At Sea", "Cozumel", "Limón", "Panama Canal Transit", "At Sea", "Grand Cayman", "At Sea", "At Sea", "Mobile (Disembark)"]
+            },
+            {
+                id: "galv-14d-ow-2028",
+                year: "2028",
+                homeport: "Galveston",
+                disembark: "San Francisco",
+                duration: 14,
+                type: "One-Way Relocation",
+                ship: "Suncrest Gateway",
+                basePrice: 1400,
+                image: "panama4.jpg",
+                route: "Galveston > Cozumel > Panama Canal Transit > Puntarenas > Acapulco > San Francisco",
+                datesText: "May 5, 2028 - May 19, 2028",
+                days: ["Galveston (Embark)", "At Sea", "Cozumel", "At Sea", "Panama Canal Transit", "Colón", "Puntarenas", "At Sea", "Acapulco", "At Sea", "At Sea", "At Sea", "At Sea", "San Francisco (Disembark)"]
+            }
+        ];
+
+        function generateSailingsDatabase() {
+            return itineraryTemplates;
+        }
+
+        const database = generateSailingsDatabase();
+
+        function renderItineraries(list) {
+            const container = document.getElementById("itinerary-list");
+            const counter = document.getElementById("results-count");
+            
+            if (!container || !counter) return;
+            
+            container.innerHTML = "";
+            counter.innerText = list.length + " Itinerary" + (list.length === 1 ? "" : "s") + " Found";
+
+            if (list.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding: 40px; font-weight:bold; color:#555;">No itineraries found matching your criteria.</div>';
+                return;
+            }
+
+            list.forEach(function(item) {
+                let timelineHTML = "";
+                item.days.forEach(function(day, index) {
+                    timelineHTML += '<div class="timeline-day">Day ' + (index + 1) + ': ' + day + '</div>';
+                });
+
+                let datesHTML = `
+                    <div class="price-card">
+                        <div class="price-header">${item.datesText} (${item.type})</div>
+                        <div class="category-row">
+                            <span>Interior</span>
+                            <strong>$${item.basePrice}*</strong>
+                        </div>
+                        <div class="category-row">
+                            <span>Ocean View</span>
+                            <strong>$${Math.round(item.basePrice * 1.25)}*</strong>
+                        </div>
+                        <div class="category-row">
+                            <span>Balcony</span>
+                            <strong>$${Math.round(item.basePrice * 1.55)}*</strong>
+                        </div>
+                        <div class="category-row">
+                            <span>Suite</span>
+                            <strong>$${Math.round(item.basePrice * 2.20)}*</strong>
+                        </div>
+                        <a href="#" class="book-now-btn">Book Itinerary</a>
+                    </div>
+                `;
+
+                const cardHTML = `
+                    <div class="itinerary-card">
+                        <img class="card-image-banner" src="${item.image}" alt="${item.route}">
+                        <div class="card-main">
+                            <div class="card-details">
+                                <span class="ship-badge">🚢 ${item.ship}</span>
+                                <h2>${item.duration}-Day Panama Canal (${item.homeport} to ${item.disembark})</h2>
+                                <p class="route-path"><strong>Route:</strong> ${item.route}</p>
+                            </div>
+                            <div class="card-action">
+                                <span class="price-label">Starting at</span>
+                                <div class="price-value">$${item.basePrice}*</div>
+                                <button class="view-dates-btn" onclick="togglePricing('${item.id}')">View Details & Dates</button>
+                            </div>
+                        </div>
+                        <div class="timeline-section">
+                            <div class="timeline-title">ITINERARY PATHWAY</div>
+                            <div class="timeline-grid">${timelineHTML}</div>
+                        </div>
+                        <div class="pricing-section" id="pricing-${item.id}">
+                            <div style="font-weight:bold; color:var(--dark-blue); margin-bottom:10px;">Select Room Category & Departure Dates</div>
+                            <div class="pricing-grid">${datesHTML}</div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        function togglePricing(id) {
+            const section = document.getElementById("pricing-" + id);
+            if (section) {
+                section.classList.toggle("active");
+            }
+        }
+
+        function updateFilters() {
+            const yearSelect = document.getElementById("filter-year");
+            const portSelect = document.getElementById("filter-port");
+            const durSelect = document.getElementById("filter-duration");
+
+            if (!yearSelect || !portSelect || !durSelect) return;
+
+            const selectedYear = yearSelect.value;
+            const selectedPort = portSelect.value;
+            const selectedDur = durSelect.value;
+
+            const filteredList = database.filter(function(item) {
+                const yearMatch = (selectedYear === "all" || item.year === selectedYear);
+                const portMatch = (selectedPort === "all" || item.homeport === selectedPort);
+                const durationMatch = (selectedDur === "all" || item.duration.toString() === selectedDur);
+
+                return yearMatch && portMatch && durationMatch;
+            });
+
+            renderItineraries(filteredList);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateFilters();
+        });
+    </script>
+</body>
+</html>
