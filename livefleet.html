@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUNCREST Fleet Live Tracker</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        :root {
+            --primary-blue: #104c81;
+            --accent-red: #e63946;
+            --dark-blue: #0b3154;
+            --light-gray: #f4f6f9;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-gray);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .header h1 { margin: 0; font-size: 22px; }
+
+        .back-btn {
+            background-color: var(--accent-red);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .tracker-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 340px;
+            background-color: white;
+            border-right: 1px solid #ccc;
+            overflow-y: auto;
+            padding: 15px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+        }
+
+        .sidebar h2 {
+            font-size: 18px;
+            color: var(--dark-blue);
+            margin-top: 0;
+            border-bottom: 2px solid var(--primary-blue);
+            padding-bottom: 8px;
+        }
+
+        .ship-card {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .ship-card:hover {
+            border-color: var(--primary-blue);
+            background-color: #eef4fa;
+        }
+
+        .ship-name {
+            font-weight: bold;
+            color: var(--primary-blue);
+            font-size: 14px;
+        }
+
+        .ship-homeport {
+            font-size: 11px;
+            color: #777;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .ship-status {
+            font-size: 12px;
+            color: #333;
+            margin-top: 4px;
+        }
+
+        #map {
+            flex: 1;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .popup-title {
+            font-weight: bold;
+            color: var(--primary-blue);
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .popup-info {
+            font-size: 12px;
+            color: #333;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>SUNCREST Live Fleet Tracker</h1>
+        <a href="index.html" class="back-btn">&#8592; Back to Home</a>
+    </div>
+
+    <div class="tracker-container">
+        <div class="sidebar">
+            <h2>Active Fleet (<span id="ship-count">0</span>)</h2>
+            <div id="ship-list"></div>
+        </div>
+        <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const PORTS = {
+            baltimore: { name: "Baltimore, MD", lat: 39.2612, lng: -76.5798, tzOffset: -4 },
+            manhattan: { name: "New York (Manhattan), NY", lat: 40.7656, lng: -73.9987, tzOffset: -4 },
+            norfolk: { name: "Norfolk, VA", lat: 36.8453, lng: -76.2905, tzOffset: -4 },
+            miami: { name: "Miami, FL", lat: 25.7781, lng: -80.1793, tzOffset: -4 },
+            port_canaveral: { name: "Port Canaveral, FL", lat: 28.4121, lng: -80.6178, tzOffset: -4 },
+            jacksonville: { name: "Jacksonville, FL", lat: 30.4035, lng: -81.5645, tzOffset: -4 },
+            tampa: { name: "Tampa, FL", lat: 27.9431, lng: -82.4474, tzOffset: -4 },
+            mobile: { name: "Mobile, AL", lat: 30.1585, lng: -88.0432, tzOffset: -5 },
+            new_orleans: { name: "New Orleans, LA", lat: 29.9436, lng: -90.0632, tzOffset: -5 },
+            galveston: { name: "Galveston, TX", lat: 29.3116, lng: -94.7925, tzOffset: -5 },
+            long_beach: { name: "Long Beach, CA", lat: 33.7492, lng: -118.1905, tzOffset: -7 },
+            san_francisco: { name: "San Francisco, CA", lat: 37.8055, lng: -122.4042, tzOffset: -7 },
+            seattle: { name: "Seattle, WA", lat: 47.6131, lng: -122.3552, tzOffset: -7 },
+            
+            // Strictly Controlled Overnight Ports (Max 2 Ships at a time globally)
+            kings_wharf: { name: "King's Wharf, Bermuda (Overnight)", lat: 32.3298, lng: -64.8322, tzOffset: -3, isOvernight: true },
+            cabo: { name: "Cabo San Lucas (Overnight)", lat: 22.8856, lng: -109.9142, tzOffset: -7, isOvernight: true },
+
+            // Regular Ports (No Overnights)
+            olann_island: { name: "Olann Island (Berry Islands)", lat: 25.7421, lng: -77.8015, tzOffset: -4, isOvernight: false },
+            nassau: { name: "Nassau, Bahamas", lat: 25.0835, lng: -77.3385, tzOffset: -4, isOvernight: false },
+            freeport: { name: "Freeport, Bahamas", lat: 26.5245, lng: -78.7562, tzOffset: -4, isOvernight: false },
+            aruba: { name: "Oranjestad, Aruba", lat: 12.5186, lng: -70.0358, tzOffset: -4, isOvernight: false },
+            bonaire: { name: "Kralendijk, Bonaire", lat: 12.1442, lng: -68.2796, tzOffset: -4, isOvernight: false },
+            curacao: { name: "Willemstad, Cura&ccedil;ao", lat: 12.1092, lng: -68.9348, tzOffset: -4, isOvernight: false },
+            empress_cay: { name: "Empress Cays (Exuma)", lat: 23.5042, lng: -75.7198, tzOffset: -4, isOvernight: false },
+            compass_rose: { name: "Compass Rose Cay (Roat&aacute;n)", lat: 16.3982, lng: -86.2345, tzOffset: -6, isOvernight: false },
+            emerald_bay: { name: "Emerald Bay, DR", lat: 19.8325, lng: -70.7452, tzOffset: -4, isOvernight: false },
+            atlantis: { name: "Unsunken City of Atlantis&reg;&#65039;", lat: 25.2105, lng: -77.0682, tzOffset: -4, isOvernight: false },
+            bimini: { name: "Bimini, Bahamas", lat: 25.7315, lng: -79.3012, tzOffset: -4, isOvernight: false },
+            grand_turk: { name: "Grand Turk", lat: 21.4682, lng: -71.1432, tzOffset: -4, isOvernight: false },
+            st_thomas: { name: "St. Thomas", lat: 18.3345, lng: -64.9285, tzOffset: -4, isOvernight: false },
+            cozumel: { name: "Cozumel, Mexico", lat: 20.5124, lng: -86.9625, tzOffset: -6, isOvernight: false },
+            key_west: { name: "Key West, FL", lat: 24.5551, lng: -81.7800, tzOffset: -4, isOvernight: false },
+            honolulu: { name: "Honolulu, Hawaii", lat: 21.3094, lng: -157.8681, tzOffset: -10, isOvernight: false },
+            juneau: { name: "Juneau, Alaska", lat: 58.3015, lng: -134.4098, tzOffset: -8, isOvernight: false }
+        };
+
+        const fleetData = [
+            { 
+                name: "SUNCREST GATEWAY", 
+                homeport: "Baltimore, MD", 
+                speed: "18.5 knots", 
+                heading: "135° SE", 
+                route: [PORTS.baltimore, { name: "enroute to King's Wharf", lat: 37.5, lng: -74.0 }, { name: "enroute to King's Wharf", lat: 34.5, lng: -69.0 }, PORTS.kings_wharf, { name: "enroute to Baltimore", lat: 34.0, lng: -71.0 }, { name: "enroute to Baltimore", lat: 37.0, lng: -74.5 }, PORTS.baltimore] 
+            },
+            { 
+                name: "SUNCREST LEGACY", 
+                homeport: "Miami, FL", 
+                speed: "20.0 knots", 
+                heading: "165° S", 
+                route: [PORTS.miami, { name: "enroute to Aruba (ABC Route)", lat: 18.0, lng: -71.5 }, PORTS.aruba, PORTS.curacao, PORTS.bonaire, { name: "enroute to Miami", lat: 18.5, lng: -73.0 }, PORTS.miami] 
+            },
+            { 
+                name: "SUNCREST MAGIC", 
+                homeport: "Port Canaveral, FL", 
+                speed: "19.0 knots", 
+                heading: "110° ESE", 
+                route: [PORTS.port_canaveral, { name: "enroute to Nassau", lat: 26.5, lng: -79.5 }, PORTS.olann_island, PORTS.port_canaveral, { name: "Enroute (Day at Sea)", lat: 25.0, lng: -78.0 }, { name: "enroute to Bermuda", lat: 29.5, lng: -73.0 }, PORTS.kings_wharf] 
+            },
+            { 
+                name: "SUNCREST HIDEAWAY", 
+                homeport: "Norfolk, VA", 
+                speed: "21.0 knots", 
+                heading: "195° SSW", 
+                route: [PORTS.norfolk, { name: "enroute to Emerald Bay", lat: 31.0, lng: -74.0 }, PORTS.emerald_bay, PORTS.grand_turk, { name: "enroute to Norfolk", lat: 27.0, lng: -73.0 }, { name: "enroute to Norfolk", lat: 33.0, lng: -75.0 }, PORTS.norfolk] 
+            },
+            { 
+                name: "SUNCREST TRIANGLE", 
+                homeport: "New York (Manhattan), NY", 
+                speed: "19.5 knots", 
+                heading: "140° SE", 
+                route: [PORTS.manhattan, { name: "enroute to Bermuda", lat: 38.0, lng: -73.0 }, PORTS.kings_wharf, PORTS.kings_wharf, PORTS.kings_wharf, { name: "enroute to New York", lat: 36.5, lng: -72.0 }, PORTS.manhattan] 
+            },
+            { 
+                name: "SUNCREST OCEANIC", 
+                homeport: "Miami, FL", 
+                speed: "16.0 knots", 
+                heading: "090° E", 
+                route: [PORTS.miami, { name: "enroute to Nassau", lat: 25.5, lng: -79.0 }, PORTS.bimini, PORTS.miami, PORTS.empress_cay, PORTS.freeport, PORTS.miami] 
+            },
+            { 
+                name: "SUNCREST UTOPIA", 
+                homeport: "Miami, FL", 
+                speed: "20.2 knots", 
+                heading: "120° ESE", 
+                route: [PORTS.miami, PORTS.atlantis, PORTS.olann_island, { name: "Enroute (Day at Sea)", lat: 24.8, lng: -77.5 }, PORTS.miami, { name: "enroute to Cozumel", lat: 22.0, lng: -84.0 }, PORTS.miami] 
+            },
+            { 
+                name: "SUNCREST NOVA", 
+                homeport: "Miami, FL", 
+                speed: "21.5 knots", 
+                heading: "100° E", 
+                route: [PORTS.miami, PORTS.freeport, PORTS.nassau, PORTS.olann_island, PORTS.miami, PORTS.bimini, PORTS.miami] 
+            },
+            { 
+                name: "SUNCREST TROPICAL™️", 
+                homeport: "Port Canaveral, FL", 
+                speed: "18.0 knots", 
+                heading: "115° ESE", 
+                route: [PORTS.port_canaveral, { name: "enroute to St. Thomas", lat: 24.0, lng: -75.0 }, PORTS.st_thomas, PORTS.emerald_bay, PORTS.grand_turk, { name: "enroute to Port Canaveral", lat: 25.5, lng: -76.0 }, PORTS.port_canaveral] 
+            },
+            { 
+                name: "SUNCREST VICTORY", 
+                homeport: "Port Canaveral, FL", 
+                speed: "17.0 knots", 
+                heading: "080° E", 
+                route: [PORTS.port_canaveral, PORTS.nassau, PORTS.olann_island, PORTS.port_canaveral, PORTS.freeport, PORTS.bimini, PORTS.port_canaveral] 
+            },
+            { 
+                name: "SUNCREST SUNRISE", 
+                homeport: "Port Canaveral, FL", 
+                speed: "17.5 knots", 
+                heading: "095° E", 
+                route: [PORTS.port_canaveral, PORTS.bimini, PORTS.atlantis, PORTS.olann_island, PORTS.port_canaveral, PORTS.nassau, PORTS.port_canaveral] 
+            },
+            { 
+                name: "SUNCREST AURORA", 
+                homeport: "Port Canaveral, FL", 
+                speed: "18.0 knots", 
+                heading: "105° ESE", 
+                route: [PORTS.port_canaveral, PORTS.freeport, PORTS.nassau, PORTS.empress_cay, PORTS.port_canaveral, PORTS.olann_island, PORTS.port_canaveral] 
+            },
+            { 
+                name: "SUNCREST PARADISE", 
+                homeport: "Port Canaveral, FL", 
+                speed: "22.0 knots", 
+                heading: "125° SE", 
+                route: [PORTS.port_canaveral, { name: "enroute to St. Thomas", lat: 22.0, lng: -73.0 }, PORTS.st_thomas, PORTS.emerald_bay, PORTS.grand_turk, { name: "enroute to Port Canaveral", lat: 24.0, lng: -75.0 }, PORTS.port_canaveral] 
+            },
+            { 
+                name: "SUNCREST ELATION", 
+                homeport: "Jacksonville, FL", 
+                speed: "16.5 knots", 
+                heading: "085° E", 
+                route: [PORTS.jacksonville, PORTS.freeport, PORTS.nassau, PORTS.olann_island, PORTS.jacksonville, PORTS.bimini, PORTS.jacksonville] 
+            },
+            { 
+                name: "SUNCREST EXCITEMENT", 
+                homeport: "Tampa, FL", 
+                speed: "17.0 knots", 
+                heading: "210° SSW", 
+                route: [PORTS.tampa, { name: "enroute to Cozumel", lat: 25.0, lng: -85.0 }, PORTS.cozumel, PORTS.compass_rose, { name: "enroute to Tampa", lat: 23.5, lng: -84.0 }, PORTS.tampa, PORTS.tampa] 
+            },
+            { 
+                name: "SUNCREST PANAMAX", 
+                homeport: "Galveston, TX", 
+                speed: "19.0 knots", 
+                heading: "170° S", 
+                route: [PORTS.galveston, { name: "enroute to Cozumel", lat: 26.0, lng: -92.0 }, PORTS.cozumel, PORTS.compass_rose, { name: "enroute to Mobile", lat: 25.0, lng: -89.0 }, PORTS.mobile, PORTS.galveston] 
+            },
+            { 
+                name: "SUNCREST MIRAGE", 
+                homeport: "Galveston, TX", 
+                speed: "20.0 knots", 
+                heading: "160° SSE", 
+                route: [PORTS.galveston, { name: "enroute to Cozumel", lat: 25.5, lng: -93.0 }, PORTS.cozumel, PORTS.compass_rose, { name: "enroute to Galveston", lat: 25.0, lng: -91.0 }, PORTS.galveston] 
+            },
+            { 
+                name: "SUNCREST RADIANCE", 
+                homeport: "Galveston, TX", 
+                speed: "19.5 knots", 
+                heading: "115° ESE", 
+                route: [PORTS.galveston, { name: "enroute to Key West", lat: 25.3, lng: -86.5 }, PORTS.key_west, PORTS.cozumel, PORTS.compass_rose, { name: "enroute to Galveston", lat: 27.0, lng: -92.5 }, PORTS.galveston] 
+            },
+            { 
+                name: "SUNCREST GLOW", 
+                homeport: "New Orleans, LA", 
+                speed: "18.0 knots", 
+                heading: "150° SSE", 
+                route: [PORTS.new_orleans, { name: "enroute to Cozumel", lat: 26.5, lng: -89.5 }, PORTS.cozumel, PORTS.bimini, PORTS.mobile, PORTS.galveston, PORTS.new_orleans] 
+            },
+            { 
+                name: "SUNCREST ATLANTICA", 
+                homeport: "Mobile, AL", 
+                speed: "17.5 knots", 
+                heading: "165° S", 
+                route: [PORTS.mobile, PORTS.new_orleans, { name: "enroute to Cozumel", lat: 25.0, lng: -88.0 }, PORTS.cozumel, PORTS.olann_island, { name: "enroute to Mobile", lat: 27.0, lng: -87.5 }, PORTS.mobile] 
+            },
+            { 
+                name: "SUNCREST PACIFICA", 
+                homeport: "New Orleans, LA", 
+                speed: "18.2 knots", 
+                heading: "175° S", 
+                route: [PORTS.new_orleans, { name: "enroute to Cozumel", lat: 26.0, lng: -90.5 }, PORTS.cozumel, PORTS.compass_rose, { name: "enroute to New Orleans", lat: 25.5, lng: -88.0 }, PORTS.new_orleans, PORTS.new_orleans] 
+            },
+            { 
+                name: "SUNCREST ROMANCE", 
+                homeport: "Long Beach, CA", 
+                speed: "19.0 knots", 
+                heading: "145° SE", 
+                route: [PORTS.long_beach, { name: "enroute to Cabo", lat: 27.5, lng: -113.5 }, PORTS.cabo, PORTS.cabo, { name: "enroute to Long Beach", lat: 29.5, lng: -116.0 }, PORTS.long_beach, PORTS.long_beach] 
+            },
+            { 
+                name: "SUNCREST RETREAT", 
+                homeport: "Long Beach, CA", 
+                speed: "21.0 knots", 
+                heading: "240° WSW", 
+                route: [PORTS.long_beach, { name: "enroute to Honolulu", lat: 31.0, lng: -125.0 }, { name: "Enroute (Day at Sea)", lat: 26.0, lng: -140.0 }, PORTS.honolulu, PORTS.honolulu, { name: "enroute to Long Beach", lat: 27.0, lng: -130.0 }, PORTS.long_beach] 
+            },
+            { 
+                name: "SUNCREST VALOR", 
+                homeport: "Long Beach, CA", 
+                speed: "20.5 knots", 
+                heading: "250° WSW", 
+                route: [PORTS.long_beach, { name: "enroute to Cabo", lat: 27.5, lng: -114.0 }, PORTS.cabo, { name: "enroute to Honolulu", lat: 24.0, lng: -142.0 }, PORTS.honolulu, { name: "enroute to Long Beach", lat: 28.0, lng: -132.0 }, PORTS.long_beach] 
+            },
+            { 
+                name: "SUNCREST LUMINOSA", 
+                homeport: "San Francisco, CA", 
+                speed: "18.5 knots", 
+                heading: "330° NNW", 
+                route: [PORTS.san_francisco, { name: "enroute to Juneau", lat: 43.0, lng: -126.0 }, PORTS.juneau, PORTS.juneau, { name: "enroute to San Francisco", lat: 45.0, lng: -127.0 }, PORTS.san_francisco, PORTS.san_francisco] 
+            },
+            { 
+                name: "SUNCREST MIRACLE", 
+                homeport: "Seattle, WA", 
+                speed: "19.0 knots", 
+                heading: "340° NNW", 
+                route: [PORTS.seattle, { name: "enroute to Juneau", lat: 52.0, lng: -130.0 }, PORTS.juneau, PORTS.juneau, { name: "enroute to Seattle", lat: 50.0, lng: -128.0 }, PORTS.seattle, PORTS.seattle] 
+            }
+        ];
+
+        const map = L.map('map').setView([26.00, -80.00], 5);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        const arrowIcon = L.divIcon({
+            html: '<div style="font-size: 20px; color: #104c81; font-weight: bold; text-shadow: 1px 1px 2px white; transform: rotate(45deg);">&#10148;</div>',
+            className: 'custom-arrow-icon',
+            iconSize: [24, 24],
+            iconAnchor: [12, 12]
+        });
+
+        const markers = {};
+        const shipListContainer = document.getElementById('ship-list');
+        document.getElementById('ship-count').innerText = fleetData.length;
+
+        const currentDay = new Date().getDay();
+
+        // First pass: Count how many ships are scheduled for an overnight port globally today
+        let globalOvernightCount = 0;
+        fleetData.forEach((ship) => {
+            const todaySpot = ship.route[currentDay];
+            const matchedPort = Object.values(PORTS).find(p => p.name === todaySpot.name);
+            if (matchedPort && matchedPort.isOvernight) {
+                globalOvernightCount++;
+            }
+        });
+
+        // Enforce max 2 overnight ships globally constraint if exceeded
+        let overnightsAllowedSoFar = 0;
+
+        fleetData.forEach((ship) => {
+            const todaySpot = ship.route[currentDay];
+            const matchedPort = Object.values(PORTS).find(p => p.name === todaySpot.name);
+            let isAtPort = !!matchedPort;
+            let statusText = isAtPort ? `Docked at ${todaySpot.name}` : todaySpot.name;
+
+            if (isAtPort) {
+                const utcDate = new Date();
+                const localHour = utcDate.getUTCHours() + matchedPort.tzOffset;
+                const adjustedHour = (localHour + 24) % 24;
+
+                if (matchedPort.isOvernight) {
+                    // Restrict maximum 2 ships globally to stay overnight at a time
+                    if (overnightsAllowedSoFar < 2) {
+                        overnightsAllowedSoFar++;
+                        statusText = `Docked overnight at ${matchedPort.name}`;
+                    } else {
+                        // Excess ships scheduled for overnight are forced underway/en route to comply with the 2-ship max rule
+                        isAtPort = false;
+                        statusText = `En route (Departed ${matchedPort.name} - Max Overnight Cap Reached)`;
+                    }
+                } else {
+                    // Regular ports (including Olann Island and Celebration Key areas) follow standard 5 PM departure rules
+                    if (adjustedHour >= 6 && adjustedHour < 17) {
+                        statusText = `Docked at ${matchedPort.name}`;
+                    } else {
+                        isAtPort = false;
+                        statusText = `En route (Departed ${matchedPort.name})`;
+                    }
+                }
+            }
+
+            const currentSpeed = isAtPort ? "0.0 knots" : ship.speed;
+            const currentHeading = isAtPort ? "N/A" : ship.heading;
+
+            const marker = L.marker([todaySpot.lat, todaySpot.lng], { icon: arrowIcon }).addTo(map);
+            
+            const popupHTML = `
+                <div class="popup-title">${ship.name}</div>
+                <div class="popup-info">
+                    <strong>Homeport Base:</strong> ${ship.homeport}<br>
+                    <strong>Status:</strong> ${statusText}<br>
+                    <strong>Speed:</strong> ${currentSpeed}<br>
+                    <strong>Heading:</strong> ${currentHeading}<br>
+                    <strong>Coordinates:</strong> ${todaySpot.lat.toFixed(4)}°N, ${Math.abs(todaySpot.lng).toFixed(4)}°W
+                </div>
+            `;
+            marker.bindPopup(popupHTML);
+            markers[ship.name] = { marker, lat: todaySpot.lat, lng: todaySpot.lng, isSailing: !isAtPort };
+
+            const card = document.createElement('div');
+            card.className = 'ship-card';
+            card.innerHTML = `
+                <div class="ship-name">${ship.name}</div>
+                <div class="ship-homeport">${ship.homeport}</div>
+                <div class="ship-status">&#128205; ${statusText}</div>
+            `;
+
+            card.onclick = () => {
+                map.flyTo([todaySpot.lat, todaySpot.lng], 14, { duration: 1.5 });
+                marker.openPopup();
+            };
+
+            shipListContainer.appendChild(card);
+        });
+
+        function animateFleet() {
+            Object.keys(markers).forEach(name => {
+                let shipObj = markers[name];
+                if (shipObj.isSailing) {
+                    shipObj.lat += (Math.random() - 0.5) * 0.0008;
+                    shipObj.lng += (Math.random() - 0.5) * 0.0008;
+                    shipObj.marker.setLatLng([shipObj.lat, shipObj.lng]);
+                }
+            });
+        }
+        setInterval(animateFleet, 2000);
+    </script>
+</body>
+</html>
