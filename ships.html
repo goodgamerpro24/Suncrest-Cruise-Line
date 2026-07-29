@@ -1,1 +1,774 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Fleet | SUNCREST Cruise Line</title>
+    <style>
+        :root {
+            --primary-blue: #0b3154;
+            --accent-red: #e63946;
+            --dark-blue: #072238;
+            --light-bg: #f4f6f9;
+            --border-color: #d0e0f5;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .header h1 { margin: 0; font-size: 24px; letter-spacing: 1px; }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .controls-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .controls-bar label {
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin-right: 10px;
+        }
+
+        .controls-bar select {
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            background-color: #fff;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .page-title {
+            text-align: center;
+            color: var(--primary-blue);
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .ships-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .ship-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .ship-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+        }
+
+        .ship-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #e2e8f0;
+        }
+
+        .ship-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .ship-content h3 {
+            color: var(--primary-blue);
+            margin: 0 0 10px 0;
+            font-size: 20px;
+        }
+
+        .ship-stats {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 15px;
+            background: var(--light-bg);
+            padding: 10px 12px;
+            border-radius: 6px;
+        }
+
+        .ship-stats p {
+            margin: 4px 0;
+        }
+
+        .ship-desc {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .btn-ship-explore {
+            background-color: var(--accent-red);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-ship-explore:hover {
+            background-color: #c52a36;
+        }
+
+        .footer-nav {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+        }
+
+        .action-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+            display: inline-block;
+        }
+
+        .action-btn:hover {
+            background-color: var(--dark-blue);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>SUNCREST CRUISE LINE</h1>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="ships.html">Our Ships</a>
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <h1 class="page-title">Explore Our Complete Fleet</h1>
+        <p class="page-subtitle">Featuring all official Suncrest active ships with customizable sorting options.</p>
+
+        <div class="controls-bar">
+            <div>
+                <span id="results-count">Showing all 31 ships</span>
+            </div>
+            <div>
+                <label for="sortSelect">Sort By:</label>
+                <select id="sortSelect" onchange="sortShips()">
+                    <option value="newest">Newest to Oldest</option>
+                    <option value="alphabetical">Alphabetical (A-Z)</option>
+                    <option value="homeport">Homeport (Newest to Oldest)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="ships-grid" id="shipsGrid">
+            <!-- Suncrest Key -->
+            <div class="ship-card" data-name="Suncrest Key" data-year="2027" data-homeport="Galveston, TX">
+                <img src="key.jpg" alt="Suncrest Key" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Key</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Galveston, TX</p>
+                        <p><strong>Class:</strong> Paradise Class</p>
+                        <p><strong>Year Built:</strong> 2027</p>
+                    </div>
+                    <p class="ship-desc">State-of-the-art paradise resort vessel operating out of Galveston.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Paradise -->
+            <div class="ship-card" data-name="Suncrest Paradise" data-year="2026" data-homeport="Port Canaveral, FL">
+                <img src="paradise.jpg" alt="Suncrest Paradise" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Paradise</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Port Canaveral, FL</p>
+                        <p><strong>Class:</strong> Paradise Class</p>
+                        <p><strong>Year Built:</strong> 2026</p>
+                    </div>
+                    <p class="ship-desc">Flagship paradise design featuring Opening Night atrium identity.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Mirage -->
+            <div class="ship-card" data-name="Suncrest Mirage" data-year="2025" data-homeport="Galveston, TX">
+                <img src="mirage.jpg" alt="Suncrest Mirage" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Mirage</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Galveston, TX</p>
+                        <p><strong>Class:</strong> Paradise Class</p>
+                        <p><strong>Year Built:</strong> 2025</p>
+                    </div>
+                    <p class="ship-desc">Modern marvel offering dynamic multi-zone entertainment and broad amenities.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Sunkissed -->
+            <div class="ship-card" data-name="Suncrest Sunkissed" data-year="2024" data-homeport="Miami, FL">
+                <img src="sunkissed.jpg" alt="Suncrest Sunkissed" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Sunkissed</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Miami, FL</p>
+                        <p><strong>Class:</strong> Paradise Class</p>
+                        <p><strong>Year Built:</strong> 2024</p>
+                    </div>
+                    <p class="ship-desc">Vibrant sunshine-themed vessel engineered for ultimate family fun.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Eclipse -->
+            <div class="ship-card" data-name="Suncrest Eclipse" data-year="2024" data-homeport="Long Beach, CA">
+                <img src="eclipse.jpg" alt="Suncrest Eclipse" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Eclipse</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Long Beach, CA</p>
+                        <p><strong>Class:</strong> Aurora Class</p>
+                        <p><strong>Year Built:</strong> 2024</p>
+                    </div>
+                    <p class="ship-desc">West Coast premier aurora ship featuring massive digital atrium centerpieces.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Tropical -->
+            <div class="ship-card" data-name="Suncrest Tropical" data-year="2023" data-homeport="Port Canaveral, FL">
+                <img src="tropical.jpg" alt="Suncrest Tropical" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Tropical</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Port Canaveral, FL</p>
+                        <p><strong>Class:</strong> Paradise Class</p>
+                        <p><strong>Year Built:</strong> 2023</p>
+                    </div>
+                    <p class="ship-desc">Features SplashWorks Ultra and the high-speed Zeus Coaster variant.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Nova -->
+            <div class="ship-card" data-name="Suncrest Nova" data-year="2023" data-homeport="Miami & Galveston">
+                <img src="nova.jpg" alt="Suncrest Nova" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Nova</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Miami & Galveston</p>
+                        <p><strong>Class:</strong> Aurora Class</p>
+                        <p><strong>Year Built:</strong> 2023</p>
+                    </div>
+                    <p class="ship-desc">Celestial-themed mega-ship with advanced weather contingency systems.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Sunshine -->
+            <div class="ship-card" data-name="Suncrest Sunshine" data-year="2022" data-homeport="Miami, FL">
+                <img src="sunshine.jpg" alt="Suncrest Sunshine" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Sunshine</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Miami, FL</p>
+                        <p><strong>Class:</strong> Radiance Class</p>
+                        <p><strong>Year Built:</strong> 2022</p>
+                    </div>
+                    <p class="ship-desc">Radiant cultural experience featuring Peacock Elegance theme.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Aurora -->
+            <div class="ship-card" data-name="Suncrest Aurora" data-year="2022" data-homeport="Port Canaveral, FL">
+                <img src="aurora.jpg" alt="Suncrest Aurora" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Aurora</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Port Canaveral, FL</p>
+                        <p><strong>Class:</strong> Aurora Class</p>
+                        <p><strong>Year Built:</strong> 2022</p>
+                    </div>
+                    <p class="ship-desc">Namesake of the Northern Lights class with three-story weather-resistant spaces.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Triangle -->
+            <div class="ship-card" data-name="Suncrest Triangle" data-year="2022" data-homeport="New York, Miami & Port Canaveral">
+                <img src="triangle.jpg" alt="Suncrest Triangle" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Triangle</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> New York, Miami & Port Canaveral</p>
+                        <p><strong>Class:</strong> Festa Acquisition</p>
+                        <p><strong>Year Built:</strong> 2022 (Acquired)</p>
+                    </div>
+                    <p class="ship-desc">Former Festa ship retaining Mediterranean styling and retractable lido roof.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Romance -->
+            <div class="ship-card" data-name="Suncrest Romance" data-year="2022" data-homeport="Long Beach, New York & Port Canaveral">
+                <img src="romance.jpg" alt="Suncrest Romance" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Romance</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Long Beach, New York & Port Canaveral</p>
+                        <p><strong>Class:</strong> Festa Acquisition</p>
+                        <p><strong>Year Built:</strong> 2022 (Acquired)</p>
+                    </div>
+                    <p class="ship-desc">Retains signature statue atrium centerpieces and Festa funnel branding.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Sunrise -->
+            <div class="ship-card" data-name="Suncrest Sunrise" data-year="2021" data-homeport="Port Canaveral, FL">
+                <img src="sunrise.jpg" alt="Suncrest Sunrise" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Sunrise</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Port Canaveral, FL</p>
+                        <p><strong>Class:</strong> Radiance Class</p>
+                        <p><strong>Year Built:</strong> 2021</p>
+                    </div>
+                    <p class="ship-desc">Modern Traditional themed vessel with expansive SplashWorks waterparks.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Luminosa -->
+            <div class="ship-card" data-name="Suncrest Luminosa" data-year="2021" data-homeport="San Francisco, Sydney, Tokyo & Hong Kong">
+                <img src="luminosa.jpg" alt="Suncrest Luminosa" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Luminosa</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> San Francisco, Sydney, Tokyo & Hong Kong</p>
+                        <p><strong>Class:</strong> Festa Acquisition</p>
+                        <p><strong>Year Built:</strong> 2021 (Acquired)</p>
+                    </div>
+                    <p class="ship-desc">International deployment ship featuring retractable panorama roof and classic layout.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Brilliance -->
+            <div class="ship-card" data-name="Suncrest Brilliance" data-year="2019" data-homeport="Norfolk, VA">
+                <img src="brilliance.jpg" alt="Suncrest Brilliance" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Brilliance</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Norfolk, VA</p>
+                        <p><strong>Class:</strong> Radiance Class</p>
+                        <p><strong>Year Built:</strong> 2019</p>
+                    </div>
+                    <p class="ship-desc">African Royalty themed ship featuring flat LED atrium domes and Liquid Lounge.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Glow -->
+            <div class="ship-card" data-name="Suncrest Glow" data-year="2018" data-homeport="Galveston, TX & New Orleans, LA">
+                <img src="glow.jpg" alt="Suncrest Glow" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Glow</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Galveston, TX & New Orleans, LA</p>
+                        <p><strong>Class:</strong> Radiance Class</p>
+                        <p><strong>Year Built:</strong> 2018</p>
+                    </div>
+                    <p class="ship-desc">Patriotic America themed vessel serving Gulf Coast itineraries.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Radiance -->
+            <div class="ship-card" data-name="Suncrest Radiance" data-year="2016" data-homeport="New York, NY">
+                <img src="radiance.jpg" alt="Suncrest Radiance" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Radiance</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> New York, NY</p>
+                        <p><strong>Class:</strong> Radiance Class</p>
+                        <p><strong>Year Built:</strong> 2016</p>
+                    </div>
+                    <p class="ship-desc">Mesoamerican Revival themed lead ship of the culturally themed Radiance fleet.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Nightmare -->
+            <div class="ship-card" data-name="Suncrest Nightmare" data-year="2015" data-homeport="Port Canaveral, FL">
+                <img src="nightmare.jpg" alt="Suncrest Nightmare" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Nightmare</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Port Canaveral, FL</p>
+                        <p><strong>Class:</strong> Legacy Class</p>
+                        <p><strong>Year Built:</strong> 2015</p>
+                    </div>
+                    <p class="ship-desc">Black Swan themed mega-ship with fully enclosed lanai deck and SplashWorks.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Dream -->
+            <div class="ship-card" data-name="Suncrest Dream" data-year="2014" data-homeport="Miami, FL">
+                <img src="dream.jpg" alt="Suncrest Dream" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Dream</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Miami, FL</p>
+                        <p><strong>Class:</strong> Legacy Class</p>
+                        <p><strong>Year Built:</strong> 2014</p>
+                    </div>
+                    <p class="ship-desc">White Swan themed mega-ship featuring expansive family facilities.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Horizon -->
+            <div class="ship-card" data-name="Suncrest Horizon" data-year="2013" data-homeport="Galveston, TX">
+                <img src="horizon.jpg" alt="Suncrest Horizon" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Horizon</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Galveston, TX</p>
+                        <p><strong>Class:</strong> Legacy Class</p>
+                        <p><strong>Year Built:</strong> 2013</p>
+                    </div>
+                    <p class="ship-desc">Neon Sanctuary themed mega-ship with three-story atriums and cove balconies.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Legacy -->
+            <div class="ship-card" data-name="Suncrest Legacy" data-year="2011" data-homeport="Miami, FL">
+                <img src="legacy.jpg" alt="Suncrest Legacy" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Legacy</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Miami, FL</p>
+                        <p><strong>Class:</strong> Legacy Class</p>
+                        <p><strong>Year Built:</strong> 2011</p>
+                    </div>
+                    <p class="ship-desc">European Grand Tour themed first true mega-ship of Suncrest Cruise Line.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Victory -->
+            <div class="ship-card" data-name="Suncrest Victory" data-year="2007" data-homeport="Port Canaveral, FL">
+                <img src="victory.jpg" alt="Suncrest Victory" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Victory</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Port Canaveral, FL</p>
+                        <p><strong>Class:</strong> Oceanic Class</p>
+                        <p><strong>Year Built:</strong> 2007</p>
+                    </div>
+                    <p class="ship-desc">Seven Seas themed mature Oceanic-class vessel with diverse themed lounges.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Magic -->
+            <div class="ship-card" data-name="Suncrest Magic" data-year="2005" data-homeport="Port Canaveral & Norfolk">
+                <img src="magic.jpg" alt="Suncrest Magic" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Magic</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Port Canaveral & Norfolk</p>
+                        <p><strong>Class:</strong> Oceanic Class</p>
+                        <p><strong>Year Built:</strong> 2005</p>
+                    </div>
+                    <p class="ship-desc">Illusion & Music themed ship featuring the Prestige Atrium and Illusionist Dining.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Pacifica -->
+            <div class="ship-card" data-name="Suncrest Pacifica" data-year="2004" data-homeport="New Orleans & Mobile">
+                <img src="pacifica.jpg" alt="Suncrest Pacifica" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Pacifica</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> New Orleans & Mobile</p>
+                        <p><strong>Class:</strong> Oceanic Class</p>
+                        <p><strong>Year Built:</strong> 2004</p>
+                    </div>
+                    <p class="ship-desc">Rainbow of Colors theme featuring the explosive Meteorite Glass Sculpture.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Valor -->
+            <div class="ship-card" data-name="Suncrest Valor" data-year="2004" data-homeport="Tampa, Long Beach & Seattle">
+                <img src="valor.jpg" alt="Suncrest Valor" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Valor</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Tampa, Long Beach & Seattle</p>
+                        <p><strong>Class:</strong> Panamax Class</p>
+                        <p><strong>Year Built:</strong> 2004</p>
+                    </div>
+                    <p class="ship-desc">Whispering Sky Garden theme optimized for canal transits and split lido pools.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Atlantica -->
+            <div class="ship-card" data-name="Suncrest Atlantica" data-year="2003" data-homeport="New Orleans, LA">
+                <img src="atlantica.jpg" alt="Suncrest Atlantica" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Atlantica</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> New Orleans, LA</p>
+                        <p><strong>Class:</strong> Oceanic Class</p>
+                        <p><strong>Year Built:</strong> 2003</p>
+                    </div>
+                    <p class="ship-desc">Spring theme featuring the Murano Sunflower Chandelier aft dining centerpiece.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Miracle -->
+            <div class="ship-card" data-name="Suncrest Miracle" data-year="2003" data-homeport="Seattle, Galveston & Baltimore">
+                <img src="miracle.jpg" alt="Suncrest Miracle" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Miracle</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Seattle, Galveston & Baltimore</p>
+                        <p><strong>Class:</strong> Panamax Class</p>
+                        <p><strong>Year Built:</strong> 2003</p>
+                    </div>
+                    <p class="ship-desc">The Enchanted Sunken Island theme with retractable weather roof over lido.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Gateway -->
+            <div class="ship-card" data-name="Suncrest Gateway" data-year="2002" data-homeport="Baltimore, MD">
+                <img src="gateway.jpg" alt="Suncrest Gateway" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Gateway</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Baltimore, MD</p>
+                        <p><strong>Class:</strong> Panamax Class</p>
+                        <p><strong>Year Built:</strong> 2002</p>
+                    </div>
+                    <p class="ship-desc">The Living Coral Reef theme built specifically to maximize Panama Canal experiences.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Oceanic -->
+            <div class="ship-card" data-name="Suncrest Oceanic" data-year="2002" data-homeport="Miami, FL">
+                <img src="oceanic.jpg" alt="Suncrest Oceanic" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Oceanic</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Miami, FL</p>
+                        <p><strong>Class:</strong> Oceanic Class</p>
+                        <p><strong>Year Built:</strong> 2002</p>
+                    </div>
+                    <p class="ship-desc">Autumn theme featuring the iconic color-changing Autumn Tree centerpiece.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Panamax -->
+            <div class="ship-card" data-name="Suncrest Panamax" data-year="2000" data-homeport="Baltimore, Tampa, Mobile & Galveston">
+                <img src="panamax.jpg" alt="Suncrest Panamax" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Panamax</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Baltimore, Tampa, Mobile & Galveston</p>
+                        <p><strong>Class:</strong> Panamax Class</p>
+                        <p><strong>Year Built:</strong> 2000</p>
+                    </div>
+                    <p class="ship-desc">African safari theme featuring jungle greenery, giraffes, and split lido pools.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Retreat -->
+            <div class="ship-card" data-name="Suncrest Retreat" data-year="2000" data-homeport="Long Beach, CA">
+                <img src="retreat.jpg" alt="Suncrest Retreat" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Retreat</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Long Beach, CA</p>
+                        <p><strong>Class:</strong> Hideaway Class</p>
+                        <p><strong>Year Built:</strong> 2000</p>
+                    </div>
+                    <p class="ship-desc">The Luxury Bridge ship focused on relaxed upscale luxury and expanded balcony experiences.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Utopia -->
+            <div class="ship-card" data-name="Suncrest Utopia" data-year="1998" data-homeport="Miami, FL">
+                <img src="utopia.jpg" alt="Suncrest Utopia" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Utopia</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Miami, FL</p>
+                        <p><strong>Class:</strong> Hideaway Class</p>
+                        <p><strong>Year Built:</strong> 1998</p>
+                    </div>
+                    <p class="ship-desc">The Millennium Ship featuring Y2K futurism, glowing blue lighting, and curved architecture.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Elation -->
+            <div class="ship-card" data-name="Suncrest Elation" data-year="1998" data-homeport="Jacksonville, FL">
+                <img src="elation.jpg" alt="Suncrest Elation" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Elation</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Jacksonville, FL</p>
+                        <p><strong>Class:</strong> Seabreeze Class</p>
+                        <p><strong>Year Built:</strong> 1998</p>
+                    </div>
+                    <p class="ship-desc">90s Maximalism Architecture with a soaring 7-story atrium and central glass elevators.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Excitement -->
+            <div class="ship-card" data-name="Suncrest Excitement" data-year="1998" data-homeport="Tampa, FL">
+                <img src="excitement.jpg" alt="Suncrest Excitement" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Excitement</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Tampa, FL</p>
+                        <p><strong>Class:</strong> Seabreeze Class</p>
+                        <p><strong>Year Built:</strong> 1998</p>
+                    </div>
+                    <p class="ship-desc">The Pulse of Energy theme with polished brass, purple walls, and hexagonal stained-glass skylights.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+
+            <!-- Suncrest Hideaway -->
+            <div class="ship-card" data-name="Suncrest Hideaway" data-year="1996" data-homeport="Norfolk & Galveston">
+                <img src="hideaway.jpg" alt="Suncrest Hideaway" class="ship-img">
+                <div class="ship-content">
+                    <h3>Suncrest Hideaway</h3>
+                    <div class="ship-stats">
+                        <p><strong>Homeport:</strong> Norfolk & Galveston</p>
+                        <p><strong>Class:</strong> Hideaway Class</p>
+                        <p><strong>Year Built:</strong> 1996</p>
+                    </div>
+                    <p class="ship-desc">The Escape Ship featuring standard balcony rooms and tropical private-resort atmosphere.</p>
+                    <a href="shipinfo.html" class="btn-ship-explore">Explore Ship</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-nav">
+            <a href="index.html" class="action-btn">&#8592; Back to Home Page</a>
+        </div>
+
+    </div>
+
+    <script>
+        function sortShips() {
+            const sortBy = document.getElementById('sortSelect').value;
+            const grid = document.getElementById('shipsGrid');
+            const cards = Array.from(grid.getElementsByClassName('ship-card'));
+
+            cards.sort((a, b) => {
+                if (sortBy === 'newest') {
+                    const yearA = parseInt(a.getAttribute('data-year')) < 50 ? 2000 + parseInt(a.getAttribute('data-year')) : parseInt(a.getAttribute('data-year'));
+                    const yearB = parseInt(b.getAttribute('data-year')) < 50 ? 2000 + parseInt(b.getAttribute('data-year')) : parseInt(b.getAttribute('data-year'));
+                    return yearB - yearA;
+                } else if (sortBy === 'alphabetical') {
+                    return a.getAttribute('data-name').localeCompare(b.getAttribute('data-name'));
+                } else if (sortBy === 'homeport') {
+                    const portA = a.getAttribute('data-homeport');
+                    const portB = b.getAttribute('data-homeport');
+                    if (portA === portB) {
+                        const yearA = parseInt(a.getAttribute('data-year')) < 50 ? 2000 + parseInt(a.getAttribute('data-year')) : parseInt(a.getAttribute('data-year'));
+                        const yearB = parseInt(b.getAttribute('data-year')) < 50 ? 2000 + parseInt(b.getAttribute('data-year')) : parseInt(b.getAttribute('data-year'));
+                        return yearB - yearA;
+                    }
+                    return portB.localeCompare(portA);
+                }
+            });
+
+            cards.forEach(card => grid.appendChild(card));
+        }
+    </script>
+</body>
+</html>
