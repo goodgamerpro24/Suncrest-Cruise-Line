@@ -12,7 +12,7 @@
             background-color: #f4f4f4;
             color: #104c81;
         }
-        
+
         .header {
             background-color: #104c81;
             color: white;
@@ -27,13 +27,13 @@
             font-size: 24px;
             letter-spacing: 1px;
         }
-        
+
         .header-right {
             display: flex;
             align-items: center;
             gap: 30px;
         }
-        
+
         .nav-links a {
             color: white;
             text-decoration: none;
@@ -430,10 +430,10 @@
                 <a href="destinations.html">Destinations</a>
                 <a href="offers.html">Deals</a>
             </div>
-            
+
             <div class="auth-container">
                 <div id="user-badge" class="user-badge" onclick="toggleProfileMenu(event)">Ahoy, User!</div>
-                
+
                 <div id="profile-dropdown" class="profile-dropdown">
                     <ul class="dropdown-menu-list">
                         <li><a href="profile.html?tab=profile">My Profile</a></li>
@@ -516,7 +516,7 @@
             </div>
 
             <h2>Loyalty Tier Benefits</h2>
-            
+
             <!-- BLUE -->
             <div class="tier-accordion">
                 <div class="tier-accordion-header" onclick="toggleAccordion(this)">
@@ -603,7 +603,7 @@
             <div id="admin-management-panel" class="admin-panel">
                 <h3>Admin / Cruise Planner Portal</h3>
                 <p>Logged in as: <strong id="admin-user-display"></strong></p>
-                
+
                 <div style="background: white; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 20px;">
                     <label style="font-weight: bold; display: block; margin-bottom: 5px;">Target Client by Name & FunSquad ID:</label>
                     <div style="display: flex; gap: 10px;">
@@ -771,7 +771,7 @@
         <div id="panel-chat" class="tab-panel">
             <h2>Client & Planner Live Chat</h2>
             <p id="chat-status-label" style="font-size: 13px; color: #666; margin-bottom: 10px;">Chatting with Cruise Line Support & Planners</p>
-            
+
             <div class="chat-box">
                 <div id="chat-messages-container" class="chat-messages">
                     <!-- Messages render here -->
@@ -803,7 +803,7 @@
             const userName = localStorage.getItem('suncrest_user_name') || 'Guest User';
             const userEmail = localStorage.getItem('suncrest_user_email') || 'user@suncrestcruiseline.com';
             const userRole = localStorage.getItem('suncrest_user_role') || 'user';
-            
+
             let funSquadId = localStorage.getItem('suncrest_funsquad_id');
             if (!funSquadId) {
                 let existingIds = JSON.parse(localStorage.getItem('suncrest_all_funsquad_ids') || '[]');
@@ -859,7 +859,7 @@
             if (targetPanel) {
                 targetPanel.classList.add('active');
             }
-            
+
             // Highlight matching tab button
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 if(btn.getAttribute('onclick')?.includes(tabName)) {
@@ -936,6 +936,7 @@
             if (cruisesList.length === 0) {
                 container.innerHTML = '<p>No past cruises recorded yet. Reach out to an admin or travel agent to credit previous sailings dating back to December 31, 1999!</p>';
             } else {
+                container.innerHTML = cruisesList.map(c => `
                 container.innerHTML = cruisesList.map((c, index) => `
                     <div style="background: #f8fbff; border: 1px solid #d0e0f5; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-start;">
                         <div>
@@ -944,6 +945,8 @@
                             <small style="color: #666; font-weight: bold;">Booking #: ${c.bookingNumber || 'N/A'}</small><br>
                             <small style="color: #0077be; font-weight: bold;">Ports/Itinerary: ${c.ports && c.ports.length > 0 ? c.ports.join(', ') : 'General Itinerary'}</small>
                         </div>
+                        <div style="background: #104c81; color: white; padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold;">
+                            +${c.points} Points
                         <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
                             <div style="background: #104c81; color: white; padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold;">
                                 +${c.points} Points
@@ -983,7 +986,7 @@
         function lookupClient() {
             const query = document.getElementById('search-client-query').value.trim().toLowerCase();
             let directory = JSON.parse(localStorage.getItem('suncrest_client_directory') || '{}');
-            
+
             let foundClient = null;
             for (let id in directory) {
                 let client = directory[id];
@@ -1076,7 +1079,7 @@
         function loadChatMessages() {
             const container = document.getElementById('chat-messages-container');
             const messages = JSON.parse(localStorage.getItem('suncrest_chat_messages') || '[]');
-            
+
             if (messages.length === 0) {
                 container.innerHTML = '<div class="chat-message incoming">Welcome to Suncrest Support! How can we assist you with your cruise planning today?</div>';
                 return;
@@ -1105,7 +1108,7 @@
 
             messages.push({ author: userName, text: text, sender: senderType });
             localStorage.setItem('suncrest_chat_messages', JSON.stringify(messages));
-            
+
             input.value = '';
             loadChatMessages();
         }
@@ -1118,6 +1121,3 @@
     </script>
 </body>
 </html>
-
-<script src="script.js"></script>
-
