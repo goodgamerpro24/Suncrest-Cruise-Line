@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In / Create Account - SUNCREST</title>
+    <style>
+        :root {
+            --primary-blue: #0b3154;
+            --accent-red: #e63946;
+            --light-bg: #f4f6f9;
+            --border-color: #d1d5db;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: #222;
+        }
+
+        /* Top Header matching main page interface */
+        .header {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .brand-logo span {
+            color: var(--accent-red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            font-size: 15px;
+            transition: opacity 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Auth Form Container */
+        .auth-wrapper {
+            max-width: 450px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #eaeaea;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--primary-blue);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+        }
+
+        .auth-submit-btn {
+            width: 100%;
+            background-color: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .auth-submit-btn:hover {
+            background-color: #c5303c;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .error-msg {
+            color: var(--accent-red);
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Bar matching main interface -->
+    <div class="header">
+        <a href="index.html" class="brand-logo">SUNCREST</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="history.html">Our History</a>
+            <a href="plan.html">Plan a Cruise</a>
+            <a href="fleet.html">Our Ships</a>
+            <a href="destinations.html">Destinations</a>
+            <a href="deals.html">Deals</a>
+        </div>
+    </div>
+
+    <!-- Account Management Wrapper -->
+    <div class="auth-wrapper">
+        <div class="tabs">
+            <div id="signin-tab" class="tab active" onclick="switchTab('signin')">Sign In</div>
+            <div id="signup-tab" class="tab" onclick="switchTab('signup')">Create Account</div>
+        </div>
+
+        <!-- Sign In Section -->
+        <div id="signin-section" class="form-section active">
+            <div class="form-group">
+                <label for="signin-email">Email Address</label>
+                <input type="email" id="signin-email" placeholder="e.g. user@gmail.com">
+            </div>
+            <div class="form-group">
+                <label for="signin-password">Password</label>
+                <input type="password" id="signin-password" placeholder="Enter your password">
+                <div id="signin-error" class="error-msg">Invalid email or password.</div>
+            </div>
+            <button class="auth-submit-btn" onclick="handleSignIn()">Sign In</button>
+        </div>
+
+        <!-- Create Account Section -->
+        <div id="signup-section" class="form-section">
+            <div class="form-group">
+                <label for="signup-name">Full Name (or Preferred Name)</label>
+                <input type="text" id="signup-name" placeholder="e.g. Kayden">
+            </div>
+            <div class="form-group">
+                <label for="signup-email">Email Address (Gmail, Yahoo, Hotmail, etc.)</label>
+                <input type="email" id="signup-email" placeholder="e.g. name@gmail.com">
+                <div id="signup-email-error" class="error-msg">Please enter a valid email domain (e.g. gmail.com, yahoo.com).</div>
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Create Password</label>
+                <input type="password" id="signup-password" placeholder="At least 6 characters">
+                <div id="signup-pass-error" class="error-msg">Password must be at least 6 characters long.</div>
+            </div>
+            <button class="auth-submit-btn" onclick="handleSignUp()">Create Account & Sign In</button>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            document.getElementById('signin-tab').classList.toggle('active', tabName === 'signin');
+            document.getElementById('signup-tab').classList.toggle('active', tabName === 'signup');
+            document.getElementById('signin-section').classList.toggle('active', tabName === 'signin');
+            document.getElementById('signup-section').classList.toggle('active', tabName === 'signup');
+        }
+
+        function handleSignUp() {
+            const name = document.getElementById('signup-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value.trim();
+            
+            const emailError = document.getElementById('signup-email-error');
+            const passError = document.getElementById('signup-pass-error');
+            
+            let isValid = true;
+
+            // Simple email domain validator for real domains (@gmail, @yahoo, @hotmail, etc.)
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                emailError.style.display = 'block';
+                isValid = false;
+            } else {
+                emailError.style.display = 'none';
+            }
+
+            if (password.length < 6) {
+                passError.style.display = 'block';
+                isValid = false;
+            } else {
+                passError.style.display = 'none';
+            }
+
+            if (isValid && name) {
+                // Save user credentials and active session state in localStorage to sync across the whole site
+                const userData = { name: name, email: email, password: password };
+                localStorage.setItem('suncrest_registered_user', JSON.stringify(userData));
+                localStorage.setItem('suncrest_user_name', name);
+                
+                // Redirect back to main page fully signed in
+                window.location.href = 'index.html';
+            } else if (!name) {
+                alert('Please provide your name.');
+            }
+        }
+
+        function handleSignIn() {
+            const email = document.getElementById('signin-email').value.trim();
+            const password = document.getElementById('signin-password').value.trim();
+            const signinError = document.getElementById('signin-error');
+
+            const storedUserRaw = localStorage.getItem('suncrest_registered_user');
+            if (storedUserRaw) {
+                const storedUser = JSON.parse(storedUserRaw);
+                if (storedUser.email === email && storedUser.password === password) {
+                    // Set active session name
+                    localStorage.setItem('suncrest_user_name', storedUser.name);
+                    window.location.href = 'index.html';
+                    return;
+                }
+            }
+
+            // Fallback check if user was created via quick modal previously
+            const quickName = localStorage.getItem('suncrest_user_name');
+            if (quickName) {
+                localStorage.setItem('suncrest_user_name', quickName);
+                window.location.href = 'index.html';
+                return;
+            }
+
+            signinError.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
