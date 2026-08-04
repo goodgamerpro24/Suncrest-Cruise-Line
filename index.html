@@ -59,6 +59,7 @@
             cursor: pointer;
             transition: all 0.2s;
             text-decoration: none;
+            display: inline-block;
         }
         .auth-btn:hover {
             background-color: white;
@@ -283,12 +284,12 @@
                 <a href="offers.html">Deals</a>
             </div>
             
-            <!-- Auth Container & Dropdown Trigger -->
+            <!-- Auth Container linking to signin.html -->
             <div class="auth-container">
-                <a href="account.html" id="auth-action-btn" class="auth-btn">Sign In / Create Account</a>
+                <a href="signin.html" id="auth-action-btn" class="auth-btn">Sign In / Create Account</a>
                 <div id="user-badge" class="user-badge" onclick="toggleProfileMenu(event)"></div>
                 
-                <!-- Profile Subpage Menu Overlay matching reference layout -->
+                <!-- Profile Subpage Menu Overlay -->
                 <div id="profile-dropdown" class="profile-dropdown">
                     <ul class="dropdown-menu-list">
                         <li><a href="profile.html?tab=profile">My Profile</a></li>
@@ -369,7 +370,6 @@
         </div>
     </div>
 
-    <!-- Script to handle persistent session, button formatting, and menu toggling -->
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             const savedName = localStorage.getItem('suncrest_user_name');
@@ -392,7 +392,6 @@
             dropdown.classList.toggle('active');
         }
 
-        // Close dropdown when clicking outside
         window.addEventListener('click', () => {
             const dropdown = document.getElementById('profile-dropdown');
             if (dropdown && dropdown.classList.contains('active')) {
