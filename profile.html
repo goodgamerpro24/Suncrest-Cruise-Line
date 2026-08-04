@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUNCREST Cruise Line - Profile</title>
+    <title>SUNCREST Cruise Line - Profile & Admin Portal</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -183,14 +183,15 @@
             justify-content: space-around;
             border-bottom: 2px solid #eaeaea;
             margin-bottom: 25px;
+            flex-wrap: wrap;
         }
         .tab-btn {
             background: none;
             border: none;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             color: #104c81;
-            padding: 12px 20px;
+            padding: 12px 15px;
             cursor: pointer;
             position: relative;
         }
@@ -283,7 +284,7 @@
             margin-bottom: 8px;
             font-size: 14px;
         }
-        .form-group input, .form-group select {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 12px;
             border: 1px solid #ccc;
@@ -315,6 +316,65 @@
             margin-top: 0;
             color: #e63946;
         }
+
+        /* Chat System UI */
+        .chat-box {
+            border: 1px solid #d0e0f5;
+            border-radius: 8px;
+            background: #f8fbff;
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            overflow: hidden;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .chat-message {
+            max-width: 75%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .chat-message.incoming {
+            background: #e1ecf4;
+            color: #104c81;
+            align-self: flex-start;
+        }
+        .chat-message.outgoing {
+            background: #104c81;
+            color: white;
+            align-self: flex-end;
+        }
+        .chat-input-area {
+            display: flex;
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #d0e0f5;
+            gap: 10px;
+        }
+        .chat-input-area input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .chat-input-area button {
+            background: #104c81;
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -337,8 +397,8 @@
                         <li><a href="profile.html?tab=profile">My Profile</a></li>
                         <li><a href="profile.html?tab=benefits">My Benefits</a></li>
                         <li><a href="profile.html?tab=cruises">My Cruises</a></li>
+                        <li><a href="profile.html?tab=chat">Client Chat</a></li>
                         <li><a href="profile.html?tab=offers">My Offers</a></li>
-                        <li><a href="profile.html?tab=favorites">Favorites</a></li>
                     </ul>
                     <div class="logout-btn-box">
                         <button class="btn-logout" onclick="handleLogout()">LOG OUT</button>
@@ -366,6 +426,7 @@
             <button class="tab-btn active" onclick="switchTab('profile')">Profile</button>
             <button class="tab-btn" onclick="switchTab('benefits')">Benefits</button>
             <button class="tab-btn" onclick="switchTab('cruises')">Cruises</button>
+            <button class="tab-btn" onclick="switchTab('chat')">Chat</button>
             <button class="tab-btn" onclick="switchTab('offers')">Offers</button>
         </div>
 
@@ -438,7 +499,7 @@
                     <ul>
                         <li>Members-only offers</li>
                         <li>Member e-newsletter</li>
-                        <li>Complimentary 1.5 liter bottle of water (Redeemable in stateroom on embarkation day)</li>
+                        <li>Complimentary 1.5 liter bottle of water</li>
                     </ul>
                 </div>
             </div>
@@ -453,7 +514,7 @@
                     <ul>
                         <li>All previous tier benefits</li>
                         <li>Gold FunSquad pin on every sailing</li>
-                        <li>Invitation to past guest cocktail party (on sailings 5+ days)</li>
+                        <li>Invitation to past guest cocktail party</li>
                     </ul>
                 </div>
             </div>
@@ -469,7 +530,6 @@
                         <li>All previous tier benefits</li>
                         <li>Priority check-in and boarding</li>
                         <li>Chocolate tasting event invitation</li>
-                        <li>Dedicated guest services phone line</li>
                     </ul>
                 </div>
             </div>
@@ -483,9 +543,8 @@
                 <div class="tier-accordion-content">
                     <ul>
                         <li>All previous tier benefits</li>
-                        <li>Guaranteed specialty restaurant reservation for 2</li>
+                        <li>Guaranteed specialty restaurant reservation</li>
                         <li>Unlimited laundry service</li>
-                        <li>One-time complimentary cabin upgrade</li>
                     </ul>
                 </div>
             </div>
@@ -498,11 +557,20 @@
                 <p>Loading your sailing itinerary...</p>
             </div>
 
-            <!-- Admin / Cruise Planner Management Section -->
+            <!-- Admin / Cruise Planner Management Section with Client Targeting -->
             <div id="admin-management-panel" class="admin-panel">
                 <h3>Admin / Cruise Planner Portal</h3>
                 <p>Logged in as: <strong id="admin-user-display"></strong></p>
-                <p>Use this tool to add prior cruises (dating back as early as Dec 31, 1999) to this user account.</p>
+                
+                <div style="background: white; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 20px;">
+                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Target Client by Name & FunSquad ID:</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="search-client-query" placeholder="e.g. John Doe or SUN-62169">
+                        <button type="button" onclick="lookupClient()" class="btn-save" style="padding: 10px 15px; background: #104c81;">Lookup Client</button>
+                    </div>
+                    <small id="active-target-display" style="color: #e63946; font-weight: bold; display: block; margin-top: 8px;">Currently Managing: Self / Default Session</small>
+                </div>
+
                 <form onsubmit="adminAddCruise(event)">
                     <div class="form-group">
                         <label>Ship Name</label>
@@ -516,12 +584,28 @@
                         <label>Points to Award</label>
                         <input type="number" id="admin-points" value="5" required>
                     </div>
-                    <button type="submit" class="btn-save" style="background-color: #104c81;">Add Past Cruise</button>
+                    <button type="submit" class="btn-save" style="background-color: #104c81;">Add Past Cruise to Target Client</button>
                 </form>
             </div>
         </div>
 
-        <!-- TAB 4: OFFERS -->
+        <!-- TAB 4: CHAT SYSTEM -->
+        <div id="panel-chat" class="tab-panel">
+            <h2>Client & Planner Live Chat</h2>
+            <p id="chat-status-label" style="font-size: 13px; color: #666; margin-bottom: 10px;">Chatting with Cruise Line Support & Planners</p>
+            
+            <div class="chat-box">
+                <div id="chat-messages-container" class="chat-messages">
+                    <!-- Messages render here -->
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input-text" placeholder="Type your message here..." onkeypress="handleChatKeyPress(event)">
+                    <button onclick="sendChatMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: OFFERS -->
         <div id="panel-offers" class="tab-panel">
             <h2>Special Offers & Deals</h2>
             <p>Check out our exclusive member rates on <a href="offers.html" style="color: #e63946; font-weight: bold;">offers.html</a>!</p>
@@ -529,11 +613,10 @@
     </div>
 
     <script>
-        // Check Authentication and Generate Unique FunSquad ID if missing
+        let currentTargetId = null; // Used by admins when targeting specific clients
+
         window.addEventListener('DOMContentLoaded', () => {
             const isRegistered = localStorage.getItem('suncrest_registered_user');
-            
-            // Security Gate: Redirect to signin.html if not signed in or created
             if (!isRegistered) {
                 window.location.href = 'signin.html';
                 return;
@@ -543,7 +626,6 @@
             const userEmail = localStorage.getItem('suncrest_user_email') || 'user@suncrestcruiseline.com';
             const userRole = localStorage.getItem('suncrest_user_role') || 'user';
             
-            // Check or generate globally unique FunSquad ID across users
             let funSquadId = localStorage.getItem('suncrest_funsquad_id');
             if (!funSquadId) {
                 let existingIds = JSON.parse(localStorage.getItem('suncrest_all_funsquad_ids') || '[]');
@@ -557,6 +639,11 @@
                 localStorage.setItem('suncrest_funsquad_id', funSquadId);
             }
 
+            // Save user into a searchable client registry for Admin lookups
+            registerClientToDirectory(userName, funSquadId, userEmail);
+
+            currentTargetId = funSquadId; // Default to self
+
             // Set User Elements
             document.getElementById('user-badge').innerText = `Ahoy, ${userName}!`;
             document.getElementById('display-member-name').innerText = userName.toUpperCase();
@@ -565,22 +652,26 @@
             document.getElementById('input-lastname').value = userName.split(' ').slice(1).join(' ') || '';
             document.getElementById('input-email').value = userEmail;
 
-            // Load Points & Cruises data from storage (Default to 0 points / 0 cruises for new users)
-            loadUserData();
+            loadUserData(currentTargetId);
+            loadChatMessages();
 
-            // Handle URL Tab parameters if any (e.g. profile.html?tab=benefits)
             const urlParams = new URLSearchParams(window.location.search);
             const tabParam = urlParams.get('tab');
             if (tabParam) {
                 switchTab(tabParam);
             }
 
-            // Show Admin Panel if logged in as Admin or Cruise Planner
             if (userRole === 'admin' || userRole === 'planner') {
                 document.getElementById('admin-management-panel').style.display = 'block';
                 document.getElementById('admin-user-display').innerText = userEmail;
             }
         });
+
+        function registerClientToDirectory(name, funSquadId, email) {
+            let directory = JSON.parse(localStorage.getItem('suncrest_client_directory') || '{}');
+            directory[funSquadId] = { name, email, funSquadId };
+            localStorage.setItem('suncrest_client_directory', JSON.stringify(directory));
+        }
 
         function switchTab(tabName) {
             document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -590,7 +681,13 @@
             if (targetPanel) {
                 targetPanel.classList.add('active');
             }
-            event && event.target && event.target.classList.add('active');
+            
+            // Highlight matching tab button
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if(btn.getAttribute('onclick')?.includes(tabName)) {
+                    btn.classList.add('active');
+                }
+            });
         }
 
         function toggleProfileMenu(event) {
@@ -621,16 +718,15 @@
             header.querySelector('span:last-child').innerText = content.classList.contains('open') ? '▲' : '▼';
         }
 
-        // Points & Tier Calculator Logic (Defaults to 0 points / Blue Tier)
-        function loadUserData() {
-            let points = parseInt(localStorage.getItem('suncrest_points') || '0');
-            let cruisesCount = parseInt(localStorage.getItem('suncrest_cruises_count') || '0');
-            let cruisesList = JSON.parse(localStorage.getItem('suncrest_cruises_list') || '[]');
+        // Load points and cruises for a specific FunSquad ID
+        function loadUserData(targetId) {
+            let points = parseInt(localStorage.getItem(`suncrest_points_${targetId}`) || '0');
+            let cruisesCount = parseInt(localStorage.getItem(`suncrest_cruises_count_${targetId}`) || '0');
+            let cruisesList = JSON.parse(localStorage.getItem(`suncrest_cruises_list_${targetId}`) || '[]');
 
             document.getElementById('funsquad-points-num').innerText = points;
             document.getElementById('total-cruises-num').innerText = cruisesCount;
 
-            // Determine Tier based on points rules
             let tierName = 'BLUE';
             let tierClass = 'tier-blue';
             let tierDesc = 'WELCOME BACK - FIRST SAILING';
@@ -658,7 +754,6 @@
             badgeLogo.innerText = tierName;
             document.getElementById('welcome-tier-text').innerText = tierDesc;
 
-            // Render Cruises List
             const container = document.getElementById('cruises-list-container');
             if (cruisesList.length === 0) {
                 container.innerHTML = '<p>No past cruises recorded yet. Reach out to an admin or travel agent to credit previous sailings dating back to December 31, 1999!</p>';
@@ -677,6 +772,32 @@
             }
         }
 
+        // Admin lookup functionality to target client by name or FunSquad ID
+        function lookupClient() {
+            const query = document.getElementById('search-client-query').value.trim().toLowerCase();
+            let directory = JSON.parse(localStorage.getItem('suncrest_client_directory') || '{}');
+            
+            let foundClient = null;
+            for (let id in directory) {
+                let client = directory[id];
+                if (client.funSquadId.toLowerCase() === query || client.name.toLowerCase().includes(query)) {
+                    foundClient = client;
+                    break;
+                }
+            }
+
+            if (foundClient) {
+                currentTargetId = foundClient.funSquadId;
+                document.getElementById('display-member-name').innerText = foundClient.name.toUpperCase();
+                document.getElementById('display-member-id').innerText = foundClient.funSquadId;
+                document.getElementById('active-target-display').innerText = `Currently Managing Client: ${foundClient.name} (${foundClient.funSquadId})`;
+                loadUserData(currentTargetId);
+                alert(`Successfully loaded profile for ${foundClient.name}`);
+            } else {
+                alert('Client not found by that Name or FunSquad ID. Ensure they have signed in at least once.');
+            }
+        }
+
         function saveProfileChanges(event) {
             event.preventDefault();
             const first = document.getElementById('input-firstname').value;
@@ -690,7 +811,7 @@
             window.location.reload();
         }
 
-        // Admin / Planner action to add prior cruises dating back to 12-31-1999
+        // Admin action to add prior cruises to the actively targeted client ID
         function adminAddCruise(event) {
             event.preventDefault();
             const ship = document.getElementById('admin-ship').value;
@@ -702,20 +823,59 @@
                 return;
             }
 
-            let currentPoints = parseInt(localStorage.getItem('suncrest_points') || '0');
-            let currentCount = parseInt(localStorage.getItem('suncrest_cruises_count') || '0');
-            let cruisesList = JSON.parse(localStorage.getItem('suncrest_cruises_list') || '[]');
+            let currentPoints = parseInt(localStorage.getItem(`suncrest_points_${currentTargetId}`) || '0');
+            let currentCount = parseInt(localStorage.getItem(`suncrest_cruises_count_${currentTargetId}`) || '0');
+            let cruisesList = JSON.parse(localStorage.getItem(`suncrest_cruises_list_${currentTargetId}`) || '[]');
 
             currentPoints += pointsToAdd;
             currentCount += 1;
             cruisesList.push({ ship, date, points: pointsToAdd });
 
-            localStorage.setItem('suncrest_points', currentPoints);
-            localStorage.setItem('suncrest_cruises_count', currentCount);
-            localStorage.setItem('suncrest_cruises_list', JSON.stringify(cruisesList));
+            localStorage.setItem(`suncrest_points_${currentTargetId}`, currentPoints);
+            localStorage.setItem(`suncrest_cruises_count_${currentTargetId}`, currentCount);
+            localStorage.setItem(`suncrest_cruises_list_${currentTargetId}`, JSON.stringify(cruisesList));
 
-            alert('Prior cruise successfully added by Admin/Planner!');
-            window.location.reload();
+            alert('Prior cruise successfully added to client profile!');
+            loadUserData(currentTargetId);
+        }
+
+        // Chat System Implementation
+        function loadChatMessages() {
+            const container = document.getElementById('chat-messages-container');
+            const messages = JSON.parse(localStorage.getItem('suncrest_chat_messages') || '[]');
+            
+            if (messages.length === 0) {
+                container.innerHTML = '<div class="chat-message incoming">Welcome to Suncrest Support! How can we assist you with your cruise planning today?</div>';
+                return;
+            }
+
+            container.innerHTML = messages.map(m => `
+                <div class="chat-message ${m.sender === 'me' ? 'outgoing' : 'incoming'}">
+                    <strong>${m.author}:</strong> ${m.text}
+                </div>
+            `).join('');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chat-input-text');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const userName = localStorage.getItem('suncrest_user_name') || 'User';
+            let messages = JSON.parse(localStorage.getItem('suncrest_chat_messages') || '[]');
+
+            messages.push({ author: userName, text: text, sender: 'me' });
+            localStorage.setItem('suncrest_chat_messages', JSON.stringify(messages));
+            
+            input.value = '';
+            loadChatMessages();
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
         }
     </script>
 </body>
