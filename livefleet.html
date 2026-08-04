@@ -155,6 +155,20 @@
             san_francisco: { name: "San Francisco, CA", lat: 37.8055, lng: -122.4042, tzOffset: -7 },
             seattle: { name: "Seattle, WA", lat: 47.6131, lng: -122.3552, tzOffset: -7 },
             
+            // New International Ports for Suncrest Sunshine & New Additions
+            civitavecchia: { name: "Civitavecchia (Rome), Italy", lat: 42.0924, lng: 11.7974, tzOffset: 2, isOvernight: true },
+            barcelona: { name: "Barcelona, Spain", lat: 41.3851, lng: 2.1734, tzOffset: 2, isOvernight: true },
+            dover: { name: "Dover, UK", lat: 51.1279, lng: 1.3134, tzOffset: 1, isOvernight: false },
+            lisbon: { name: "Lisbon, Portugal", lat: 38.7223, lng: -9.1393, tzOffset: 1, isOvernight: false },
+            london: { name: "London (Tilbury), UK", lat: 51.4550, lng: 0.3630, tzOffset: 1, isOvernight: false },
+            brisbane: { name: "Brisbane, Australia", lat: -27.4698, lng: 153.0251, tzOffset: 10, isOvernight: false },
+            sydney: { name: "Sydney, Australia", lat: -33.8688, lng: 151.2093, tzOffset: 10, isOvernight: false },
+            singapore: { name: "Singapore", lat: 1.3521, lng: 103.8198, tzOffset: 8, isOvernight: false },
+            auckland: { name: "Auckland, New Zealand", lat: -36.8485, lng: 174.7633, tzOffset: 12, isOvernight: false },
+            melbourne: { name: "Melbourne, Australia", lat: -37.8136, lng: 144.9631, tzOffset: 10, isOvernight: false },
+            adelaide: { name: "Adelaide, Australia", lat: -34.9285, lng: 138.6007, tzOffset: 9.5, isOvernight: false },
+            hong_kong: { name: "Hong Kong", lat: 22.3193, lng: 114.1694, tzOffset: 8, isOvernight: false },
+
             // Strictly Controlled Overnight Ports (Max 2 Ships at a time globally)
             kings_wharf: { name: "King's Wharf, Bermuda (Overnight)", lat: 32.3298, lng: -64.8322, tzOffset: -3, isOvernight: true },
             cabo: { name: "Cabo San Lucas (Overnight)", lat: 22.8856, lng: -109.9142, tzOffset: -7, isOvernight: true },
@@ -176,16 +190,17 @@
             cozumel: { name: "Cozumel, Mexico", lat: 20.5124, lng: -86.9625, tzOffset: -6, isOvernight: false },
             key_west: { name: "Key West, FL", lat: 24.5551, lng: -81.7800, tzOffset: -4, isOvernight: false },
             honolulu: { name: "Honolulu, Hawaii", lat: 21.3094, lng: -157.8681, tzOffset: -10, isOvernight: false },
-            juneau: { name: "Juneau, Alaska", lat: 58.3015, lng: -134.4098, tzOffset: -8, isOvernight: false }
+            juneau: { name: "Juneau, Alaska", lat: 58.3015, lng: -134.4098, tzOffset: -8, isOvernight: false },
+            ochos_rios: { name: "Ocho Rios, Jamaica", lat: 18.4074, lng: -77.1031, tzOffset: -5, isOvernight: false }
         };
 
         const fleetData = [
             { 
                 name: "SUNCREST GATEWAY", 
-                homeport: "Baltimore, MD", 
+                homeport: "Baltimore, MD (Bahamas/Caribbean -> Canada Sept)", 
                 speed: "18.5 knots", 
                 heading: "135° SE", 
-                route: [PORTS.baltimore, { name: "enroute to King's Wharf", lat: 37.5, lng: -74.0 }, { name: "enroute to King's Wharf", lat: 34.5, lng: -69.0 }, PORTS.kings_wharf, { name: "enroute to Baltimore", lat: 34.0, lng: -71.0 }, { name: "enroute to Baltimore", lat: 37.0, lng: -74.5 }, PORTS.baltimore] 
+                route: [PORTS.kings_wharf, PORTS.kings_wharf, PORTS.kings_wharf, PORTS.kings_wharf, PORTS.kings_wharf, PORTS.kings_wharf, PORTS.kings_wharf] 
             },
             { 
                 name: "SUNCREST LEGACY", 
@@ -213,7 +228,7 @@
                 homeport: "New York (Manhattan), NY", 
                 speed: "19.5 knots", 
                 heading: "140° SE", 
-                route: [PORTS.manhattan, { name: "enroute to Bermuda", lat: 38.0, lng: -73.0 }, PORTS.kings_wharf, PORTS.kings_wharf, PORTS.kings_wharf, { name: "enroute to New York", lat: 36.5, lng: -72.0 }, PORTS.manhattan] 
+                route: [PORTS.ochos_rios, PORTS.ochos_rios, PORTS.ochos_rios, PORTS.ochos_rios, PORTS.ochos_rios, PORTS.ochos_rios, PORTS.ochos_rios] 
             },
             { 
                 name: "SUNCREST OCEANIC", 
@@ -315,10 +330,10 @@
             },
             { 
                 name: "SUNCREST ATLANTICA", 
-                homeport: "Mobile, AL", 
+                homeport: "New Orleans, LA", 
                 speed: "17.5 knots", 
                 heading: "165° S", 
-                route: [PORTS.mobile, PORTS.new_orleans, { name: "enroute to Cozumel", lat: 25.0, lng: -88.0 }, PORTS.cozumel, PORTS.olann_island, { name: "enroute to Mobile", lat: 27.0, lng: -87.5 }, PORTS.mobile] 
+                route: [PORTS.new_orleans, { name: "enroute to Cozumel", lat: 25.0, lng: -88.0 }, PORTS.cozumel, PORTS.olann_island, { name: "enroute to New Orleans", lat: 27.0, lng: -87.5 }, PORTS.new_orleans] 
             },
             { 
                 name: "SUNCREST PACIFICA", 
@@ -361,6 +376,34 @@
                 speed: "19.0 knots", 
                 heading: "340° NNW", 
                 route: [PORTS.seattle, { name: "enroute to Juneau", lat: 52.0, lng: -130.0 }, PORTS.juneau, PORTS.juneau, { name: "enroute to Seattle", lat: 50.0, lng: -128.0 }, PORTS.seattle, PORTS.seattle] 
+            },
+            {
+                name: "SUNCREST SUNSHINE",
+                homeport: "Miami, Dover, Barcelona, Civitavecchia, Galveston, Lisbon, San Antonio, & New York",
+                speed: "20.0 knots",
+                heading: "090° E",
+                route: [PORTS.barcelona, PORTS.civitavecchia, PORTS.dover, PORTS.london, PORTS.lisbon, { name: "enroute to Miami", lat: 30.0, lng: -40.0 }, PORTS.miami]
+            },
+            {
+                name: "SUNCREST EXPLORER",
+                homeport: "Brisbane & Sydney, Australia",
+                speed: "18.0 knots",
+                heading: "180° S",
+                route: [PORTS.brisbane, PORTS.sydney, { name: "enroute to South Pacific", lat: -35.0, lng: 155.0 }, PORTS.brisbane, PORTS.sydney, PORTS.brisbane, PORTS.sydney]
+            },
+            {
+                name: "SUNCREST VOYAGER",
+                homeport: "Sydney (White Bay), Singapore, Auckland, Melbourne, Adelaide",
+                speed: "19.0 knots",
+                heading: "270° W",
+                route: [PORTS.sydney, PORTS.singapore, PORTS.auckland, PORTS.melbourne, PORTS.adelaide, PORTS.sydney, PORTS.singapore]
+            },
+            {
+                name: "SUNCREST GLORY",
+                homeport: "Sydney, Singapore, Hong Kong",
+                speed: "19.5 knots",
+                heading: "310° NW",
+                route: [PORTS.sydney, PORTS.singapore, PORTS.hong_kong, PORTS.singapore, PORTS.sydney, PORTS.hong_kong, PORTS.sydney]
             }
         ];
 
@@ -370,12 +413,14 @@
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        const arrowIcon = L.divIcon({
-            html: '<div style="font-size: 20px; color: #104c81; font-weight: bold; text-shadow: 1px 1px 2px white; transform: rotate(45deg);">&#10148;</div>',
-            className: 'custom-arrow-icon',
-            iconSize: [24, 24],
-            iconAnchor: [12, 12]
-        });
+        // Helper function to extract heading angle and offset so arrow points forward along movement path
+        function getHeadingAngle(headingStr) {
+            if (!headingStr) return 0;
+            const match = headingStr.match(/(\d+)°/);
+            // Leaflet default divIcon arrow '&#10148;' points to the right (90 deg) by default, 
+            // so we subtract 90 degrees to align the arrow tip with the actual heading direction.
+            return match ? parseInt(match[1], 10) - 90 : 0;
+        }
 
         const markers = {};
         const shipListContainer = document.getElementById('ship-list');
@@ -413,12 +458,10 @@
                         overnightsAllowedSoFar++;
                         statusText = `Docked overnight at ${matchedPort.name}`;
                     } else {
-                        // Excess ships scheduled for overnight are forced underway/en route to comply with the 2-ship max rule
                         isAtPort = false;
                         statusText = `En route (Departed ${matchedPort.name} - Max Overnight Cap Reached)`;
                     }
                 } else {
-                    // Regular ports (including Olann Island and Celebration Key areas) follow standard 5 PM departure rules
                     if (adjustedHour >= 6 && adjustedHour < 17) {
                         statusText = `Docked at ${matchedPort.name}`;
                     } else {
@@ -430,8 +473,17 @@
 
             const currentSpeed = isAtPort ? "0.0 knots" : ship.speed;
             const currentHeading = isAtPort ? "N/A" : ship.heading;
+            const headingAngle = getHeadingAngle(ship.heading);
 
-            const marker = L.marker([todaySpot.lat, todaySpot.lng], { icon: arrowIcon }).addTo(map);
+            // Arrow points directly towards movement direction using calculated heading angle minus offset
+            const dynamicArrowIcon = L.divIcon({
+                html: `<div style="font-size: 20px; color: #104c81; font-weight: bold; text-shadow: 1px 1px 2px white; transform: rotate(${headingAngle}deg);">&#10148;</div>`,
+                className: 'custom-arrow-icon',
+                iconSize: [24, 24],
+                iconAnchor: [12, 12]
+            });
+
+            const marker = L.marker([todaySpot.lat, todaySpot.lng], { icon: dynamicArrowIcon }).addTo(map);
             
             const popupHTML = `
                 <div class="popup-title">${ship.name}</div>
@@ -476,3 +528,4 @@
     </script>
 </body>
 </html>
+
