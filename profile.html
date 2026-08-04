@@ -941,6 +941,7 @@
                         <div>
                             <strong>${c.ship}</strong><br>
                             <small style="color: #666;">Sail Date: ${c.date}</small><br>
+                            <small style="color: #666; font-weight: bold;">Booking #: ${c.bookingNumber || 'N/A'}</small><br>
                             <small style="color: #0077be; font-weight: bold;">Ports/Itinerary: ${c.ports && c.ports.length > 0 ? c.ports.join(', ') : 'General Itinerary'}</small>
                         </div>
                         <div style="background: #104c81; color: white; padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold;">
@@ -990,6 +991,20 @@
             window.location.reload();
         }
 
+        // Generate a unique non-repeating booking number
+        function generateUniqueBookingNumber() {
+            let existingBookingNumbers = JSON.parse(localStorage.getItem('suncrest_all_booking_numbers') || '[]');
+            let bookingNum;
+            do {
+                const randomNum = Math.floor(100000 + Math.random() * 900000);
+                bookingNum = `BK-${randomNum}`;
+            } while (existingBookingNumbers.includes(bookingNum));
+
+            existingBookingNumbers.push(bookingNum);
+            localStorage.setItem('suncrest_all_booking_numbers', JSON.stringify(existingBookingNumbers));
+            return bookingNum;
+        }
+
         // Admin action to add prior cruises and itinerary ports to the actively targeted client ID
         function adminAddCruise(event) {
             event.preventDefault();
@@ -1008,13 +1023,16 @@
                 return;
             }
 
+            // Generate unique booking number
+            const bookingNumber = generateUniqueBookingNumber();
+
             let currentPoints = parseInt(localStorage.getItem(`suncrest_points_${currentTargetId}`) || '0');
             let currentCount = parseInt(localStorage.getItem(`suncrest_cruises_count_${currentTargetId}`) || '0');
             let cruisesList = JSON.parse(localStorage.getItem(`suncrest_cruises_list_${currentTargetId}`) || '[]');
 
             currentPoints += pointsToAdd;
             currentCount += 1;
-            cruisesList.push({ ship, date, points: pointsToAdd, ports: selectedPorts });
+            cruisesList.push({ ship, date, points: pointsToAdd, ports: selectedPorts, bookingNumber });
 
             localStorage.setItem(`suncrest_points_${currentTargetId}`, currentPoints);
             localStorage.setItem(`suncrest_cruises_count_${currentTargetId}`, currentCount);
@@ -1023,11 +1041,11 @@
             // Reset checklist
             document.querySelectorAll('input[name="itinerary_port"]:checked').forEach(cb => cb.checked = false);
 
-            alert('Prior cruise and itinerary successfully added to client profile!');
+            alert(`Prior cruise successfully added to client profile! Generated Booking #: ${bookingNumber}`);
             loadUserData(currentTargetId);
         }
 
-        // Chat System Implementation
+        // Chat System Implementation (Messages saved for admin/planner to receive)
         function loadChatMessages() {
             const container = document.getElementById('chat-messages-container');
             const messages = JSON.parse(localStorage.getItem('suncrest_chat_messages') || '[]');
@@ -1051,9 +1069,14 @@
             if (!text) return;
 
             const userName = localStorage.getItem('suncrest_user_name') || 'User';
+            const userRole = localStorage.getItem('suncrest_user_role') || 'user';
             let messages = JSON.parse(localStorage.getItem('suncrest_chat_messages') || '[]');
 
-            messages.push({ author: userName, text: text, sender: 'me' });
+            // If user is a regular client, their message is outgoing (on the receiving end for admin/planner)
+            // If user is admin/planner, their message is incoming to client view or handled appropriately
+            let senderType = (userRole === 'admin' || userRole === 'planner') ? 'incoming' : 'me';
+
+            messages.push({ author: userName, text: text, sender: senderType });
             localStorage.setItem('suncrest_chat_messages', JSON.stringify(messages));
             
             input.value = '';
