@@ -45,12 +45,14 @@
     {
       "funisquadId": "SUN-97164",
       "name": "Kayden Williams",
+      "email": "kaydenwilliams0611@gmail.com",
       "tier": "Orange",
       "pastCruises": []
     },
     {
       "funisquadId": "SUN-99999",
       "name": "Another Client Name",
+      "email": "client@gmail.com",
       "tier": "Blue",
       "pastCruises": []
     }
