@@ -193,7 +193,7 @@
         <div id="signup-section" class="form-section">
             <div class="form-group">
                 <label for="signup-name">Full Name (or Preferred Name)</label>
-                <input type="text" id="signup-name" placeholder="e.g. Kayden">
+                <input type="text" id="signup-name" placeholder="e.g. John Doe">
             </div>
             <div class="form-group">
                 <label for="signup-email">Email Address (Gmail, Yahoo, Hotmail, etc.)</label>
@@ -227,7 +227,6 @@
             
             let isValid = true;
 
-            // Simple email domain validator for real domains (@gmail, @yahoo, @hotmail, etc.)
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailPattern.test(email)) {
                 emailError.style.display = 'block';
@@ -244,12 +243,10 @@
             }
 
             if (isValid && name) {
-                // Save user credentials and active session state in localStorage to sync across the whole site
                 const userData = { name: name, email: email, password: password };
                 localStorage.setItem('suncrest_registered_user', JSON.stringify(userData));
                 localStorage.setItem('suncrest_user_name', name);
                 
-                // Redirect back to main page fully signed in
                 window.location.href = 'index.html';
             } else if (!name) {
                 alert('Please provide your name.');
@@ -265,14 +262,12 @@
             if (storedUserRaw) {
                 const storedUser = JSON.parse(storedUserRaw);
                 if (storedUser.email === email && storedUser.password === password) {
-                    // Set active session name
                     localStorage.setItem('suncrest_user_name', storedUser.name);
                     window.location.href = 'index.html';
                     return;
                 }
             }
 
-            // Fallback check if user was created via quick modal previously
             const quickName = localStorage.getItem('suncrest_user_name');
             if (quickName) {
                 localStorage.setItem('suncrest_user_name', quickName);
