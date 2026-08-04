@@ -40,5 +40,19 @@
       "price": "410",
       "image": "bermuda1.jpg"
     }
+  ],
+  "users": [
+    {
+      "funisquadId": "SUN-97164",
+      "name": "Kayden Williams",
+      "tier": "Orange",
+      "pastCruises": []
+    },
+    {
+      "funisquadId": "SUN-99999",
+      "name": "Another Client Name",
+      "tier": "Blue",
+      "pastCruises": []
+    }
   ]
 }
