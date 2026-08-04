@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinations - SUNCREST</title>
+    <style>
+        :root {
+            --primary-blue: #0b3154;
+            --accent-red: #e63946;
+            --light-bg: #f4f6f9;
+            --border-color: #d1d5db;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: #222;
+        }
+
+        /* Top Header matching main page interface */
+        .header {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .brand-logo span {
+            color: var(--accent-red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            font-size: 15px;
+            transition: opacity 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .nav-links a.active {
+            border-bottom: 2px solid white;
+            padding-bottom: 2px;
+        }
+
+        /* Account / Sign In Button style matching main page reference */
+        .auth-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .auth-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border: 2px solid white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .auth-btn:hover {
+            background-color: white;
+            color: var(--primary-blue);
+        }
+
+        .user-badge {
+            background-color: white;
+            color: var(--primary-blue);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* Main Content Layout */
+        .destinations-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 40px;
+        }
+
+        .destinations-header {
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .destinations-header h1 {
+            margin: 0;
+            color: var(--primary-blue);
+            font-size: 28px;
+        }
+
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 30px;
+        }
+
+        .dest-column h3 {
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #666;
+            margin-top: 0;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #eaeaea;
+            padding-bottom: 8px;
+        }
+
+        .dest-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dest-column li {
+            margin-bottom: 12px;
+        }
+
+        .dest-column a {
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .dest-column a:hover {
+            color: var(--accent-red);
+            text-decoration: underline;
+        }
+
+        .dest-column.explore a {
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        @media (max-width: 1024px) {
+            .destinations-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Bar matching main interface -->
+    <div class="header">
+        <a href="index.html" class="brand-logo">SUNCREST</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="history.html">Our History</a>
+            <a href="plan.html">Plan a Cruise</a>
+            <a href="fleet.html">Our Ships</a>
+            <a href="destinations.html" class="active">Destinations</a>
+            <a href="deals.html">Deals</a>
+        </div>
+        <div class="auth-container">
+            <a href="account.html" id="auth-action-btn" class="auth-btn">Sign In / Create Account</a>
+            <div id="user-badge" class="user-badge"></div>
+        </div>
+    </div>
+
+    <!-- Destinations Mega-Menu Layout Container -->
+    <div class="destinations-container">
+        <div class="destinations-header">
+            <h1>Explore Cruise Destinations</h1>
+        </div>
+
+        <div class="destinations-grid">
+            
+            <!-- Column 1: Explore Destinations -->
+            <div class="dest-column explore">
+                <h3>Explore Destinations</h3>
+                <ul>
+                    <li><a href="alldestinationsdestinations.html">All Destinations</a></li>
+                    <li><a href="shoreexcursionsdestinations.html">Shore Excursions</a></li>
+                    <li><a href="departureportsdestinations.html">Departure Ports</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 2: Americas -->
+            <div class="dest-column">
+                <h3>Americas</h3>
+                <ul>
+                    <li><a href="alaskadestinations.html">Alaska</a></li>
+                    <li><a href="bahamasdestinations.html">The Bahamas</a></li>
+                    <li><a href="bermudadestinations.html">Bermuda</a></li>
+                    <li><a href="canadanewenglanddestinations.html">Canada & New England</a></li>
+                    <li><a href="caribbeandestinations.html">Caribbean</a></li>
+                    <li><a href="greenlandcanadadestinations.html">Greenland & Canada</a></li>
+                    <li><a href="hawaiidestinations.html">Hawaii</a></li>
+                    <li><a href="mexicodestinations.html">Mexico</a></li>
+                    <li><a href="panamacanaldestinations.html">Panama Canal</a></li>
+                    <li><a href="southamericadestinations.html">South America</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Australia & South Pacific -->
+            <div class="dest-column">
+                <h3>Australia & South Pacific</h3>
+                <ul>
+                    <li><a href="australiadestinations.html">Australia</a></li>
+                    <li><a href="newzealanddestinations.html">New Zealand</a></li>
+                    <li><a href="southpacificdestinations.html">South Pacific</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Europe & Asia -->
+            <div class="dest-column">
+                <h3>Europe & Asia</h3>
+                <ul>
+                    <li><a href="asiadestinations.html">Asia</a></li>
+                    <li><a href="europedestinations.html">Europe</a></li>
+                    <li><a href="transatlanticdestinations.html">Transatlantic</a></li>
+                    <li><a href="transpacificdestinations.html">Transpacific</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 5: Featured Destinations -->
+            <div class="dest-column">
+                <h3>Featured Destinations</h3>
+                <ul>
+                    <li><a href="emeraldbaydominicanrepublicdestinations.html">Emerald Bay, Dominican Republic</a></li>
+                    <li><a href="grandturkdestinations.html">Grand Turk</a></li>
+                    <li><a href="olannislanddestinations.html">Olann Island</a></li>
+                    <li><a href="empresscaysdestinations.html">Empress Cays</a></li>
+                    <li><a href="unsunkencityofatlantisdestinations.html">Unsunken City of Atlantis ®️</a></li>
+                    <li><a href="prettyrosecayroatandestinations.html">Pretty Rose Cay, Roatán</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Sync account state across all pages via localStorage
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedName = localStorage.getItem('suncrest_user_name');
+            const authBtn = document.getElementById('auth-action-btn');
+            const userBadge = document.getElementById('user-badge');
+
+            if (savedName) {
+                userBadge.innerText = `Ahoy, ${savedName}!`;
+                userBadge.style.display = 'block';
+                authBtn.style.display = 'none';
+            } else {
+                userBadge.style.display = 'none';
+                authBtn.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
