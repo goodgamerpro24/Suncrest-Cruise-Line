@@ -157,6 +157,7 @@
 
     <!-- Top Navigation Bar matching main interface -->
     <div class="header">
+        <a href="index.html" class="brand-logo">SUNCREST</a>
         <a href="index.html" class="brand-logo">SUNCREST<span>.</span></a>
         <div class="nav-links">
             <a href="index.html">Home</a>
@@ -179,6 +180,7 @@
         <div id="signin-section" class="form-section active">
             <div class="form-group">
                 <label for="signin-email">Email Address or Username</label>
+                <input type="text" id="signin-email" placeholder="e.g. user@gmail.com or admin">
                 <input type="text" id="signin-email" placeholder="e.g. user@gmail.com">
             </div>
             <div class="form-group">
@@ -209,24 +211,25 @@
         </div>
     </div>
 
-    <!-- Load global script first so getSuncrestData is available -->
-    <script src="script.js"></script>
     <script>
         function switchTab(tabName) {
+            document.getElementById('signin-tab').classList.toggle('active', tabName === 'signin');
+            document.getElementById('signup-tab', tabName === 'signup').classList.toggle('active', tabName === 'signup');
+            // Fixed correct active toggle selectors
             document.getElementById('signin-tab').classList.toggle('active', tabName === 'signin');
             document.getElementById('signup-tab').classList.toggle('active', tabName === 'signup');
             document.getElementById('signin-section').classList.toggle('active', tabName === 'signin');
             document.getElementById('signup-section').classList.toggle('active', tabName === 'signup');
         }
 
-        async function handleSignUp() {
+        function handleSignUp() {
             const name = document.getElementById('signup-name').value.trim();
             const email = document.getElementById('signup-email').value.trim();
             const password = document.getElementById('signup-password').value.trim();
-            
+
             const emailError = document.getElementById('signup-email-error');
             const passError = document.getElementById('signup-pass-error');
-            
+
             let isValid = true;
 
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -245,69 +248,85 @@
             }
 
             if (isValid && name) {
-                let siteData = await getSuncrestData();
+                // Save user credentials into an array database in localStorage so multiple users can register/sign back in
+                let usersList = JSON.parse(localStorage.getItem('suncrest_users_db') || '[]');
 
-                let existingUser = siteData.users.find(u => u.email && u.email.toLowerCase() === email.toLowerCase());
-
-                let assignedId;
+                // Check if email already exists
+                const existingUser = usersList.find(u => u.email === email);
                 if (existingUser) {
                     existingUser.name = name;
                     existingUser.password = password;
-                    assignedId = existingUser.funisquadId;
                 } else {
-                    assignedId = "SUN-" + Math.floor(10000 + Math.random() * 90000);
-                    siteData.users.push({
-                        funisquadId: assignedId,
-                        name: name,
-                        email: email,
-                        password: password,
-                        tier: "Blue",
-                        pastCruises: []
-                    });
+                    usersList.push({ name: name, email: email, password: password, role: 'user' });
                 }
 
-                localStorage.setItem('suncrest_full_data', JSON.stringify(siteData));
-                
-                localStorage.setItem('current_user_id', assignedId);
+                localStorage.setItem('suncrest_users_db', JSON.stringify(usersList));
+
+                // Set active session states
+                localStorage.setItem('suncrest_registered_user', JSON.stringify({ name: name, email: email, password: password }));
                 localStorage.setItem('suncrest_user_name', name);
-                
+                localStorage.setItem('suncrest_user_email', email);
+                localStorage.setItem('suncrest_user_role', 'user');
+
                 window.location.href = 'profile.html';
             } else if (!name) {
                 alert('Please provide your name.');
             }
         }
 
-        async function handleSignIn() {
+        function handleSignIn() {
             const inputVal = document.getElementById('signin-email').value.trim();
             const password = document.getElementById('signin-password').value.trim();
             const signinError = document.getElementById('signin-error');
 
+            // Hardcoded Admin & Cruise Planner logins check
+            if ((inputVal === 'admin@suncrestcruiseline.com' || inputVal === 'admin') && password === 'suncrestcruiseline123') {
+            // Admin Login Check (Credentials kept secure under the hood)
             if (inputVal === 'admin@suncrestcruiseline.com' && password === 'suncrestcruiseline123') {
-                localStorage.setItem('current_user_id', 'ADMIN-ID');
+                localStorage.setItem('suncrest_registered_user', JSON.stringify({ name: 'System Admin', email: 'admin@suncrestcruiseline.com' }));
                 localStorage.setItem('suncrest_user_name', 'System Admin');
+                localStorage.setItem('suncrest_user_email', 'admin@suncrestcruiseline.com');
+                localStorage.setItem('suncrest_user_role', 'admin');
                 window.location.href = 'profile.html';
                 return;
             }
 
+            if ((inputVal === 'cruiseplaner@suncrestcruiseline.com' || inputVal === 'planner') && password === 'suncrestcruiseplanner') {
+            // Cruise Planner Login Check (Credentials kept secure under the hood)
             if (inputVal === 'cruiseplaner@suncrestcruiseline.com' && password === 'suncrestcruiseplanner') {
-                localStorage.setItem('current_user_id', 'PLANNER-ID');
+                localStorage.setItem('suncrest_registered_user', JSON.stringify({ name: 'Cruise Planner', email: 'cruiseplaner@suncrestcruiseline.com' }));
                 localStorage.setItem('suncrest_user_name', 'Cruise Planner');
+                localStorage.setItem('suncrest_user_email', 'cruiseplaner@suncrestcruiseline.com');
+                localStorage.setItem('suncrest_user_role', 'planner');
                 window.location.href = 'profile.html';
                 return;
             }
 
-            let siteData = await getSuncrestData();
-
-            let foundUser = siteData.users.find(u => 
-                (u.email && u.email.toLowerCase() === inputVal.toLowerCase() || 
-                 u.name && u.name.toLowerCase() === inputVal.toLowerCase())
-            );
+            // Check against registered users database in localStorage
+            let usersList = JSON.parse(localStorage.getItem('suncrest_users_db') || '[]');
+            const foundUser = usersList.find(u => (u.email === inputVal || u.name.toLowerCase() === inputVal.toLowerCase()) && u.password === password);
 
             if (foundUser) {
-                localStorage.setItem('current_user_id', foundUser.funisquadId);
+                localStorage.setItem('suncrest_registered_user', JSON.stringify(foundUser));
                 localStorage.setItem('suncrest_user_name', foundUser.name);
+                localStorage.setItem('suncrest_user_email', foundUser.email);
+                localStorage.setItem('suncrest_user_role', foundUser.role || 'user');
                 window.location.href = 'profile.html';
                 return;
+            }
+
+            // Fallback to legacy single user storage check
+            // Fallback to single user session memory
+            const storedUserRaw = localStorage.getItem('suncrest_registered_user');
+            if (storedUserRaw) {
+                const storedUser = JSON.parse(storedUserRaw);
+                if ((storedUser.email === inputVal || storedUser.name.toLowerCase() === inputVal.toLowerCase()) && storedUser.password === password) {
+                    localStorage.setItem('suncrest_user_name', storedUser.name);
+                    localStorage.setItem('suncrest_user_email', storedUser.email);
+                    localStorage.setItem('suncrest_user_role', 'user');
+                    window.location.href = 'profile.html';
+                    return;
+                }
             }
 
             signinError.style.display = 'block';
