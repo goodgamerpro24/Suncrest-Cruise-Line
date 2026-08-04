@@ -21,12 +21,13 @@ async function getSuncrestData() {
 async function handleUserLogin(enteredEmail, enteredName) {
     let siteData = await getSuncrestData();
 
-    // Look for existing user by email
+    // Look for existing user by email (case-insensitive)
     let existingUser = siteData.users.find(u => u.email && u.email.toLowerCase() === enteredEmail.toLowerCase());
 
     if (existingUser) {
         // MATCH FOUND: Keeps your exact same Funisquad ID forever!
         localStorage.setItem('current_user_id', existingUser.funisquadId);
+        localStorage.setItem('suncrest_user_name', existingUser.name);
         console.log("Logged into existing account:", existingUser.funisquadId);
         return existingUser.funisquadId;
     } else {
@@ -35,7 +36,7 @@ async function handleUserLogin(enteredEmail, enteredName) {
         
         let newUser = {
             funisquadId: newId,
-            name: enteredName,
+            name: enteredName || "Valued Guest",
             email: enteredEmail,
             tier: "Blue",
             pastCruises: []
@@ -44,12 +45,13 @@ async function handleUserLogin(enteredEmail, enteredName) {
         siteData.users.push(newUser);
         localStorage.setItem('suncrest_full_data', JSON.stringify(siteData));
         localStorage.setItem('current_user_id', newId);
+        localStorage.setItem('suncrest_user_name', newUser.name);
         console.log("Created new account:", newId);
         return newId;
     }
 }
 
-// --- 3. PAGE ACTIONS (Admin, Dashboard, & Login triggers) ---
+// --- 3. PAGE ACTIONS (Admin, Dashboard, & Form triggers) ---
 document.addEventListener('DOMContentLoaded', async () => {
     
     // A. ADMIN PORTAL: ADD CRUISE TO ANY CLIENT
@@ -111,21 +113,5 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             container.innerHTML = `<p>No past cruises recorded yet. Reach out to an admin or travel agent to credit previous sailings.</p>`;
         }
-    }
-
-    // C. LOGIN FORM AUTOMATION
-    const loginForm = document.getElementById('loginForm'); // Matches your login form ID
-    if (loginForm) {
-        loginForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const enteredEmail = document.getElementById('loginEmailInput').value.trim();
-            const enteredName = document.getElementById('loginNameInput').value.trim();
-
-            await handleUserLogin(enteredEmail, enteredName);
-
-            // Automatically head to the dashboard after logging in
-            window.location.href = 'dashboard.html'; // Change to your actual dashboard HTML file name if different
-        });
     }
 });
