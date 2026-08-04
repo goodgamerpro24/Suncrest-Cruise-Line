@@ -317,33 +317,45 @@
             color: #e63946;
         }
 
-        /* Port Selection Checkbox Grid */
+        /* Single-Column Clean Scrollable List for Ports */
         .ports-selection-box {
-            max-height: 220px;
+            max-height: 280px;
             overflow-y: auto;
             border: 1px solid #ccc;
             background: white;
-            padding: 10px;
+            padding: 12px;
             border-radius: 6px;
         }
         .port-category-title {
             font-size: 13px;
             font-weight: bold;
             color: #e63946;
-            margin: 10px 0 5px 0;
+            margin: 12px 0 6px 0;
             text-transform: uppercase;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 4px;
         }
-        .port-checkbox-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            font-size: 13px;
+        .port-list-single {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
-        .port-checkbox-grid label {
+        .port-list-single label {
             font-weight: normal;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 4px 6px;
+            border-radius: 4px;
+        }
+        .port-list-single label:hover {
+            background-color: #f0f4f8;
+        }
+        .port-list-single input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
             cursor: pointer;
         }
 
@@ -587,7 +599,7 @@
                 <p>Loading your sailing itinerary...</p>
             </div>
 
-            <!-- Admin / Cruise Planner Management Section with Client Targeting & Ports Selector -->
+            <!-- Admin / Cruise Planner Management Section with Single-Column Clean List for Ports -->
             <div id="admin-management-panel" class="admin-panel">
                 <h3>Admin / Cruise Planner Portal</h3>
                 <p>Logged in as: <strong id="admin-user-display"></strong></p>
@@ -615,20 +627,18 @@
                         <input type="number" id="admin-points" value="5" required>
                     </div>
 
-                    <!-- Itinerary / Ports Selection Checklist -->
+                    <!-- Single-Column Vertical Selection List -->
                     <div class="form-group">
                         <label>Select Itinerary Regions & Ports Visited:</label>
                         <div class="ports-selection-box">
-                            <div class="port-category-title">Grouped Regions</div>
-                            <div class="port-checkbox-grid">
+                            <div class="port-list-single">
+                                <div class="port-category-title">Grouped Regions</div>
                                 <label><input type="checkbox" name="itinerary_port" value="ALASKA"> Alaska</label>
                                 <label><input type="checkbox" name="itinerary_port" value="BAHAMAS"> Bahamas</label>
                                 <label><input type="checkbox" name="itinerary_port" value="CANADA"> Canada</label>
                                 <label><input type="checkbox" name="itinerary_port" value="HAWAII"> Hawaii</label>
-                            </div>
 
-                            <div class="port-category-title">Caribbean & Bahamas</div>
-                            <div class="port-checkbox-grid">
+                                <div class="port-category-title">Caribbean & Bahamas</div>
                                 <label><input type="checkbox" name="itinerary_port" value="Grand Turk"> Grand Turk</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Emerald Bay"> Emerald Bay</label>
                                 <label><input type="checkbox" name="itinerary_port" value="San Juan"> San Juan</label>
@@ -656,20 +666,16 @@
                                 <label><input type="checkbox" name="itinerary_port" value="Falmouth"> Falmouth</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Limón"> Limón</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Colón"> Colón</label>
-                            </div>
 
-                            <div class="port-category-title">North America & Atlantic</div>
-                            <div class="port-checkbox-grid">
+                                <div class="port-category-title">North America & Atlantic</div>
                                 <label><input type="checkbox" name="itinerary_port" value="Bermuda"> Bermuda</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Cabo San Lucas"> Cabo San Lucas</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Puerto Vallarta"> Puerto Vallarta</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Mazatlán"> Mazatlán</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Ensenada"> Ensenada</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Catalina Island"> Catalina Island</label>
-                            </div>
 
-                            <div class="port-category-title">Europe & Mediterranean</div>
-                            <div class="port-checkbox-grid">
+                                <div class="port-category-title">Europe & Mediterranean</div>
                                 <label><input type="checkbox" name="itinerary_port" value="Reykjavik"> Reykjavik</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Akureyri"> Akureyri</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Lerwick"> Lerwick</label>
@@ -704,10 +710,8 @@
                                 <label><input type="checkbox" name="itinerary_port" value="Mykonos"> Mykonos</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Santorini"> Santorini</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Kusadasi/Ephesus"> Kusadasi/Ephesus</label>
-                            </div>
 
-                            <div class="port-category-title">Australia, New Zealand & South Pacific</div>
-                            <div class="port-checkbox-grid">
+                                <div class="port-category-title">Australia, New Zealand & South Pacific</div>
                                 <label><input type="checkbox" name="itinerary_port" value="Sydney"> Sydney</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Brisbane"> Brisbane</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Melbourne"> Melbourne</label>
@@ -735,10 +739,8 @@
                                 <label><input type="checkbox" name="itinerary_port" value="Papeete"> Papeete</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Moorea"> Moorea</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Raiatea"> Raiatea</label>
-                            </div>
 
-                            <div class="port-category-title">Asia & Transatlantic Transit</div>
-                            <div class="port-checkbox-grid">
+                                <div class="port-category-title">Asia & Transatlantic Transit</div>
                                 <label><input type="checkbox" name="itinerary_port" value="Singapore"> Singapore</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Phu My/Ho Chi Minh City"> Phu My/Ho Chi Minh City</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Kota Kinabalu"> Kota Kinabalu</label>
