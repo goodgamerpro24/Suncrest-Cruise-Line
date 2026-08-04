@@ -936,7 +936,7 @@
             if (cruisesList.length === 0) {
                 container.innerHTML = '<p>No past cruises recorded yet. Reach out to an admin or travel agent to credit previous sailings dating back to December 31, 1999!</p>';
             } else {
-                container.innerHTML = cruisesList.map(c => `
+                container.innerHTML = cruisesList.map((c, index) => `
                     <div style="background: #f8fbff; border: 1px solid #d0e0f5; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-start;">
                         <div>
                             <strong>${c.ship}</strong><br>
@@ -944,11 +944,38 @@
                             <small style="color: #666; font-weight: bold;">Booking #: ${c.bookingNumber || 'N/A'}</small><br>
                             <small style="color: #0077be; font-weight: bold;">Ports/Itinerary: ${c.ports && c.ports.length > 0 ? c.ports.join(', ') : 'General Itinerary'}</small>
                         </div>
-                        <div style="background: #104c81; color: white; padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold;">
-                            +${c.points} Points
+                        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+                            <div style="background: #104c81; color: white; padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold;">
+                                +${c.points} Points
+                            </div>
+                            <button onclick="removeCruise(${index})" style="background: #e63946; color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer;">Remove</button>
                         </div>
                     </div>
                 `).join('');
+            }
+        }
+
+        // Remove duplicate or individual cruises and recalculate points/counts
+        function removeCruise(index) {
+            let cruisesList = JSON.parse(localStorage.getItem(`suncrest_cruises_list_${currentTargetId}`) || '[]');
+            if (index < 0 || index >= cruisesList.length) return;
+
+            if (confirm("Are you sure you want to remove this sailing? Points and cruise totals will be updated automatically.")) {
+                cruisesList.splice(index, 1);
+
+                // Recalculate totals
+                let newPoints = 0;
+                cruisesList.forEach(c => {
+                    newPoints += parseInt(c.points || 0);
+                });
+                let newCount = cruisesList.length;
+
+                localStorage.setItem(`suncrest_points_${currentTargetId}`, newPoints);
+                localStorage.setItem(`suncrest_cruises_count_${currentTargetId}`, newCount);
+                localStorage.setItem(`suncrest_cruises_list_${currentTargetId}`, JSON.stringify(cruisesList));
+
+                loadUserData(currentTargetId);
+                alert("Sailing successfully removed.");
             }
         }
 
