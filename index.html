@@ -12,7 +12,6 @@
             background-color: #f4f4f4;
         }
         
-        /* Updated Header Styles */
         .header {
             background-color: #104c81;
             color: white;
@@ -20,6 +19,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
         .header h1 { 
             margin: 0; 
@@ -45,10 +45,8 @@
             opacity: 0.8;
         }
 
-        /* New Auth Button Styles */
         .auth-container {
-            display: flex;
-            align-items: center;
+            position: relative;
         }
         .auth-btn {
             background-color: transparent;
@@ -73,7 +71,80 @@
             border-radius: 20px;
             font-size: 14px;
             font-weight: bold;
+            cursor: pointer;
             display: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        /* Profile Dropdown Menu Modal matching reference image */
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 50px;
+            width: 280px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            padding: 20px;
+            z-index: 1000;
+            color: #104c81;
+            box-sizing: border-box;
+        }
+        .profile-dropdown.active {
+            display: block;
+        }
+        .dropdown-menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+        .dropdown-menu-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .dropdown-menu-list li a {
+            text-decoration: none;
+            color: #104c81;
+            font-weight: bold;
+            font-size: 16px;
+            display: block;
+        }
+        .dropdown-menu-list li a:hover {
+            color: #e63946;
+        }
+        .logout-btn-box {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .btn-logout {
+            width: 100%;
+            background: white;
+            color: #104c81;
+            border: 2px solid #104c81;
+            padding: 10px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+        .btn-logout:hover {
+            background: #104c81;
+            color: white;
+        }
+        .dropdown-footer-links {
+            display: flex;
+            justify-content: space-around;
+            font-size: 13px;
+        }
+        .dropdown-footer-links a {
+            color: #104c81;
+            text-decoration: none;
+        }
+        .dropdown-footer-links a:hover {
+            text-decoration: underline;
         }
 
         /* Existing Styles */
@@ -208,15 +279,32 @@
                 <a href="learnmore.html">Our History</a>
                 <a href="#">Plan a Cruise</a>
                 <a href="#">Our Ships</a>
-                <!-- Updated Link to match the generated destinations page -->
                 <a href="destinations.html">Destinations</a>
-                <a href="#">Deals</a>
+                <a href="offers.html">Deals</a>
             </div>
             
-            <!-- New Auth Container syncing with account.html -->
+            <!-- Auth Container & Dropdown Trigger -->
             <div class="auth-container">
                 <a href="account.html" id="auth-action-btn" class="auth-btn">Sign In / Create Account</a>
-                <div id="user-badge" class="user-badge"></div>
+                <div id="user-badge" class="user-badge" onclick="toggleProfileMenu(event)"></div>
+                
+                <!-- Profile Subpage Menu Overlay matching reference layout -->
+                <div id="profile-dropdown" class="profile-dropdown">
+                    <ul class="dropdown-menu-list">
+                        <li><a href="profile.html?tab=profile">My Profile</a></li>
+                        <li><a href="profile.html?tab=benefits">My Benefits</a></li>
+                        <li><a href="profile.html?tab=cruises">My Cruises</a></li>
+                        <li><a href="profile.html?tab=offers">My Offers</a></li>
+                        <li><a href="profile.html?tab=favorites">Favorites</a></li>
+                    </ul>
+                    <div class="logout-btn-box">
+                        <button class="btn-logout" onclick="handleLogout()">LOG OUT</button>
+                    </div>
+                    <div class="dropdown-footer-links">
+                        <a href="#">FAQs</a>
+                        <a href="#">Post-Cruise Inquiries</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -281,7 +369,7 @@
         </div>
     </div>
 
-    <!-- Script to handle authentication syncing -->
+    <!-- Script to handle persistent session, button formatting, and menu toggling -->
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             const savedName = localStorage.getItem('suncrest_user_name');
@@ -289,16 +377,34 @@
             const userBadge = document.getElementById('user-badge');
 
             if (savedName) {
-                // User is logged in
                 userBadge.innerText = `Ahoy, ${savedName}!`;
                 userBadge.style.display = 'block';
                 authBtn.style.display = 'none';
             } else {
-                // No user logged in
                 userBadge.style.display = 'none';
                 authBtn.style.display = 'block';
             }
         });
+
+        function toggleProfileMenu(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('profile-dropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', () => {
+            const dropdown = document.getElementById('profile-dropdown');
+            if (dropdown && dropdown.classList.contains('active')) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        function handleLogout() {
+            localStorage.removeItem('suncrest_user_name');
+            localStorage.removeItem('suncrest_registered_user');
+            window.location.reload();
+        }
     </script>
 </body>
 </html>
