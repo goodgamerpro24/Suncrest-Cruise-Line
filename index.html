@@ -11,27 +11,78 @@
             padding: 0;
             background-color: #f4f4f4;
         }
+        
+        /* Updated Header Styles */
         .header {
             background-color: #104c81;
             color: white;
-            padding: 20px;
+            padding: 15px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .header h1 { margin: 0; }
+        .header h1 { 
+            margin: 0; 
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
         .nav-links a {
             color: white;
             text-decoration: none;
-            margin-left: 15px;
-            font-weight: bold;
+            margin-left: 20px;
+            font-weight: 500;
+            font-size: 15px;
+            transition: opacity 0.2s;
         }
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* New Auth Button Styles */
+        .auth-container {
+            display: flex;
+            align-items: center;
+        }
+        .auth-btn {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        .auth-btn:hover {
+            background-color: white;
+            color: #104c81;
+        }
+        .user-badge {
+            background-color: white;
+            color: #104c81;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* Existing Styles */
         .promo-container {
             display: flex;
             gap: 20px;
             padding: 20px;
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 20px auto 0;
         }
         .promo-banner {
             background-color: #2b70b4;
@@ -63,7 +114,7 @@
             color: white;
             text-align: center;
             padding: 30px 20px;
-            margin: 0 auto 20px auto;
+            margin: 20px auto;
             max-width: 1200px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -151,13 +202,22 @@
 
     <div class="header">
         <h1>SUNCREST</h1>
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="learnmore.html">Our History</a>
-            <a href="#">Plan a Cruise</a>
-            <a href="#">Our Ships</a>
-            <a href="#">Destinations</a>
-            <a href="#">Deals</a>
+        <div class="header-right">
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="learnmore.html">Our History</a>
+                <a href="#">Plan a Cruise</a>
+                <a href="#">Our Ships</a>
+                <!-- Updated Link to match the generated destinations page -->
+                <a href="destinations.html">Destinations</a>
+                <a href="#">Deals</a>
+            </div>
+            
+            <!-- New Auth Container syncing with account.html -->
+            <div class="auth-container">
+                <a href="account.html" id="auth-action-btn" class="auth-btn">Sign In / Create Account</a>
+                <div id="user-badge" class="user-badge"></div>
+            </div>
         </div>
     </div>
 
@@ -221,5 +281,24 @@
         </div>
     </div>
 
+    <!-- Script to handle authentication syncing -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedName = localStorage.getItem('suncrest_user_name');
+            const authBtn = document.getElementById('auth-action-btn');
+            const userBadge = document.getElementById('user-badge');
+
+            if (savedName) {
+                // User is logged in
+                userBadge.innerText = `Ahoy, ${savedName}!`;
+                userBadge.style.display = 'block';
+                authBtn.style.display = 'none';
+            } else {
+                // No user logged in
+                userBadge.style.display = 'none';
+                authBtn.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
