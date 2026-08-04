@@ -317,6 +317,36 @@
             color: #e63946;
         }
 
+        /* Port Selection Checkbox Grid */
+        .ports-selection-box {
+            max-height: 220px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .port-category-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #e63946;
+            margin: 10px 0 5px 0;
+            text-transform: uppercase;
+        }
+        .port-checkbox-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            font-size: 13px;
+        }
+        .port-checkbox-grid label {
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
         /* Chat System UI */
         .chat-box {
             border: 1px solid #d0e0f5;
@@ -557,7 +587,7 @@
                 <p>Loading your sailing itinerary...</p>
             </div>
 
-            <!-- Admin / Cruise Planner Management Section with Client Targeting -->
+            <!-- Admin / Cruise Planner Management Section with Client Targeting & Ports Selector -->
             <div id="admin-management-panel" class="admin-panel">
                 <h3>Admin / Cruise Planner Portal</h3>
                 <p>Logged in as: <strong id="admin-user-display"></strong></p>
@@ -584,6 +614,152 @@
                         <label>Points to Award</label>
                         <input type="number" id="admin-points" value="5" required>
                     </div>
+
+                    <!-- Itinerary / Ports Selection Checklist -->
+                    <div class="form-group">
+                        <label>Select Itinerary Regions & Ports Visited:</label>
+                        <div class="ports-selection-box">
+                            <div class="port-category-title">Grouped Regions</div>
+                            <div class="port-checkbox-grid">
+                                <label><input type="checkbox" name="itinerary_port" value="ALASKA"> Alaska</label>
+                                <label><input type="checkbox" name="itinerary_port" value="BAHAMAS"> Bahamas</label>
+                                <label><input type="checkbox" name="itinerary_port" value="CANADA"> Canada</label>
+                                <label><input type="checkbox" name="itinerary_port" value="HAWAII"> Hawaii</label>
+                            </div>
+
+                            <div class="port-category-title">Caribbean & Bahamas</div>
+                            <div class="port-checkbox-grid">
+                                <label><input type="checkbox" name="itinerary_port" value="Grand Turk"> Grand Turk</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Emerald Bay"> Emerald Bay</label>
+                                <label><input type="checkbox" name="itinerary_port" value="San Juan"> San Juan</label>
+                                <label><input type="checkbox" name="itinerary_port" value="St. Thomas"> St. Thomas</label>
+                                <label><input type="checkbox" name="itinerary_port" value="St. Maarten"> St. Maarten</label>
+                                <label><input type="checkbox" name="itinerary_port" value="St. Kitts"> St. Kitts</label>
+                                <label><input type="checkbox" name="itinerary_port" value="St. Croix"> St. Croix</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Antigua"> Antigua</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Aruba"> Aruba</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Bonaire"> Bonaire</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Curacao"> Curacao</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Barbados"> Barbados</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Grenada"> Grenada</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Dominica"> Dominica</label>
+                                <label><input type="checkbox" name="itinerary_port" value="St. Lucia"> St. Lucia</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Martinique"> Martinique</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Cozumel"> Cozumel</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Costa Maya"> Costa Maya</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Progreso/Yucatán"> Progreso/Yucatán</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Grand Cayman"> Grand Cayman</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Compass Rose Cay"> Compass Rose Cay</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Belize City"> Belize City</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Ocho Rios"> Ocho Rios</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Montego Bay"> Montego Bay</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Falmouth"> Falmouth</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Limón"> Limón</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Colón"> Colón</label>
+                            </div>
+
+                            <div class="port-category-title">North America & Atlantic</div>
+                            <div class="port-checkbox-grid">
+                                <label><input type="checkbox" name="itinerary_port" value="Bermuda"> Bermuda</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Cabo San Lucas"> Cabo San Lucas</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Puerto Vallarta"> Puerto Vallarta</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Mazatlán"> Mazatlán</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Ensenada"> Ensenada</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Catalina Island"> Catalina Island</label>
+                            </div>
+
+                            <div class="port-category-title">Europe & Mediterranean</div>
+                            <div class="port-checkbox-grid">
+                                <label><input type="checkbox" name="itinerary_port" value="Reykjavik"> Reykjavik</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Akureyri"> Akureyri</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Lerwick"> Lerwick</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Invergordon"> Invergordon</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Liverpool"> Liverpool</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Dover"> Dover</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Le Havre/Paris"> Le Havre/Paris</label>
+                                <label><input type="checkbox" name="itinerary_port" value="La Coruña"> La Coruña</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Bilbao"> Bilbao</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Vigo"> Vigo</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Lisbon"> Lisbon</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Leixões/Porto"> Leixões/Porto</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Cádiz/Seville"> Cádiz/Seville</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Málaga"> Málaga</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Valencia"> Valencia</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Barcelona"> Barcelona</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Palma de Mallorca"> Palma de Mallorca</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Marseille"> Marseille</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Livorno/Florence/Pisa"> Livorno/Florence/Pisa</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Civitavecchia/Rome"> Civitavecchia/Rome</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Naples/Pompeii"> Naples/Pompeii</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Messina/Sicily"> Messina/Sicily</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Valletta"> Valletta</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Kotor"> Kotor</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Dubrovnik"> Dubrovnik</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Zadar"> Zadar</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Trieste"> Trieste</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Venice"> Venice</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Corfu"> Corfu</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Katakolon/Olympia"> Katakolon/Olympia</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Piraeus/Athens"> Piraeus/Athens</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Mykonos"> Mykonos</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Santorini"> Santorini</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Kusadasi/Ephesus"> Kusadasi/Ephesus</label>
+                            </div>
+
+                            <div class="port-category-title">Australia, New Zealand & South Pacific</div>
+                            <div class="port-checkbox-grid">
+                                <label><input type="checkbox" name="itinerary_port" value="Sydney"> Sydney</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Brisbane"> Brisbane</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Melbourne"> Melbourne</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Cairns"> Cairns</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Airlie Beach/Whitsundays"> Airlie Beach/Whitsundays</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Moreton Island"> Moreton Island</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Willis Island"> Willis Island</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Hobart/Tasmania"> Hobart/Tasmania</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Port Arthur/Tasmania"> Port Arthur/Tasmania</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Auckland"> Auckland</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Wellington"> Wellington</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Christchurch/Lyttelton"> Christchurch/Lyttelton</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Dunedin/Port Chalmers"> Dunedin/Port Chalmers</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Fiordland National Park"> Fiordland National Park</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Nouméa"> Nouméa</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Lifou Isle"> Lifou Isle</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Mare"> Mare</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Mystery Island"> Mystery Island</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Port Vila"> Port Vila</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Dravuni Island"> Dravuni Island</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Suva"> Suva</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Lautoka"> Lautoka</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Pago Pago"> Pago Pago</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Apia"> Apia</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Papeete"> Papeete</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Moorea"> Moorea</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Raiatea"> Raiatea</label>
+                            </div>
+
+                            <div class="port-category-title">Asia & Transatlantic Transit</div>
+                            <div class="port-checkbox-grid">
+                                <label><input type="checkbox" name="itinerary_port" value="Singapore"> Singapore</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Phu My/Ho Chi Minh City"> Phu My/Ho Chi Minh City</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Kota Kinabalu"> Kota Kinabalu</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Manila"> Manila</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Hualien"> Hualien</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Keelung/Taipei"> Keelung/Taipei</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Naha/Okinawa"> Naha/Okinawa</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Kagoshima"> Kagoshima</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Tokyo/Yokohama"> Tokyo/Yokohama</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Hiroshima"> Hiroshima</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Nagasaki"> Nagasaki</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Osaka"> Osaka</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Kochi"> Kochi</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Ponta Delgada"> Ponta Delgada</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Praia da Vitória"> Praia da Vitória</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Funchal"> Funchal</label>
+                                <label><input type="checkbox" name="itinerary_port" value="Santa Cruz de Tenerife"> Santa Cruz de Tenerife</label>
+                            </div>
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn-save" style="background-color: #104c81;">Add Past Cruise to Target Client</button>
                 </form>
             </div>
@@ -759,10 +935,11 @@
                 container.innerHTML = '<p>No past cruises recorded yet. Reach out to an admin or travel agent to credit previous sailings dating back to December 31, 1999!</p>';
             } else {
                 container.innerHTML = cruisesList.map(c => `
-                    <div style="background: #f8fbff; border: 1px solid #d0e0f5; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="background: #f8fbff; border: 1px solid #d0e0f5; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-start;">
                         <div>
                             <strong>${c.ship}</strong><br>
-                            <small style="color: #666;">Sail Date: ${c.date}</small>
+                            <small style="color: #666;">Sail Date: ${c.date}</small><br>
+                            <small style="color: #0077be; font-weight: bold;">Ports/Itinerary: ${c.ports && c.ports.length > 0 ? c.ports.join(', ') : 'General Itinerary'}</small>
                         </div>
                         <div style="background: #104c81; color: white; padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold;">
                             +${c.points} Points
@@ -811,12 +988,18 @@
             window.location.reload();
         }
 
-        // Admin action to add prior cruises to the actively targeted client ID
+        // Admin action to add prior cruises and itinerary ports to the actively targeted client ID
         function adminAddCruise(event) {
             event.preventDefault();
             const ship = document.getElementById('admin-ship').value;
             const date = document.getElementById('admin-date').value;
             const pointsToAdd = parseInt(document.getElementById('admin-points').value);
+
+            // Collect selected ports from checkboxes
+            const selectedPorts = [];
+            document.querySelectorAll('input[name="itinerary_port"]:checked').forEach(checkbox => {
+                selectedPorts.push(checkbox.value);
+            });
 
             if (new Date(date) < new Date('1999-12-31')) {
                 alert('Error: Past cruises can only be added as early as December 31, 1999.');
@@ -829,13 +1012,16 @@
 
             currentPoints += pointsToAdd;
             currentCount += 1;
-            cruisesList.push({ ship, date, points: pointsToAdd });
+            cruisesList.push({ ship, date, points: pointsToAdd, ports: selectedPorts });
 
             localStorage.setItem(`suncrest_points_${currentTargetId}`, currentPoints);
             localStorage.setItem(`suncrest_cruises_count_${currentTargetId}`, currentCount);
             localStorage.setItem(`suncrest_cruises_list_${currentTargetId}`, JSON.stringify(cruisesList));
 
-            alert('Prior cruise successfully added to client profile!');
+            // Reset checklist
+            document.querySelectorAll('input[name="itinerary_port"]:checked').forEach(cb => cb.checked = false);
+
+            alert('Prior cruise and itinerary successfully added to client profile!');
             loadUserData(currentTargetId);
         }
 
