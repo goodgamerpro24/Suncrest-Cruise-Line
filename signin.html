@@ -164,7 +164,7 @@
             <a href="plan.html">Plan a Cruise</a>
             <a href="fleet.html">Our Ships</a>
             <a href="destinations.html">Destinations</a>
-            <a href="deals.html">Deals</a>
+            <a href="offers.html">Deals</a>
         </div>
     </div>
 
@@ -178,13 +178,13 @@
         <!-- Sign In Section -->
         <div id="signin-section" class="form-section active">
             <div class="form-group">
-                <label for="signin-email">Email Address</label>
-                <input type="email" id="signin-email" placeholder="e.g. user@gmail.com">
+                <label for="signin-email">Email Address or Username</label>
+                <input type="text" id="signin-email" placeholder="e.g. user@gmail.com or admin">
             </div>
             <div class="form-group">
                 <label for="signin-password">Password</label>
                 <input type="password" id="signin-password" placeholder="Enter your password">
-                <div id="signin-error" class="error-msg">Invalid email or password.</div>
+                <div id="signin-error" class="error-msg">Invalid email, username, or password.</div>
             </div>
             <button class="auth-submit-btn" onclick="handleSignIn()">Sign In</button>
         </div>
@@ -211,6 +211,9 @@
 
     <script>
         function switchTab(tabName) {
+            document.getElementById('signin-tab').classList.toggle('active', tabName === 'signin');
+            document.getElementById('signup-tab', tabName === 'signup').classList.toggle('active', tabName === 'signup');
+            // Fixed correct active toggle selectors
             document.getElementById('signin-tab').classList.toggle('active', tabName === 'signin');
             document.getElementById('signup-tab').classList.toggle('active', tabName === 'signup');
             document.getElementById('signin-section').classList.toggle('active', tabName === 'signin');
@@ -243,36 +246,80 @@
             }
 
             if (isValid && name) {
-                const userData = { name: name, email: email, password: password };
-                localStorage.setItem('suncrest_registered_user', JSON.stringify(userData));
-                localStorage.setItem('suncrest_user_name', name);
+                // Save user credentials into an array database in localStorage so multiple users can register/sign back in
+                let usersList = JSON.parse(localStorage.getItem('suncrest_users_db') || '[]');
                 
-                window.location.href = 'index.html';
+                // Check if email already exists
+                const existingUser = usersList.find(u => u.email === email);
+                if (existingUser) {
+                    existingUser.name = name;
+                    existingUser.password = password;
+                } else {
+                    usersList.push({ name: name, email: email, password: password, role: 'user' });
+                }
+
+                localStorage.setItem('suncrest_users_db', JSON.stringify(usersList));
+
+                // Set active session states
+                localStorage.setItem('suncrest_registered_user', JSON.stringify({ name: name, email: email, password: password }));
+                localStorage.setItem('suncrest_user_name', name);
+                localStorage.setItem('suncrest_user_email', email);
+                localStorage.setItem('suncrest_user_role', 'user');
+                
+                window.location.href = 'profile.html';
             } else if (!name) {
                 alert('Please provide your name.');
             }
         }
 
         function handleSignIn() {
-            const email = document.getElementById('signin-email').value.trim();
+            const inputVal = document.getElementById('signin-email').value.trim();
             const password = document.getElementById('signin-password').value.trim();
             const signinError = document.getElementById('signin-error');
 
+            // Hardcoded Admin & Cruise Planner logins check
+            if ((inputVal === 'admin@suncrestcruiseline.com' || inputVal === 'admin') && password === 'suncrestcruiseline123') {
+                localStorage.setItem('suncrest_registered_user', JSON.stringify({ name: 'System Admin', email: 'admin@suncrestcruiseline.com' }));
+                localStorage.setItem('suncrest_user_name', 'System Admin');
+                localStorage.setItem('suncrest_user_email', 'admin@suncrestcruiseline.com');
+                localStorage.setItem('suncrest_user_role', 'admin');
+                window.location.href = 'profile.html';
+                return;
+            }
+
+            if ((inputVal === 'cruiseplaner@suncrestcruiseline.com' || inputVal === 'planner') && password === 'suncrestcruiseplanner') {
+                localStorage.setItem('suncrest_registered_user', JSON.stringify({ name: 'Cruise Planner', email: 'cruiseplaner@suncrestcruiseline.com' }));
+                localStorage.setItem('suncrest_user_name', 'Cruise Planner');
+                localStorage.setItem('suncrest_user_email', 'cruiseplaner@suncrestcruiseline.com');
+                localStorage.setItem('suncrest_user_role', 'planner');
+                window.location.href = 'profile.html';
+                return;
+            }
+
+            // Check against registered users database in localStorage
+            let usersList = JSON.parse(localStorage.getItem('suncrest_users_db') || '[]');
+            const foundUser = usersList.find(u => (u.email === inputVal || u.name.toLowerCase() === inputVal.toLowerCase()) && u.password === password);
+
+            if (foundUser) {
+                localStorage.setItem('suncrest_registered_user', JSON.stringify(foundUser));
+                localStorage.setItem('suncrest_user_name', foundUser.name);
+                localStorage.setItem('suncrest_user_email', foundUser.email);
+                localStorage.setItem('suncrest_user_role', foundUser.role || 'user');
+                window.location.href = 'profile.html';
+                return;
+            }
+
+            // Fallback to legacy single user storage check
             const storedUserRaw = localStorage.getItem('suncrest_registered_user');
             if (storedUserRaw) {
                 const storedUser = JSON.parse(storedUserRaw);
-                if (storedUser.email === email && storedUser.password === password) {
+                if ((storedUser.email === inputVal || storedUser.name.toLowerCase() === inputVal.toLowerCase()) && storedUser.password === password) {
                     localStorage.setItem('suncrest_user_name', storedUser.name);
-                    window.location.href = 'index.html';
+                    localStorage.setItem('suncrest_user_email', storedUser.email);
+                    localStorage.setItem('suncrest_user_role', 'user');
+                    window.location.href = 'profile.html';
                     return;
                 }
-            }
-
-            const quickName = localStorage.getItem('suncrest_user_name');
-            if (quickName) {
-                localStorage.setItem('suncrest_user_name', quickName);
-                window.location.href = 'index.html';
-                return;
             }
 
             signinError.style.display = 'block';
