@@ -1,1 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUNCREST Cruise Line - Special Offers & Deals</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #104c81;
+        }
 
+        .header {
+            background-color: #104c81;
+            color: white;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        .header h1 { 
+            margin: 0; 
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            font-size: 15px;
+        }
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .auth-container {
+            position: relative;
+        }
+        .user-badge {
+            background-color: white;
+            color: #104c81;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        /* Profile Dropdown Menu */
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 50px;
+            width: 280px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            padding: 20px;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        .profile-dropdown.active {
+            display: block;
+        }
+        .dropdown-menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+        .dropdown-menu-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .dropdown-menu-list li a {
+            text-decoration: none;
+            color: #104c81;
+            font-weight: bold;
+            font-size: 16px;
+            display: block;
+        }
+        .dropdown-menu-list li a:hover {
+            color: #e63946;
+        }
+        .logout-btn-box {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .btn-logout {
+            width: 100%;
+            background: white;
+            color: #104c81;
+            border: 2px solid #104c81;
+            padding: 10px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        .btn-logout:hover {
+            background: #104c81;
+            color: white;
+        }
+        .dropdown-footer-links {
+            display: flex;
+            justify-content: space-around;
+            font-size: 13px;
+        }
+        .dropdown-footer-links a {
+            color: #104c81;
+            text-decoration: none;
+        }
+
+        /* Main Container Layout */
+        .main-container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 30px;
+        }
+
+        .offers-header {
+            text-align: center;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+        .offers-header h2 {
+            margin: 0;
+            font-size: 28px;
+            color: #104c81;
+            text-transform: uppercase;
+        }
+        .offers-header p {
+            color: #666;
+            font-size: 15px;
+            margin-top: 5px;
+        }
+
+        /* Filter Controls Bar */
+        .filter-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            background: #f8fbff;
+            border: 1px solid #d0e0f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .filter-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #104c81;
+            text-transform: uppercase;
+        }
+        .filter-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+
+        /* Offers Grid Layout */
+        .offers-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+        .offer-card {
+            background: #f8fbff;
+            border: 1px solid #d0e0f5;
+            border-left: 6px solid #104c81;
+            border-radius: 8px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+            transition: transform 0.2s;
+        }
+        .offer-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .offer-card.exclusive {
+            border-left-color: #e63946;
+            background: #fff8f8;
+            border-color: #f5d0d0;
+        }
+        .offer-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .offer-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #104c81;
+            margin: 0;
+        }
+        .offer-card.exclusive .offer-title {
+            color: #e63946;
+        }
+        .promo-badge {
+            background: #104c81;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .offer-card.exclusive .promo-badge {
+            background: #e63946;
+        }
+
+        .offer-bullet-list {
+            margin: 0;
+            padding-left: 20px;
+            color: #333;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .offer-bullet-list li {
+            margin-bottom: 6px;
+        }
+
+        .offer-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eaeaea;
+            padding-top: 15px;
+            margin-top: 5px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .price-tag-box {
+            font-size: 24px;
+            font-weight: 800;
+            color: #104c81;
+        }
+        .price-sub {
+            font-size: 12px;
+            color: #666;
+            font-weight: normal;
+            display: block;
+        }
+
+        .btn-shop-now {
+            background-color: #e63946;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+        .btn-shop-now:hover {
+            background-color: #c52a36;
+        }
+
+        /* Logged-out state container for personal deals */
+        .login-prompt-card {
+            background: #f8fbff;
+            border: 2px dashed #104c81;
+            text-align: center;
+            padding: 35px;
+            border-radius: 8px;
+        }
+        .login-prompt-card h3 {
+            margin-top: 0;
+            font-size: 22px;
+            color: #104c81;
+        }
+        .btn-login-action {
+            background-color: #e63946;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 8px 5px;
+        }
+        .btn-login-action:hover {
+            background-color: #c52a36;
+        }
+        .btn-register-action {
+            background-color: white;
+            color: #104c81;
+            border: 2px solid #104c81;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 8px 5px;
+        }
+        .btn-register-action:hover {
+            background-color: #104c81;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>SUNCREST</h1>
+        <div class="header-right">
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="learnmore.html">Our History</a>
+                <a href="destinations.html">Destinations</a>
+                <a href="offers.html">Deals</a>
+            </div>
+
+            <div class="auth-container">
+                <div id="user-badge" class="user-badge" onclick="toggleProfileMenu(event)">Ahoy, Guest!</div>
+
+                <div id="profile-dropdown" class="profile-dropdown">
+                    <ul class="dropdown-menu-list">
+                        <li><a href="profile.html?tab=profile">My Profile</a></li>
+                        <li><a href="profile.html?tab=benefits">My Benefits</a></li>
+                        <li><a href="profile.html?tab=cruises">My Cruises</a></li>
+                        <li><a href="profile.html?tab=chat">Client Chat</a></li>
+                        <li><a href="profile.html?tab=offers">My Offers</a></li>
+                    </ul>
+                    <div class="logout-btn-box">
+                        <button class="btn-logout" onclick="handleLogout()">LOG OUT</button>
+                    </div>
+                    <div class="dropdown-footer-links">
+                        <a href="#">FAQs</a>
+                        <a href="#">Post-Cruise Inquiries</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="offers-header">
+            <h2 id="deals-count-title">Cruise Deals & Promotions</h2>
+            <p>*Starting price in USD. Taxes and fees are included.</p>
+        </div>
+
+        <!-- FILTER BAR -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label>Month / Sail Date</label>
+                <select id="filter-month" onchange="renderOffers()">
+                    <option value="ALL">All Months / Upcoming</option>
+                    <option value="AUGUST">August 2026</option>
+                    <option value="SEPTEMBER">September 2026</option>
+                    <option value="OCTOBER">October 2026</option>
+                    <option value="NOVEMBER">November 2026</option>
+                    <option value="SPRING2027">Spring 2027</option>
+                    <option value="SUMMER2027">Summer 2027 (Family Reunion)</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Destination Region</label>
+                <select id="filter-destination" onchange="renderOffers()">
+                    <option value="ALL">All Destinations</option>
+                    <option value="BAHAMAS">Bahamas & Caribbean</option>
+                    <option value="ALASKA">Alaska</option>
+                    <option value="EUROPE">Europe & Mediterranean</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Duration Length</label>
+                <select id="filter-duration" onchange="renderOffers()">
+                    <option value="ALL">All Durations</option>
+                    <option value="SHORT">3 - 5 Days (Short Getaway)</option>
+                    <option value="LONG">6+ Days (Extended Voyage)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- OFFERS FEED -->
+        <div id="offers-feed-container" class="offers-grid">
+            <!-- Dynamically rendered via JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Master catalog combining public deals & personal returning-cruiser deals
+        const allOffersDatabase = [
+            {
+                id: 'PUB-01',
+                type: 'public',
+                title: 'Bundle & Save: Upgrade Your Fun',
+                badge: 'PUBLIC DEAL',
+                bullets: [
+                    '$500 onboard credit per room.',
+                    '25% off select onboard experiences including: Shore Excursions, Premium Wi-Fi plans, Cheers! Beverage Program & Bottomless Bubbles, Spa Treatment (On Embark Day and Port Days Only)',
+                    'To receive 25% discount, onboard experiences must be pre-purchased on suncrestcruiseline.com by September 30th, 2026. Discounts automatically applied upon purchase. Subject to availability. Not available onboard. Cannot be combined with other offers.',
+                    'Available on select 3-5 day sailings between October 1, 2026 – May 31, 2027 and select 6+ day sailings between November 1, 2026 – May 31, 2027',
+                    'You can use your $500 onboard credit to purchase experiences before your cruise and while you\'re on board.',
+                    'Hurry! Ends Monday, August 10th'
+                ],
+                price: '352',
+                perMonth: '38/mo',
+                month: 'AUGUST',
+                destination: 'BAHAMAS',
+                duration: 'SHORT',
+                code: 'BUNDLE500'
+            },
+            {
+                id: 'PUB-02',
+                type: 'public',
+                title: 'Plan On Fun Early Saver Bonus Sale',
+                badge: 'PUBLIC DEAL',
+                bullets: [
+                    'Bonus: Up to $50 instant savings',
+                    'Reduced deposits from $50 per person',
+                    'Room upgrade from $1',
+                    'Up to 40% off cruise rates',
+                    'Sailings through April 2028',
+                    'Hurry! Ends Saturday, August 8th'
+                ],
+                price: '183',
+                perMonth: '28/mo',
+                month: 'OCTOBER',
+                destination: 'ALASKA',
+                duration: 'LONG',
+                code: 'EARLYSAVER'
+            },
+            {
+                id: 'PUB-03',
+                type: 'public',
+                title: 'Bring The Bunch, Save A Bunch Sale',
+                badge: 'PUBLIC DEAL',
+                bullets: [
+                    'Save up to $125 per room',
+                    '$25 reduced deposits per person for cabins of 3 guests or more',
+                    'Select sailings through May 2027',
+                    'Hurry! Ends Monday, August 10th'
+                ],
+                price: '184',
+                perMonth: '28/mo',
+                month: 'NOVEMBER',
+                destination: 'BAHAMAS',
+                duration: 'SHORT',
+                code: 'BUNCHSAVE'
+            },
+            {
+                id: 'PUB-04',
+                type: 'public',
+                title: 'Casino Tournament Access Offer',
+                badge: 'CASINO SPECIAL',
+                bullets: [
+                    'Casino Tournament Seat (for up to 2 people). Terms apply.',
+                    'Drinks on Us! While playing in the casino for you and a companion. Terms apply.',
+                    'Available on select sailings',
+                    'Visit Guest Services to learn more',
+                    'Offer ends November 21, 2027'
+                ],
+                price: '1,161',
+                perMonth: '123/mo',
+                month: 'SPRING2027',
+                destination: 'EUROPE',
+                duration: 'LONG',
+                code: 'CASINOVIP'
+            },
+            // Personal Returning Cruiser Deals (Matched when logged in)
+            {
+                id: 'PER-01',
+                type: 'personal',
+                title: 'Loyalty Tier Status Match & Free Interior Room Voucher',
+                badge: 'VIFP CLUB - EXCLUSIVE',
+                bullets: [
+                    'Recognizing your prior sailings with Suncrest, enjoy a complimentary Interior Stateroom guarantee or heavy discount on Balcony upgrades.',
+                    'Includes $150 Casino Play Credit and welcome champagne.',
+                    'Double loyalty point earnings on your next booked voyage.'
+                ],
+                price: '145',
+                perMonth: '22/mo',
+                month: 'ALL',
+                destination: 'BAHAMAS',
+                duration: 'SHORT',
+                code: 'VIFPMATCH26'
+            },
+            {
+                id: 'PER-02',
+                type: 'personal',
+                title: 'August 2027 Family Reunion Group Rate Lock-In',
+                badge: 'PRIVATE REUNION INVITATION',
+                bullets: [
+                    'Special multi-generational family pricing locked in for the August 5-9, 2027 Mardi Gras sailing.',
+                    'Priority check-in and private group cocktail reception.',
+                    'Complimentary commemorative 1.5 liter bottle of water delivered to your cabin.'
+                ],
+                price: '210',
+                perMonth: '32/mo',
+                month: 'SUMMER2027',
+                destination: 'BAHAMAS',
+                duration: 'SHORT',
+                code: 'REUNION27FAM'
+            }
+        ];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const isRegistered = localStorage.getItem('suncrest_registered_user');
+            if (isRegistered) {
+                const userName = localStorage.getItem('suncrest_user_name') || 'Guest';
+                document.getElementById('user-badge').innerText = `Ahoy, ${userName}!`;
+            }
+            renderOffers();
+        });
+
+        function toggleProfileMenu(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('profile-dropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        window.addEventListener('click', () => {
+            const dropdown = document.getElementById('profile-dropdown');
+            if (dropdown && dropdown.classList.contains('active')) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        function handleLogout() {
+            localStorage.removeItem('suncrest_registered_user');
+            localStorage.removeItem('suncrest_user_name');
+            localStorage.removeItem('suncrest_user_email');
+            localStorage.removeItem('suncrest_user_role');
+            window.location.href = 'signin.html';
+        }
+
+        function renderOffers() {
+            const monthFilter = document.getElementById('filter-month').value;
+            const destFilter = document.getElementById('filter-destination').value;
+            const durationFilter = document.getElementById('filter-duration').value;
+            const isRegistered = localStorage.getItem('suncrest_registered_user');
+
+            const filtered = allOffersDatabase.filter(item => {
+                const matchMonth = (monthFilter === 'ALL' || item.month === monthFilter || item.month === 'ALL');
+                const matchDest = (destFilter === 'ALL' || item.destination === destFilter || item.destination === 'ALL');
+                const matchDuration = (durationFilter === 'ALL' || item.duration === durationFilter);
+                return matchMonth && matchDest && matchDuration;
+            });
+
+            const publicDeals = filtered.filter(i => i.type === 'public');
+            const personalDeals = filtered.filter(i => i.type === 'personal');
+
+            document.getElementById('deals-count-title').innerText = `${filtered.length} Deals Available`;
+
+            let htmlOutput = '';
+
+            // Render Public Deals
+            publicDeals.forEach(offer => {
+                htmlOutput += `
+                    <div class="offer-card">
+                        <div class="offer-top-row">
+                            <h3 class="offer-title">${offer.title}</h3>
+                            <span class="promo-badge">${offer.badge}</span>
+                        </div>
+                        <ul class="offer-bullet-list">
+                            ${offer.bullets.map(b => `<li>${b}</li>`).join('')}
+                        </ul>
+                        <div class="offer-footer-row">
+                            <div class="price-tag-box">
+                                $${offer.price}*
+                                <span class="price-sub">or from $${offer.perMonth} average per person</span>
+                            </div>
+                            <button class="btn-shop-now" onclick="applyPromoAndShop('${offer.code}')">SHOP NOW</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Render Personal Deals / VIFP Club Section
+            if (isRegistered) {
+                const userName = localStorage.getItem('suncrest_user_name') || 'Member';
+                htmlOutput += `<div style="margin-top: 10px; border-top: 3px solid #e63946; padding-top: 20px;"><h3 style="color: #e63946; text-transform: uppercase; margin-bottom: 5px;">VIFP Club: Personal Offers for ${userName}</h3><p style="color: #666; font-size: 14px; margin-top:0;">Matched directly to your loyalty profile and sailing history.</p></div>`;
+
+                personalDeals.forEach(offer => {
+                    htmlOutput += `
+                        <div class="offer-card exclusive">
+                            <div class="offer-top-row">
+                                <h3 class="offer-title">${offer.title}</h3>
+                                <span class="promo-badge">${offer.badge}</span>
+                            </div>
+                            <ul class="offer-bullet-list">
+                                ${offer.bullets.map(b => `<li>${b}</li>`).join('')}
+                            </ul>
+                            <div class="offer-footer-row">
+                                <div class="price-tag-box">
+                                    $${offer.price}*
+                                    <span class="price-sub">or from $${offer.perMonth} average per person</span>
+                                </div>
+                                <button class="btn-shop-now" onclick="applyPromoAndShop('${offer.code}')">SHOP NOW & APPLY</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                // Not logged in: Show the VIFP Club Log-in Card matching the screenshot design
+                htmlOutput += `
+                    <div class="login-prompt-card">
+                        <div style="font-size: 14px; font-weight: bold; color: #104c81; letter-spacing: 1px; margin-bottom: 5px;">VIFP CLUB</div>
+                        <h3>LOG IN TO SEE MY DEALS</h3>
+                        <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Access your private loyalty rates, past guest perks, and tailored status-match discounts.</p>
+                        <div>
+                            <a href="signin.html" class="btn-login-action">LOG IN</a>
+                            <a href="signin.html" class="btn-register-action">Create Account</a>
+                        </div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('offers-feed-container').innerHTML = htmlOutput;
+        }
+
+        function applyPromoAndShop(code) {
+            localStorage.setItem('suncrest_autofill_promo', code);
+            alert(`Promo code [${code}] automatically copied and injected! Redirecting to booking engine...`);
+            window.location.href = 'profile.html?tab=cruises';
+        }
+    </script>
+</body>
+</html>
