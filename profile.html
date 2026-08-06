@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUNCREST Cruise Line - Special Offers & Deals</title>
+    <title>SUNCREST Cruise Line - Profile & Admin Portal</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -65,7 +65,7 @@
             position: absolute;
             right: 0;
             top: 50px;
-            width: 300px;
+            width: 280px;
             background: white;
             border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.2);
@@ -89,7 +89,7 @@
             text-decoration: none;
             color: #104c81;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 16px;
             display: block;
         }
         .dropdown-menu-list li a:hover {
@@ -124,9 +124,9 @@
             text-decoration: none;
         }
 
-        /* Main Container Layout */
+        /* Profile Main Content Layout */
         .main-container {
-            max-width: 900px;
+            max-width: 850px;
             margin: 30px auto;
             background: white;
             border-radius: 12px;
@@ -134,245 +134,288 @@
             padding: 30px;
         }
 
-        .offers-header {
+        .profile-header-card {
             text-align: center;
             border-bottom: 2px solid #eaeaea;
-            padding-bottom: 20px;
+            padding-bottom: 25px;
             margin-bottom: 25px;
         }
-        .offers-header h2 {
-            margin: 0;
-            font-size: 28px;
-            color: #104c81;
+        .tier-logo-box {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        /* Tier Colors */
+        .tier-blue { background-color: #0077be; }
+        .tier-orange { background-color: #ff7f00; }
+        .tier-gold { background-color: #d4af37; color: #333; }
+        .tier-platinum { background-color: #708090; }
+        .tier-diamond { background-color: #4b0082; }
+
+        .welcome-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 5px 0;
             text-transform: uppercase;
         }
-        .offers-header p {
+        .member-name {
+            font-size: 26px;
+            font-weight: 800;
+            margin: 5px 0;
+            letter-spacing: 0.5px;
+        }
+        .member-id {
             color: #666;
-            font-size: 15px;
-            margin-top: 5px;
+            font-size: 14px;
         }
 
-        /* Filter Controls Bar */
-        .filter-bar {
+        /* Navigation Tabs */
+        .profile-tabs {
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 2px solid #eaeaea;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            font-size: 15px;
+            font-weight: bold;
+            color: #104c81;
+            padding: 12px 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .tab-btn.active {
+            color: #e63946;
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #e63946;
+        }
+
+        /* Tab Content Panels */
+        .tab-panel {
+            display: none;
+        }
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* Points Breakdown Box */
+        .points-box {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
             background: #f8fbff;
             border: 1px solid #d0e0f5;
             padding: 20px;
             border-radius: 8px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
+            text-align: center;
         }
-        .filter-group label {
+        .points-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #104c81;
+        }
+        .points-label {
+            font-size: 13px;
+            color: #666;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        /* Accordion for Tiers / Benefits */
+        .tier-accordion {
+            border: 1px solid #d0e0f5;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        .tier-accordion-header {
+            background: #f0f4f8;
+            padding: 15px 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .tier-accordion-content {
+            padding: 15px 20px;
+            background: white;
+            display: none;
+            border-top: 1px solid #d0e0f5;
+            font-size: 14px;
+        }
+        .tier-accordion-content.open {
             display: block;
+        }
+        .tier-accordion-content ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .tier-accordion-content li {
+            margin-bottom: 8px;
+        }
+
+        /* Form Inputs for Profile Editor */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+        .btn-save {
+            background-color: #e63946;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        /* Admin / Cruise Planner Panel */
+        .admin-panel {
+            background: #fff8f8;
+            border: 2px dashed #e63946;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            display: none;
+        }
+        .admin-panel h3 {
+            margin-top: 0;
+            color: #e63946;
+        }
+
+        /* Ports Selection Box */
+        .ports-selection-box {
+            max-height: 280px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+        }
+        .port-category-title {
             font-size: 13px;
             font-weight: bold;
-            margin-bottom: 6px;
-            color: #104c81;
+            color: #e63946;
+            margin: 12px 0 6px 0;
             text-transform: uppercase;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 4px;
         }
-        .filter-group select {
-            width: 100%;
+        .port-list-single {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .port-list-single label {
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 4px 6px;
+            border-radius: 4px;
+        }
+        .port-list-single label:hover {
+            background-color: #f0f4f8;
+        }
+        .port-list-single input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* Chat System UI */
+        .chat-box {
+            border: 1px solid #d0e0f5;
+            border-radius: 8px;
+            background: #f8fbff;
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            overflow: hidden;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .chat-message {
+            max-width: 75%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .chat-message.incoming {
+            background: #e1ecf4;
+            color: #104c81;
+            align-self: flex-start;
+        }
+        .chat-message.outgoing {
+            background: #104c81;
+            color: white;
+            align-self: flex-end;
+        }
+        .chat-input-area {
+            display: flex;
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #d0e0f5;
+            gap: 10px;
+        }
+        .chat-input-area input {
+            flex: 1;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 6px;
             font-size: 14px;
-            background: white;
         }
-
-        /* Offers Grid Layout */
-        .offers-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 25px;
-        }
-        .offer-card {
-            background: #f8fbff;
-            border: 1px solid #d0e0f5;
-            border-left: 6px solid #104c81;
-            border-radius: 8px;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            position: relative;
-            transition: transform 0.2s;
-        }
-        .offer-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-        }
-        .offer-card.exclusive {
-            border-left-color: #e63946;
-            background: #fff8f8;
-            border-color: #f5d0d0;
-        }
-        .offer-top-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 15px;
-        }
-        .offer-title {
-            font-size: 22px;
-            font-weight: bold;
-            color: #104c81;
-            margin: 0;
-        }
-        .offer-card.exclusive .offer-title {
-            color: #e63946;
-        }
-        .promo-badge {
+        .chat-input-area button {
             background: #104c81;
             color: white;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-        }
-        .offer-card.exclusive .promo-badge {
-            background: #e63946;
-        }
-
-        .offer-bullet-list {
-            margin: 0;
-            padding-left: 20px;
-            color: #333;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        .offer-bullet-list li {
-            margin-bottom: 6px;
-        }
-
-        .offer-footer-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #eaeaea;
-            padding-top: 15px;
-            margin-top: 5px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        .price-tag-box {
-            font-size: 24px;
-            font-weight: 800;
-            color: #104c81;
-        }
-        .price-sub {
-            font-size: 12px;
-            color: #666;
-            font-weight: normal;
-            display: block;
-        }
-
-        .btn-shop-now {
-            background-color: #e63946;
-            color: white;
             border: none;
-            padding: 12px 28px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 15px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: background 0.2s;
-        }
-        .btn-shop-now:hover {
-            background-color: #c52a36;
-        }
-
-        /* Planner Admin Panel for unlocking custom deals */
-        .admin-controls-card {
-            background: #eef4fc;
-            border: 2px solid #104c81;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 25px;
-        }
-        .admin-controls-card h3 {
-            margin-top: 0;
-            color: #104c81;
-            font-size: 18px;
-            text-transform: uppercase;
-        }
-        .admin-form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-            margin-top: 10px;
-        }
-        .admin-form-group input, .admin-form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #104c81;
-            border-radius: 4px;
-            font-size: 13px;
-        }
-        .btn-admin-unlock {
-            background-color: #104c81;
-            color: white;
-            border: none;
-            padding: 9px 18px;
-            border-radius: 4px;
+            padding: 0 20px;
+            border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
-            font-size: 13px;
-            text-transform: uppercase;
-        }
-        .btn-admin-unlock:hover {
-            background-color: #0b355c;
-        }
-
-        /* Logged-out state container for personal deals */
-        .login-prompt-card {
-            background: #f8fbff;
-            border: 2px dashed #104c81;
-            text-align: center;
-            padding: 35px;
-            border-radius: 8px;
-        }
-        .login-prompt-card h3 {
-            margin-top: 0;
-            font-size: 22px;
-            color: #104c81;
-        }
-        .btn-login-action {
-            background-color: #e63946;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin: 8px 5px;
-        }
-        .btn-login-action:hover {
-            background-color: #c52a36;
-        }
-        .btn-register-action {
-            background-color: white;
-            color: #104c81;
-            border: 2px solid #104c81;
-            padding: 10px 25px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin: 8px 5px;
-        }
-        .btn-register-action:hover {
-            background-color: #104c81;
-            color: white;
         }
     </style>
 </head>
@@ -389,15 +432,15 @@
             </div>
 
             <div class="auth-container">
-                <div id="user-badge" class="user-badge" onclick="toggleProfileMenu(event)">Ahoy, Guest!</div>
+                <div id="user-badge" class="user-badge" onclick="toggleProfileMenu(event)">Ahoy, User!</div>
 
                 <div id="profile-dropdown" class="profile-dropdown">
                     <ul class="dropdown-menu-list">
                         <li><a href="profile.html?tab=profile">My Profile</a></li>
-                        <li><a href="profile.html?tab=benefits">My Fun Squad Benefits</a></li>
+                        <li><a href="profile.html?tab=benefits">My Benefits</a></li>
                         <li><a href="profile.html?tab=cruises">My Cruises</a></li>
                         <li><a href="profile.html?tab=chat">Client Chat</a></li>
-                        <li><a href="profile.html?tab=offers">My Tailored Deals</a></li>
+                        <li><a href="profile.html?tab=offers">My Offers</a></li>
                     </ul>
                     <div class="logout-btn-box">
                         <button class="btn-logout" onclick="handleLogout()">LOG OUT</button>
@@ -412,247 +455,478 @@
     </div>
 
     <div class="main-container">
-        <div class="offers-header">
-            <h2 id="deals-count-title">Cruise Deals & Promotions</h2>
-            <p>*Starting price in USD. Taxes and fees are included.</p>
+        <!-- Profile Top Summary Card -->
+        <div class="profile-header-card">
+            <div id="tier-badge-logo" class="tier-logo-box tier-blue">BLUE</div>
+            <div id="welcome-tier-text" class="welcome-title">WELCOME BACK - FIRST SAILING</div>
+            <div id="display-member-name" class="member-name">GUEST USER</div>
+            <div class="member-id">FUNSQUAD ID #: <span id="display-member-id">SUN-00000</span></div>
         </div>
 
-        <!-- FILTER BAR (Months updated dynamically through December 2028) -->
-        <div class="filter-bar">
-            <div class="filter-group">
-                <label>Month / Sail Date</label>
-                <select id="filter-month" onchange="renderOffers()">
-                    <option value="ALL">All Months / Upcoming</option>
-                    <!-- Dynamically populated month options through Dec 2028 -->
-                </select>
-            </div>
-            <div class="filter-group">
-                <label>Destination Region</label>
-                <select id="filter-destination" onchange="renderOffers()">
-                    <option value="ALL">All Destinations</option>
-                    <option value="BAHAMAS">Bahamas & Caribbean</option>
-                    <option value="ALASKA">Alaska</option>
-                    <option value="EUROPE">Europe & Mediterranean</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label>Duration Length</label>
-                <select id="filter-duration" onchange="renderOffers()">
-                    <option value="ALL">All Durations</option>
-                    <option value="SHORT">3 - 5 Days (Short Getaway)</option>
-                    <option value="LONG">6+ Days (Extended Voyage)</option>
-                </select>
-            </div>
+        <!-- Navigation Tabs -->
+        <div class="profile-tabs">
+            <button class="tab-btn active" onclick="switchTab('profile')">Profile</button>
+            <button class="tab-btn" onclick="switchTab('benefits')">Benefits</button>
+            <button class="tab-btn" onclick="switchTab('cruises')">Cruises</button>
+            <button class="tab-btn" onclick="switchTab('chat')">Chat</button>
+            <button class="tab-btn" onclick="switchTab('offers')">Offers</button>
         </div>
 
-        <!-- CRUISE ADMIN / PLANNER DEAL UNLOCK PANEL (Visible only if signed in as Admin or Planner) -->
-        <div id="admin-planner-panel" style="display: none;" class="admin-controls-card">
-            <h3>Cruise Planner / Admin Deal Generator</h3>
-            <p style="font-size: 13px; color: #444; margin-top: 2px;">Unlock or activate custom targeted deals for clients based on past sailings, high spending, casino play volume, and Fun Squad loyalty tier.</p>
-            <div class="admin-form-grid">
-                <div class="admin-form-group">
-                    <input type="text" id="custom-deal-title" placeholder="Deal Title (e.g., VIP High Roller Upgrade)">
-                </div>
-                <div class="admin-form-group">
-                    <select id="custom-deal-tier">
-                        <option value="FUN SQUAD MEMBER">Fun Squad Member</option>
-                        <option value="FUN SQUAD GOLD">Fun Squad Gold Tier</option>
-                        <option value="FUN SQUAD PLATINUM">Fun Squad Platinum Tier</option>
-                        <option value="FUN SQUAD DIAMOND">Fun Squad Diamond / Casino VIP</option>
+        <!-- TAB 1: PROFILE -->
+        <div id="panel-profile" class="tab-panel active">
+            <h2>Account Information</h2>
+            <form onsubmit="saveProfileChanges(event)">
+                <div class="form-group">
+                    <label>Title</label>
+                    <select id="user-title">
+                        <option value="Mr">Mr</option>
+                        <option value="Ms">Ms</option>
+                        <option value="Mrs">Mrs</option>
+                        <option value="Dr">Dr</option>
                     </select>
                 </div>
-                <div class="admin-form-group">
-                    <select id="custom-deal-month">
-                        <option value="ALL">Valid All Months</option>
-                        <option value="2026-08">August 2026</option>
-                        <option value="2026-09">September 2026</option>
-                        <option value="2026-10">October 2026</option>
-                        <option value="2026-11">November 2026</option>
-                        <option value="2026-12">December 2026</option>
-                        <option value="2027-01">January 2027</option>
-                        <option value="2027-06">June 2027</option>
-                        <option value="2028-12">December 2028</option>
-                    </select>
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" id="input-firstname" required>
                 </div>
-                <div class="admin-form-group">
-                    <button class="btn-admin-unlock" onclick="unlockPlannerDeal()">+ Unlock Custom Deal</button>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" id="input-lastname" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="input-email" required>
+                </div>
+                <button type="submit" class="btn-save">Save Changes</button>
+            </form>
+        </div>
+
+        <!-- TAB 2: BENEFITS -->
+        <div id="panel-benefits" class="tab-panel">
+            <h2>FUNSQUAD POINTS BREAKDOWN</h2>
+            <div class="points-box">
+                <div>
+                    <div id="total-cruises-num" class="points-number">0</div>
+                    <div class="points-label">Total Cruises</div>
+                </div>
+                <div>
+                    <div id="funsquad-points-num" class="points-number">0</div>
+                    <div class="points-label">FUNSQUAD Points</div>
+                </div>
+            </div>
+
+            <h2>Loyalty Tier Benefits</h2>
+
+            <!-- BLUE -->
+            <div class="tier-accordion">
+                <div class="tier-accordion-header" onclick="toggleAccordion(this)">
+                    <span>BLUE: First Sailing (0 Points)</span>
+                    <span>▼</span>
+                </div>
+                <div class="tier-accordion-content">
+                    <ul>
+                        <li>Members-only offers</li>
+                        <li>Member e-newsletter</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ORANGE -->
+            <div class="tier-accordion">
+                <div class="tier-accordion-header" onclick="toggleAccordion(this)">
+                    <span>ORANGE: 2nd Sailing - 24 Points</span>
+                    <span>▼</span>
+                </div>
+                <div class="tier-accordion-content">
+                    <ul>
+                        <li>Members-only offers</li>
+                        <li>Member e-newsletter</li>
+                        <li>Complimentary 1.5 liter bottle of water</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- GOLD -->
+            <div class="tier-accordion">
+                <div class="tier-accordion-header" onclick="toggleAccordion(this)">
+                    <span>GOLD: 25-74 Points</span>
+                    <span>▼</span>
+                </div>
+                <div class="tier-accordion-content">
+                    <ul>
+                        <li>All previous tier benefits</li>
+                        <li>Gold FunSquad pin on every sailing</li>
+                        <li>Invitation to past guest cocktail party</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PLATINUM -->
+            <div class="tier-accordion">
+                <div class="tier-accordion-header" onclick="toggleAccordion(this)">
+                    <span>PLATINUM: 75-199 Points</span>
+                    <span>▼</span>
+                </div>
+                <div class="tier-accordion-content">
+                    <ul>
+                        <li>All previous tier benefits</li>
+                        <li>Priority check-in and boarding</li>
+                        <li>Chocolate tasting event invitation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- DIAMOND -->
+            <div class="tier-accordion">
+                <div class="tier-accordion-header" onclick="toggleAccordion(this)">
+                    <span>DIAMOND: 200+ Points</span>
+                    <span>▼</span>
+                </div>
+                <div class="tier-accordion-content">
+                    <ul>
+                        <li>All previous tier benefits</li>
+                        <li>Guaranteed specialty restaurant reservation</li>
+                        <li>Unlimited laundry service</li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <!-- OFFERS FEED -->
-        <div id="offers-feed-container" class="offers-grid">
-            <!-- Dynamically rendered via JavaScript -->
+        <!-- TAB 3: CRUISES -->
+        <div id="panel-cruises" class="tab-panel">
+            <h2>My Past & Booked Cruises</h2>
+            <div id="cruises-list-container">
+                <p>Loading your sailing itinerary...</p>
+            </div>
+
+            <!-- Admin / Cruise Planner Management Section -->
+            <div id="admin-management-panel" class="admin-panel">
+                <h3>Admin / Cruise Planner Portal</h3>
+                <p>Logged in as: <strong id="admin-user-display"></strong></p>
+
+                <div style="background: white; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 20px;">
+                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Target Client by Name & FunSquad ID:</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="search-client-query" placeholder="e.g. John Doe or SUN-62169">
+                        <button type="button" onclick="lookupClient()" class="btn-save" style="padding: 10px 15px; background: #104c81;">Lookup Client</button>
+                    </div>
+                    <small id="active-target-display" style="color: #e63946; font-weight: bold; display: block; margin-top: 8px;">Currently Managing: Self / Default Session</small>
+                </div>
+
+                <!-- 1. Credit Past Cruise Form with COMPLETE port options -->
+                <div style="background: white; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 20px;">
+                    <h4 style="margin-top:0; color: #104c81;">Credit Past Cruise & Points</h4>
+                    <form onsubmit="adminAddCruise(event)">
+                        <div class="form-group">
+                            <label>Ship Name</label>
+                            <input type="text" id="admin-ship" placeholder="e.g. Suncrest Empress" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Sail Date</label>
+                            <input type="date" id="admin-date" min="1999-12-31" max="2030-12-31" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Points to Award</label>
+                            <input type="number" id="admin-points" value="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Select Itinerary Regions & Ports Visited:</label>
+                            <div class="ports-selection-box">
+                                <div class="port-list-single">
+                                    <div class="port-category-title">General Regions</div>
+                                    <label><input type="checkbox" name="itinerary_port" value="ALASKA"> Alaska</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="BAHAMAS"> Bahamas</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="CANADA"> Canada</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="HAWAII"> Hawaii</label>
+
+                                    <div class="port-category-title">Caribbean & Bahamas</div>
+                                    <label><input type="checkbox" name="itinerary_port" value="Grand Turk"> Grand Turk</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Emerald Bay"> Emerald Bay</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="San Juan"> San Juan</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="St. Thomas"> St. Thomas</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="St. Maarten"> St. Maarten</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="St. Kitts"> St. Kitts</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="St. Croix"> St. Croix</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Antigua"> Antigua</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Aruba"> Aruba</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Bonaire"> Bonaire</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Curacao"> Curacao</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Barbados"> Barbados</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Grenada"> Grenada</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Dominica"> Dominica</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="St. Lucia"> St. Lucia</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Martinique"> Martinique</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Cozumel"> Cozumel</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Costa Maya"> Costa Maya</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Progreso/Yucatán"> Progreso/Yucatán</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Grand Cayman"> Grand Cayman</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Compass Rose Cay"> Compass Rose Cay</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Belize City"> Belize City</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Ocho Rios"> Ocho Rios</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Montego Bay"> Montego Bay</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Falmouth"> Falmouth</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Limón"> Limón</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Colón"> Colón</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Key West"> Key West</label>
+
+                                    <div class="port-category-title">North America & Atlantic</div>
+                                    <label><input type="checkbox" name="itinerary_port" value="Bermuda"> Bermuda</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Cabo San Lucas"> Cabo San Lucas</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Puerto Vallarta"> Puerto Vallarta</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Mazatlán"> Mazatlán</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Ensenada"> Ensenada</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Catalina Island"> Catalina Island</label>
+
+                                    <div class="port-category-title">Europe & Mediterranean</div>
+                                    <label><input type="checkbox" name="itinerary_port" value="Reykjavik"> Reykjavik</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Akureyri"> Akureyri</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Lerwick"> Lerwick</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Invergordon"> Invergordon</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Liverpool"> Liverpool</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Dover"> Dover</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Le Havre/Paris"> Le Havre/Paris</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="La Coruña"> La Coruña</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Bilbao"> Bilbao</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Vigo"> Vigo</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Lisbon"> Lisbon</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Leixões/Porto"> Leixões/Porto</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Cádiz/Seville"> Cádiz/Seville</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Málaga"> Málaga</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Valencia"> Valencia</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Barcelona"> Barcelona</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Palma de Mallorca"> Palma de Mallorca</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Marseille"> Marseille</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Livorno/Florence/Pisa"> Livorno/Florence/Pisa</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Civitavecchia/Rome"> Civitavecchia/Rome</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Naples/Pompeii"> Naples/Pompeii</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Messina/Sicily"> Messina/Sicily</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Valletta"> Valletta</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Kotor"> Kotor</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Dubrovnik"> Dubrovnik</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Zadar"> Zadar</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Trieste"> Trieste</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Venice"> Venice</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Corfu"> Corfu</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Katakolon/Olympia"> Katakolon/Olympia</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Piraeus/Athens"> Piraeus/Athens</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Mykonos"> Mykonos</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Santorini"> Santorini</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Kusadasi/Ephesus"> Kusadasi/Ephesus</label>
+
+                                    <div class="port-category-title">Australia, New Zealand & South Pacific</div>
+                                    <label><input type="checkbox" name="itinerary_port" value="Sydney"> Sydney</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Brisbane"> Brisbane</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Melbourne"> Melbourne</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Cairns"> Cairns</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Airlie Beach/Whitsundays"> Airlie Beach/Whitsundays</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Moreton Island"> Moreton Island</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Willis Island"> Willis Island</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Hobart/Tasmania"> Hobart/Tasmania</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Port Arthur/Tasmania"> Port Arthur/Tasmania</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Auckland"> Auckland</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Wellington"> Wellington</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Christchurch/Lyttelton"> Christchurch/Lyttelton</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Dunedin/Port Chalmers"> Dunedin/Port Chalmers</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Fiordland National Park"> Fiordland National Park</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Nouméa"> Nouméa</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Lifou Isle"> Lifou Isle</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Mare"> Mare</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Mystery Island"> Mystery Island</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Port Vila"> Port Vila</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Dravuni Island"> Dravuni Island</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Suva"> Suva</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Lautoka"> Lautoka</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Pago Pago"> Pago Pago</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Apia"> Apia</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Papeete"> Papeete</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Moorea"> Moorea</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Raiatea"> Raiatea</label>
+
+                                    <div class="port-category-title">Asia & Transatlantic Transit</div>
+                                    <label><input type="checkbox" name="itinerary_port" value="Singapore"> Singapore</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Phu My/Ho Chi Minh City"> Phu My/Ho Chi Minh City</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Kota Kinabalu"> Kota Kinabalu</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Manila"> Manila</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Hualien"> Hualien</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Keelung/Taipei"> Keelung/Taipei</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Naha/Okinawa"> Naha/Okinawa</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Kagoshima"> Kagoshima</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Tokyo/Yokohama"> Tokyo/Yokohama</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Hiroshima"> Hiroshima</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Nagasaki"> Nagasaki</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Osaka"> Osaka</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Kochi"> Kochi</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Ponta Delgada"> Ponta Delgada</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Praia da Vitória"> Praia da Vitória</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Funchal"> Funchal</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Santa Cruz de Tenerife"> Santa Cruz de Tenerife</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-save" style="background-color: #104c81;">Add Past Cruise to Target Client</button>
+                    </form>
+                </div>
+
+                <!-- 2. EXCLUSIVE CRUISE PLANNER BOOKING TOOL -->
+                <div id="planner-booking-section" style="background: white; padding: 15px; border-radius: 6px; border: 2px solid #e63946;">
+                    <h4 style="margin-top:0; color: #e63946;">Planner Exclusive: Book Cruise for Client</h4>
+                    <form onsubmit="plannerBookCruiseForClient(event)">
+                        <div class="form-group">
+                            <label>Ship Name</label>
+                            <input type="text" id="planner-ship" placeholder="e.g. Suncrest Grandeur" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Sail Date (Start)</label>
+                            <input type="date" id="planner-start-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Return Date</label>
+                            <input type="date" id="planner-end-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Itinerary / Route Description</label>
+                            <input type="text" id="planner-itinerary" placeholder="e.g. 7-Day Eastern Caribbean" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Amount of Guests</label>
+                            <input type="number" id="planner-guests" min="1" max="10" value="2" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Room Type</label>
+                            <select id="planner-room-type" required>
+                                <option value="Ocean View">Ocean View</option>
+                                <option value="Scenic Ocean View">Scenic Ocean View</option>
+                                <option value="Standard Balcony">Standard Balcony</option>
+                                <option value="Extended Balcony">Extended Balcony</option>
+                                <option value="Aft Balcony">Aft Balcony</option>
+                                <option value="Extended Aft View Balcony">Extended Aft View Balcony</option>
+                                <option value="Cove Balcony">Cove Balcony</option>
+                                <option value="Junior Suite">Junior Suite</option>
+                                <option value="Premium Suite">Premium Suite</option>
+                                <option value="Vista Ocean Suite">Vista Ocean Suite</option>
+                                <option value="Ocean View Suite">Ocean View Suite</option>
+                                <option value="Havana Suite - Oceanview">Havana Suite (Oceanview)</option>
+                                <option value="Havana Suite - Interior">Havana Suite (Interior)</option>
+                                <option value="Havana Suite - Balcony">Havana Suite (Balcony)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Deck Assignment</label>
+                            <input type="text" id="planner-deck" placeholder="e.g. Deck 8 - Lido" required>
+                        </div>
+                        <button type="submit" class="btn-save">Generate Booking & Price</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TAB 4: CHAT SYSTEM -->
+        <div id="panel-chat" class="tab-panel">
+            <h2>Client & Planner Live Chat</h2>
+            <p id="chat-status-label" style="font-size: 13px; color: #666; margin-bottom: 10px;">Chatting with Cruise Line Support & Planners</p>
+
+            <div class="chat-box">
+                <div id="chat-messages-container" class="chat-messages">
+                    <!-- Messages render here -->
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input-text" placeholder="Type your message here..." onkeypress="handleChatKeyPress(event)">
+                    <button onclick="sendChatMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: OFFERS -->
+        <div id="panel-offers" class="tab-panel">
+            <h2>Special Offers & Deals</h2>
+            <p>Check out our exclusive member rates on <a href="offers.html" style="color: #e63946; font-weight: bold;">offers.html</a>!</p>
         </div>
     </div>
 
     <script>
-        // Generate month options moving forward until December 2028
-        function populateMonthDropdown() {
-            const monthSelect = document.getElementById('filter-month');
-            const adminMonthSelect = document.getElementById('custom-deal-month');
-            
-            const startYear = 2026;
-            const startMonth = 8; // August 2026
-            const endYear = 2028;
-            const endMonth = 12; // December 2028
-
-            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-            let optionsHtml = '<option value="ALL">All Months / Upcoming</option>';
-            let adminOptionsHtml = '<option value="ALL">Valid All Months</option>';
-
-            for (let y = startYear; y <= endYear; y++) {
-                let mStart = (y === startYear) ? startMonth : 1;
-                let mEnd = (y === endYear) ? endMonth : 12;
-
-                for (let m = mStart; m <= mEnd; m++) {
-                    const monthValue = `${y}-${String(m).padStart(2, '0')}`;
-                    const monthLabel = `${monthNames[m - 1]} ${y}`;
-                    optionsHtml += `<option value="${monthValue}">${monthLabel}</option>`;
-                    adminOptionsHtml += `<option value="${monthValue}">${monthLabel}</option>`;
-                }
-            }
-
-            monthSelect.innerHTML = optionsHtml;
-            if (adminMonthSelect) adminMonthSelect.innerHTML = adminOptionsHtml;
-        }
-
-        // Master catalog combining public deals & personal returning-cruiser deals
-        let allOffersDatabase = [
-            {
-                id: 'PUB-01',
-                type: 'public',
-                title: 'Bundle & Save: Upgrade Your Fun',
-                badge: 'PUBLIC DEAL',
-                bullets: [
-                    '$500 onboard credit per room.',
-                    '25% off select onboard experiences including: Shore Excursions, Premium Wi-Fi plans, Cheers! Beverage Program & Bottomless Bubbles, Spa Treatment (On Embark Day and Port Days Only)',
-                    'To receive 25% discount, onboard experiences must be pre-purchased on suncrestcruiseline.com by September 30th, 2026. Discounts automatically applied upon purchase. Subject to availability. Not available onboard. Cannot be combined with other offers.',
-                    'Available on select 3-5 day sailings between October 1, 2026 – May 31, 2027 and select 6+ day sailings between November 1, 2026 – May 31, 2027',
-                    'You can use your $500 onboard credit to purchase experiences before your cruise and while you\'re on board.',
-                    'Hurry! Ends Monday, August 10th'
-                ],
-                price: '352',
-                perMonth: '38/mo',
-                month: '2026-08',
-                destination: 'BAHAMAS',
-                duration: 'SHORT',
-                code: 'BUNDLE500'
-            },
-            {
-                id: 'PUB-02',
-                type: 'public',
-                title: 'Plan On Fun Early Saver Bonus Sale',
-                badge: 'PUBLIC DEAL',
-                bullets: [
-                    'Bonus: Up to $50 instant savings',
-                    'Reduced deposits from $50 per person',
-                    'Room upgrade from $1',
-                    'Up to 40% off cruise rates',
-                    'Sailings through April 2028',
-                    'Hurry! Ends Saturday, August 8th'
-                ],
-                price: '183',
-                perMonth: '28/mo',
-                month: '2026-10',
-                destination: 'ALASKA',
-                duration: 'LONG',
-                code: 'EARLYSAVER'
-            },
-            {
-                id: 'PUB-03',
-                type: 'public',
-                title: 'Bring The Bunch, Save A Bunch Sale',
-                badge: 'PUBLIC DEAL',
-                bullets: [
-                    'Save up to $125 per room',
-                    '$25 reduced deposits per person for cabins of 3 guests or more',
-                    'Select sailings through May 2027',
-                    'Hurry! Ends Monday, August 10th'
-                ],
-                price: '184',
-                perMonth: '28/mo',
-                month: '2026-11',
-                destination: 'BAHAMAS',
-                duration: 'SHORT',
-                code: 'BUNCHSAVE'
-            },
-            {
-                id: 'PUB-04',
-                type: 'public',
-                title: 'Casino Tournament Access Offer',
-                badge: 'CASINO SPECIAL',
-                bullets: [
-                    'Casino Tournament Seat (for up to 2 people). Terms apply.',
-                    'Drinks on Us! While playing in the casino for you and a companion. Terms apply.',
-                    'Available on select sailings',
-                    'Visit Guest Services to learn more',
-                    'Offer ends November 21, 2027'
-                ],
-                price: '1,161',
-                perMonth: '123/mo',
-                month: '2027-01',
-                destination: 'EUROPE',
-                duration: 'LONG',
-                code: 'CASINOVIP'
-            },
-            // Personal Returning Cruiser / Fun Squad Deals
-            {
-                id: 'PER-01',
-                type: 'personal',
-                title: 'Fun Squad Loyalty Status Match & Free Interior Room Voucher',
-                badge: 'FUN SQUAD CLUB - EXCLUSIVE',
-                bullets: [
-                    'Recognizing your prior sailings and onboard spending, enjoy a complimentary Interior Stateroom guarantee or heavy discount on Balcony upgrades.',
-                    'Includes $150 Casino Play Credit and welcome champagne.',
-                    'Double Fun Squad loyalty point earnings on your next booked voyage.'
-                ],
-                price: '145',
-                perMonth: '22/mo',
-                month: 'ALL',
-                destination: 'BAHAMAS',
-                duration: 'SHORT',
-                code: 'FUNMATCH26'
-            },
-            {
-                id: 'PER-02',
-                type: 'personal',
-                title: 'High-Roller Casino Play & Spend Bonus Package',
-                badge: 'FUN SQUAD DIAMOND VIP',
-                bullets: [
-                    'Unlocked based on your high casino point volume and onboard spending history.',
-                    'Complimentary drinks on us in the casino and priority table seating.',
-                    'Free stateroom Wi-Fi package included for all days sailed.'
-                ],
-                price: '190',
-                perMonth: '29/mo',
-                month: 'ALL',
-                destination: 'BAHAMAS',
-                duration: 'LONG',
-                code: 'CASINOPLAYVIP'
-            }
-        ];
+        let currentTargetId = null;
 
         window.addEventListener('DOMContentLoaded', () => {
-            populateMonthDropdown();
-
             const isRegistered = localStorage.getItem('suncrest_registered_user');
-            const userRole = localStorage.getItem('suncrest_user_role') || 'client'; // 'client', 'planner', 'admin'
-
-            if (isRegistered) {
-                const userName = localStorage.getItem('suncrest_user_name') || 'Guest';
-                document.getElementById('user-badge').innerText = `Ahoy, ${userName}!`;
+            if (!isRegistered) {
+                window.location.href = 'signin.html';
+                return;
             }
 
-            // Check if user is logged in as cruise admin or planner
-            if (userRole === 'planner' || userRole === 'admin' || isRegistered === 'true') {
-                // Display admin/planner panel to unlock/activate custom deals
-                document.getElementById('admin-planner-panel').style.display = 'block';
+            const userName = localStorage.getItem('suncrest_user_name') || 'Guest User';
+            const userEmail = localStorage.getItem('suncrest_user_email') || 'user@suncrestcruiseline.com';
+            const userRole = localStorage.getItem('suncrest_user_role') || 'user';
+
+            // Ensure FunSquad ID is uniquely bound to this user account email and permanently persists across logins without changing
+            let accountRegistry = JSON.parse(localStorage.getItem('suncrest_account_registry') || '{}');
+            let funSquadId = '';
+
+            if (accountRegistry[userEmail]) {
+                funSquadId = accountRegistry[userEmail].funSquadId;
+            } else {
+                let existingIds = Object.values(accountRegistry).map(acc => acc.funSquadId);
+                do {
+                    const randomNum = Math.floor(10000 + Math.random() * 90000);
+                    funSquadId = `SUN-${randomNum}`;
+                } while (existingIds.includes(funSquadId));
+
+                accountRegistry[userEmail] = {
+                    name: userName,
+                    email: userEmail,
+                    funSquadId: funSquadId
+                };
+                localStorage.setItem('suncrest_account_registry', JSON.stringify(accountRegistry));
             }
 
-            renderOffers();
+            localStorage.setItem('suncrest_funsquad_id', funSquadId);
+
+            registerClientToDirectory(userName, funSquadId, userEmail);
+            currentTargetId = funSquadId;
+
+            document.getElementById('user-badge').innerText = `Ahoy, ${userName}!`;
+            document.getElementById('display-member-name').innerText = userName.toUpperCase();
+            document.getElementById('display-member-id').innerText = funSquadId;
+            document.getElementById('input-firstname').value = userName.split(' ')[0] || '';
+            document.getElementById('input-lastname').value = userName.split(' ').slice(1).join(' ') || '';
+            document.getElementById('input-email').value = userEmail;
+
+            loadUserData(currentTargetId);
+            loadChatMessages();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const tabParam = urlParams.get('tab');
+            if (tabParam) {
+                switchTab(tabParam);
+            }
+
+            if (userRole === 'admin' || userRole === 'planner') {
+                document.getElementById('admin-management-panel').style.display = 'block';
+                document.getElementById('admin-user-display').innerText = userEmail;
+            }
         });
+
+        function registerClientToDirectory(name, funSquadId, email) {
+            let directory = JSON.parse(localStorage.getItem('suncrest_client_directory') || '{}');
+            directory[funSquadId] = { name, email, funSquadId };
+            localStorage.setItem('suncrest_client_directory', JSON.stringify(directory));
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+            const targetPanel = document.getElementById(`panel-${tabName}`);
+            if (targetPanel) {
+                targetPanel.classList.add('active');
+            }
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if(btn.getAttribute('onclick')?.includes(tabName)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
 
         function toggleProfileMenu(event) {
             event.stopPropagation();
@@ -672,132 +946,252 @@
             localStorage.removeItem('suncrest_user_name');
             localStorage.removeItem('suncrest_user_email');
             localStorage.removeItem('suncrest_user_role');
+            // FunSquad ID stays securely bound to user email in suncrest_account_registry for subsequent logins!
             window.location.href = 'signin.html';
         }
 
-        function unlockPlannerDeal() {
-            const title = document.getElementById('custom-deal-title').value;
-            const tier = document.getElementById('custom-deal-tier').value;
-            const month = document.getElementById('custom-deal-month').value;
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            content.classList.toggle('open');
+            header.querySelector('span:last-child').innerText = content.classList.contains('open') ? '▲' : '▼';
+        }
 
-            if (!title) {
-                alert('Please enter a valid deal title to unlock.');
+        function loadUserData(targetId) {
+            let points = parseInt(localStorage.getItem(`suncrest_points_${targetId}`) || '0');
+            let cruisesCount = parseInt(localStorage.getItem(`suncrest_cruises_count_${targetId}`) || '0');
+            let cruisesList = JSON.parse(localStorage.getItem(`suncrest_cruises_list_${targetId}`) || '[]');
+
+            document.getElementById('funsquad-points-num').innerText = points;
+            document.getElementById('total-cruises-num').innerText = cruisesCount;
+
+            let tierName = 'BLUE';
+            let tierClass = 'tier-blue';
+            let tierDesc = 'WELCOME BACK - FIRST SAILING';
+
+            if (points >= 200) {
+                tierName = 'DIAMOND';
+                tierClass = 'tier-diamond';
+                tierDesc = 'WELCOME BACK - 200+ POINTS';
+            } else if (points >= 75) {
+                tierName = 'PLATINUM';
+                tierClass = 'tier-platinum';
+                tierDesc = 'WELCOME BACK - PLATINUM TIER';
+            } else if (points >= 25) {
+                tierName = 'GOLD';
+                tierClass = 'tier-gold';
+                tierDesc = 'WELCOME BACK - GOLD TIER';
+            } else if (points >= 2) {
+                tierName = 'ORANGE';
+                tierClass = 'tier-orange';
+                tierDesc = 'WELCOME BACK - ORANGE TIER';
+            }
+
+            const badgeLogo = document.getElementById('tier-badge-logo');
+            badgeLogo.className = `tier-logo-box ${tierClass}`;
+            badgeLogo.innerText = tierName;
+            document.getElementById('welcome-tier-text').innerText = tierDesc;
+
+            const container = document.getElementById('cruises-list-container');
+            if (cruisesList.length === 0) {
+                container.innerHTML = '<p>No past or booked cruises recorded yet.</p>';
+            } else {
+                const userRole = localStorage.getItem('suncrest_user_role') || 'user';
+
+                container.innerHTML = cruisesList.map((c, index) => `
+                    <div style="background: #f8fbff; border: 1px solid #d0e0f5; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <strong>${c.ship}</strong> ${c.bookingCode ? `<span style="background:#e63946; color:white; padding:2px 6px; border-radius:4px; font-size:11px; margin-left:8px;">Booking: ${c.bookingCode}</span>` : ''}<br>
+                            <small style="color: #666;">Dates: ${c.date}</small><br>
+                            <small style="color: #0077be; font-weight: bold;">Details: ${c.ports && c.ports.length > 0 ? c.ports.join(', ') : c.itinerary || 'General'}</small><br>
+                            ${c.roomType ? `<small style="color: #333;">Room: ${c.roomType} | Deck: ${c.deck} | Guests: ${c.guests} | Price: $${c.price}</small>` : ''}
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+                            <div style="background: #104c81; color: white; padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold;">
+                                ${c.points ? `+${c.points} Pts` : 'Booked'}
+                            </div>
+                            ${(userRole === 'admin' || userRole === 'planner') ? `<button onclick="removeCruise(${index}, ${c.points || 0})" style="background: #e63946; color: white; border: none; padding: 4px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: bold;">Remove / Delete</button>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Admin functionality to remove duplicate or incorrect past/booked cruises
+        function removeCruise(index, pointsToDeduct) {
+            if (!confirm('Are you sure you want to remove this cruise entry?')) return;
+
+            let cruisesList = JSON.parse(localStorage.getItem(`suncrest_cruises_list_${currentTargetId}`) || '[]');
+            let currentPoints = parseInt(localStorage.getItem(`suncrest_points_${currentTargetId}`) || '0');
+            let currentCount = parseInt(localStorage.getItem(`suncrest_cruises_count_${currentTargetId}`) || '0');
+
+            cruisesList.splice(index, 1);
+            currentPoints = Math.max(0, currentPoints - pointsToDeduct);
+            currentCount = Math.max(0, currentCount - 1);
+
+            localStorage.setItem(`suncrest_cruises_list_${currentTargetId}`, JSON.stringify(cruisesList));
+            localStorage.setItem(`suncrest_points_${currentTargetId}`, currentPoints);
+            localStorage.setItem(`suncrest_cruises_count_${currentTargetId}`, currentCount);
+
+            alert('Cruise entry successfully removed.');
+            loadUserData(currentTargetId);
+        }
+
+        function lookupClient() {
+            const query = document.getElementById('search-client-query').value.trim().toLowerCase();
+            let directory = JSON.parse(localStorage.getItem('suncrest_client_directory') || '{}');
+
+            let foundClient = null;
+            for (let id in directory) {
+                let client = directory[id];
+                if (client.funSquadId.toLowerCase() === query || client.name.toLowerCase().includes(query)) {
+                    foundClient = client;
+                    break;
+                }
+            }
+
+            if (foundClient) {
+                currentTargetId = foundClient.funSquadId;
+                document.getElementById('display-member-name').innerText = foundClient.name.toUpperCase();
+                document.getElementById('display-member-id').innerText = foundClient.funSquadId;
+                document.getElementById('active-target-display').innerText = `Currently Managing Client: ${foundClient.name} (${foundClient.funSquadId})`;
+                loadUserData(currentTargetId);
+                alert(`Successfully loaded profile for ${foundClient.name}`);
+            } else {
+                alert('Client not found by that Name or FunSquad ID.');
+            }
+        }
+
+        function saveProfileChanges(event) {
+            event.preventDefault();
+            const first = document.getElementById('input-firstname').value;
+            const last = document.getElementById('input-lastname').value;
+            const email = document.getElementById('input-email').value;
+            const fullName = `${first} ${last}`;
+
+            localStorage.setItem('suncrest_user_name', fullName);
+            localStorage.setItem('suncrest_user_email', email);
+            alert('Profile updated successfully!');
+            window.location.reload();
+        }
+
+        function adminAddCruise(event) {
+            event.preventDefault();
+            const ship = document.getElementById('admin-ship').value;
+            const date = document.getElementById('admin-date').value;
+            const pointsToAdd = parseInt(document.getElementById('admin-points').value);
+
+            const selectedPorts = [];
+            document.querySelectorAll('input[name="itinerary_port"]:checked').forEach(checkbox => {
+                selectedPorts.push(checkbox.value);
+            });
+
+            let currentPoints = parseInt(localStorage.getItem(`suncrest_points_${currentTargetId}`) || '0');
+            let currentCount = parseInt(localStorage.getItem(`suncrest_cruises_count_${currentTargetId}`) || '0');
+            let cruisesList = JSON.parse(localStorage.getItem(`suncrest_cruises_list_${currentTargetId}`) || '[]');
+
+            currentPoints += pointsToAdd;
+            currentCount += 1;
+            cruisesList.push({ ship, date, points: pointsToAdd, ports: selectedPorts });
+
+            localStorage.setItem(`suncrest_points_${currentTargetId}`, currentPoints);
+            localStorage.setItem(`suncrest_cruises_count_${currentTargetId}`, currentCount);
+            localStorage.setItem(`suncrest_cruises_list_${currentTargetId}`, JSON.stringify(cruisesList));
+
+            document.querySelectorAll('input[name="itinerary_port"]:checked').forEach(cb => cb.checked = false);
+            alert('Past cruise successfully added to client profile!');
+            loadUserData(currentTargetId);
+        }
+
+        function generateBookingCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 5; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        function plannerBookCruiseForClient(event) {
+            event.preventDefault();
+            const ship = document.getElementById('planner-ship').value;
+            const startDate = document.getElementById('planner-start-date').value;
+            const endDate = document.getElementById('planner-end-date').value;
+            const itinerary = document.getElementById('planner-itinerary').value;
+            const guests = document.getElementById('planner-guests').value;
+            const roomType = document.getElementById('planner-room-type').value;
+            const deck = document.getElementById('planner-deck').value;
+
+            let baseRate = 300;
+            if (roomType.includes('Suite')) baseRate = 950;
+            else if (roomType.includes('Balcony')) baseRate = 600;
+            else if (roomType.includes('Havana')) baseRate = 800;
+
+            const totalPrice = baseRate * parseInt(guests);
+            const bookingCode = generateBookingCode();
+
+            let cruisesList = JSON.parse(localStorage.getItem(`suncrest_cruises_list_${currentTargetId}`) || '[]');
+
+            cruisesList.push({
+                ship: ship,
+                date: `${startDate} to ${endDate}`,
+                itinerary: itinerary,
+                guests: guests,
+                roomType: roomType,
+                deck: deck,
+                price: totalPrice,
+                bookingCode: bookingCode,
+                points: 0
+            });
+
+            localStorage.setItem(`suncrest_cruises_list_${currentTargetId}`, JSON.stringify(cruisesList));
+
+            alert(`Cruise booked successfully for client!\nBooking Code: ${bookingCode}\nTotal Price: $${totalPrice}`);
+            loadUserData(currentTargetId);
+            document.getElementById('planner-ship').value = '';
+            document.getElementById('planner-itinerary').value = '';
+        }
+
+        function loadChatMessages() {
+            const container = document.getElementById('chat-messages-container');
+            const messages = JSON.parse(localStorage.getItem('suncrest_chat_messages') || '[]');
+
+            if (messages.length === 0) {
+                container.innerHTML = '<div class="chat-message incoming">Welcome to Suncrest Support! How can we assist you with your cruise planning today?</div>';
                 return;
             }
 
-            const newCustomDeal = {
-                id: 'CUSTOM-' + Date.now(),
-                type: 'personal',
-                title: title,
-                badge: tier.toUpperCase(),
-                bullets: [
-                    'Custom tailored and unlocked by Cruise Planner / Admin.',
-                    'Based on verified past sailings, high spending tier, and casino play metrics.',
-                    'Includes priority boarding and exclusive onboard perks.'
-                ],
-                price: '160',
-                perMonth: '25/mo',
-                month: month,
-                destination: 'ALL',
-                duration: 'SHORT',
-                code: 'PLANNERVIP'
-            };
-
-            allOffersDatabase.unshift(newCustomDeal);
-            alert(`Success! Custom deal "${title}" has been unlocked and added for client views.`);
-            document.getElementById('custom-deal-title').value = '';
-            renderOffers();
+            container.innerHTML = messages.map(m => `
+                <div class="chat-message ${m.sender === 'me' ? 'outgoing' : 'incoming'}">
+                    <strong>${m.author}:</strong> ${m.text}
+                </div>
+            `).join('');
+            container.scrollTop = container.scrollHeight;
         }
 
-        function renderOffers() {
-            const monthFilter = document.getElementById('filter-month').value;
-            const destFilter = document.getElementById('filter-destination').value;
-            const durationFilter = document.getElementById('filter-duration').value;
-            const isRegistered = localStorage.getItem('suncrest_registered_user');
+        function sendChatMessage() {
+            const input = document.getElementById('chat-input-text');
+            const text = input.value.trim();
+            if (!text) return;
 
-            const filtered = allOffersDatabase.filter(item => {
-                const matchMonth = (monthFilter === 'ALL' || item.month === monthFilter || item.month === 'ALL');
-                const matchDest = (destFilter === 'ALL' || item.destination === destFilter || item.destination === 'ALL');
-                const matchDuration = (durationFilter === 'ALL' || item.duration === durationFilter);
-                return matchMonth && matchDest && matchDuration;
-            });
+            const userName = localStorage.getItem('suncrest_user_name') || 'User';
+            let messages = JSON.parse(localStorage.getItem('suncrest_chat_messages') || '[]');
 
-            const publicDeals = filtered.filter(i => i.type === 'public');
-            const personalDeals = filtered.filter(i => i.type === 'personal');
+            messages.push({ author: userName, text: text, sender: 'me' });
+            localStorage.setItem('suncrest_chat_messages', JSON.stringify(messages));
 
-            document.getElementById('deals-count-title').innerText = `${filtered.length} Deals Available`;
+            input.value = andClearInput(input);
+            loadChatMessages();
+        }
 
-            let htmlOutput = '';
+        function andClearInput(input) {
+            input.value = '';
+            return '';
+        }
 
-            // Render Public Deals
-            publicDeals.forEach(offer => {
-                htmlOutput += `
-                    <div class="offer-card">
-                        <div class="offer-top-row">
-                            <h3 class="offer-title">${offer.title}</h3>
-                            <span class="promo-badge">${offer.badge}</span>
-                        </div>
-                        <ul class="offer-bullet-list">
-                            ${offer.bullets.map(b => `<li>${b}</li>`).join('')}
-                        </ul>
-                        <div class="offer-footer-row">
-                            <div class="price-tag-box">
-                                $${offer.price}*
-                                <span class="price-sub">or from $${offer.perMonth} average per person</span>
-                            </div>
-                            <button class="btn-shop-now" onclick="applyPromoAndShop('${offer.code}')">SHOP NOW</button>
-                        </div>
-                    </div>
-                `;
-            });
-
-            // Render Personal / Fun Squad Deals
-            if (isRegistered) {
-                const userName = localStorage.getItem('suncrest_user_name') || 'Member';
-                htmlOutput += `<div style="margin-top: 10px; border-top: 3px solid #e63946; padding-top: 20px;"><h3 style="color: #e63946; text-transform: uppercase; margin-bottom: 5px;">Fun Squad Club: Tailored Offers for ${userName}</h3><p style="color: #666; font-size: 14px; margin-top:0;">Unlocked based on your past sailings, spending, casino play volume, and loyalty tier.</p></div>`;
-
-                personalDeals.forEach(offer => {
-                    htmlOutput += `
-                        <div class="offer-card exclusive">
-                            <div class="offer-top-row">
-                                <h3 class="offer-title">${offer.title}</h3>
-                                <span class="promo-badge">${offer.badge}</span>
-                            </div>
-                            <ul class="offer-bullet-list">
-                                ${offer.bullets.map(b => `<li>${b}</li>`).join('')}
-                            </ul>
-                            <div class="offer-footer-row">
-                                <div class="price-tag-box">
-                                    $${offer.price}*
-                                    <span class="price-sub">or from $${offer.perMonth} average per person</span>
-                                </div>
-                                <button class="btn-shop-now" onclick="applyPromoAndShop('${offer.code}')">SHOP NOW & APPLY</button>
-                            </div>
-                        </div>
-                    `;
-                });
-            } else {
-                // Not logged in: Show the Fun Squad Log-in Card
-                htmlOutput += `
-                    <div class="login-prompt-card">
-                        <div style="font-size: 14px; font-weight: bold; color: #104c81; letter-spacing: 1px; margin-bottom: 5px;">FUN SQUAD CLUB</div>
-                        <h3>LOG IN TO SEE MY DEALS</h3>
-                        <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Access your private loyalty rates, past guest perks, casino rewards, and planner-unlocked offers.</p>
-                        <div>
-                            <a href="signin.html" class="btn-login-action">LOG IN</a>
-                            <a href="signin.html" class="btn-register-action">Create Account</a>
-                        </div>
-                    </div>
-                `;
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
             }
-
-            document.getElementById('offers-feed-container').innerHTML = htmlOutput;
-        }
-
-        function applyPromoAndShop(code) {
-            localStorage.setItem('suncrest_autofill_promo', code);
-            alert(`Promo code [${code}] automatically copied and injected! Redirecting to booking engine...`);
-            window.location.href = 'profile.html?tab=cruises';
         }
     </script>
 </body>
