@@ -317,12 +317,15 @@
             color: #e63946;
         }
 
+        /* Port Selection Checkbox Grid */
         /* Single-Column Clean Scrollable List for Ports */
         .ports-selection-box {
+            max-height: 220px;
             max-height: 280px;
             overflow-y: auto;
             border: 1px solid #ccc;
             background: white;
+            padding: 10px;
             padding: 12px;
             border-radius: 6px;
         }
@@ -330,20 +333,28 @@
             font-size: 13px;
             font-weight: bold;
             color: #e63946;
+            margin: 10px 0 5px 0;
             margin: 12px 0 6px 0;
             text-transform: uppercase;
             border-bottom: 1px solid #eee;
             padding-bottom: 4px;
         }
+        .port-checkbox-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            font-size: 13px;
         .port-list-single {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
+        .port-checkbox-grid label {
         .port-list-single label {
             font-weight: normal;
             display: flex;
             align-items: center;
+            gap: 6px;
             gap: 10px;
             cursor: pointer;
             font-size: 14px;
@@ -599,6 +610,7 @@
                 <p>Loading your sailing itinerary...</p>
             </div>
 
+            <!-- Admin / Cruise Planner Management Section with Client Targeting & Ports Selector -->
             <!-- Admin / Cruise Planner Management Section with Single-Column Clean List for Ports -->
             <div id="admin-management-panel" class="admin-panel">
                 <h3>Admin / Cruise Planner Portal</h3>
@@ -627,17 +639,23 @@
                         <input type="number" id="admin-points" value="5" required>
                     </div>
 
+                    <!-- Itinerary / Ports Selection Checklist -->
                     <!-- Single-Column Vertical Selection List -->
                     <div class="form-group">
                         <label>Select Itinerary Regions & Ports Visited:</label>
                         <div class="ports-selection-box">
+                            <div class="port-category-title">Grouped Regions</div>
+                            <div class="port-checkbox-grid">
                             <div class="port-list-single">
                                 <div class="port-category-title">Grouped Regions</div>
                                 <label><input type="checkbox" name="itinerary_port" value="ALASKA"> Alaska</label>
                                 <label><input type="checkbox" name="itinerary_port" value="BAHAMAS"> Bahamas</label>
                                 <label><input type="checkbox" name="itinerary_port" value="CANADA"> Canada</label>
                                 <label><input type="checkbox" name="itinerary_port" value="HAWAII"> Hawaii</label>
+                            </div>
 
+                            <div class="port-category-title">Caribbean & Bahamas</div>
+                            <div class="port-checkbox-grid">
                                 <div class="port-category-title">Caribbean & Bahamas</div>
                                 <label><input type="checkbox" name="itinerary_port" value="Grand Turk"> Grand Turk</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Emerald Bay"> Emerald Bay</label>
@@ -666,7 +684,10 @@
                                 <label><input type="checkbox" name="itinerary_port" value="Falmouth"> Falmouth</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Limón"> Limón</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Colón"> Colón</label>
+                            </div>
 
+                            <div class="port-category-title">North America & Atlantic</div>
+                            <div class="port-checkbox-grid">
                                 <div class="port-category-title">North America & Atlantic</div>
                                 <label><input type="checkbox" name="itinerary_port" value="Bermuda"> Bermuda</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Cabo San Lucas"> Cabo San Lucas</label>
@@ -674,7 +695,10 @@
                                 <label><input type="checkbox" name="itinerary_port" value="Mazatlán"> Mazatlán</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Ensenada"> Ensenada</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Catalina Island"> Catalina Island</label>
+                            </div>
 
+                            <div class="port-category-title">Europe & Mediterranean</div>
+                            <div class="port-checkbox-grid">
                                 <div class="port-category-title">Europe & Mediterranean</div>
                                 <label><input type="checkbox" name="itinerary_port" value="Reykjavik"> Reykjavik</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Akureyri"> Akureyri</label>
@@ -710,7 +734,10 @@
                                 <label><input type="checkbox" name="itinerary_port" value="Mykonos"> Mykonos</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Santorini"> Santorini</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Kusadasi/Ephesus"> Kusadasi/Ephesus</label>
+                            </div>
 
+                            <div class="port-category-title">Australia, New Zealand & South Pacific</div>
+                            <div class="port-checkbox-grid">
                                 <div class="port-category-title">Australia, New Zealand & South Pacific</div>
                                 <label><input type="checkbox" name="itinerary_port" value="Sydney"> Sydney</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Brisbane"> Brisbane</label>
@@ -739,7 +766,10 @@
                                 <label><input type="checkbox" name="itinerary_port" value="Papeete"> Papeete</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Moorea"> Moorea</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Raiatea"> Raiatea</label>
+                            </div>
 
+                            <div class="port-category-title">Asia & Transatlantic Transit</div>
+                            <div class="port-checkbox-grid">
                                 <div class="port-category-title">Asia & Transatlantic Transit</div>
                                 <label><input type="checkbox" name="itinerary_port" value="Singapore"> Singapore</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Phu My/Ho Chi Minh City"> Phu My/Ho Chi Minh City</label>
@@ -937,48 +967,17 @@
                 container.innerHTML = '<p>No past cruises recorded yet. Reach out to an admin or travel agent to credit previous sailings dating back to December 31, 1999!</p>';
             } else {
                 container.innerHTML = cruisesList.map(c => `
-                container.innerHTML = cruisesList.map((c, index) => `
                     <div style="background: #f8fbff; border: 1px solid #d0e0f5; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-start;">
                         <div>
                             <strong>${c.ship}</strong><br>
                             <small style="color: #666;">Sail Date: ${c.date}</small><br>
-                            <small style="color: #666; font-weight: bold;">Booking #: ${c.bookingNumber || 'N/A'}</small><br>
                             <small style="color: #0077be; font-weight: bold;">Ports/Itinerary: ${c.ports && c.ports.length > 0 ? c.ports.join(', ') : 'General Itinerary'}</small>
                         </div>
                         <div style="background: #104c81; color: white; padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold;">
                             +${c.points} Points
-                        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
-                            <div style="background: #104c81; color: white; padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold;">
-                                +${c.points} Points
-                            </div>
-                            <button onclick="removeCruise(${index})" style="background: #e63946; color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer;">Remove</button>
                         </div>
                     </div>
                 `).join('');
-            }
-        }
-
-        // Remove duplicate or individual cruises and recalculate points/counts
-        function removeCruise(index) {
-            let cruisesList = JSON.parse(localStorage.getItem(`suncrest_cruises_list_${currentTargetId}`) || '[]');
-            if (index < 0 || index >= cruisesList.length) return;
-
-            if (confirm("Are you sure you want to remove this sailing? Points and cruise totals will be updated automatically.")) {
-                cruisesList.splice(index, 1);
-
-                // Recalculate totals
-                let newPoints = 0;
-                cruisesList.forEach(c => {
-                    newPoints += parseInt(c.points || 0);
-                });
-                let newCount = cruisesList.length;
-
-                localStorage.setItem(`suncrest_points_${currentTargetId}`, newPoints);
-                localStorage.setItem(`suncrest_cruises_count_${currentTargetId}`, newCount);
-                localStorage.setItem(`suncrest_cruises_list_${currentTargetId}`, JSON.stringify(cruisesList));
-
-                loadUserData(currentTargetId);
-                alert("Sailing successfully removed.");
             }
         }
 
@@ -1021,20 +1020,6 @@
             window.location.reload();
         }
 
-        // Generate a unique non-repeating booking number
-        function generateUniqueBookingNumber() {
-            let existingBookingNumbers = JSON.parse(localStorage.getItem('suncrest_all_booking_numbers') || '[]');
-            let bookingNum;
-            do {
-                const randomNum = Math.floor(100000 + Math.random() * 900000);
-                bookingNum = `BK-${randomNum}`;
-            } while (existingBookingNumbers.includes(bookingNum));
-
-            existingBookingNumbers.push(bookingNum);
-            localStorage.setItem('suncrest_all_booking_numbers', JSON.stringify(existingBookingNumbers));
-            return bookingNum;
-        }
-
         // Admin action to add prior cruises and itinerary ports to the actively targeted client ID
         function adminAddCruise(event) {
             event.preventDefault();
@@ -1053,16 +1038,13 @@
                 return;
             }
 
-            // Generate unique booking number
-            const bookingNumber = generateUniqueBookingNumber();
-
             let currentPoints = parseInt(localStorage.getItem(`suncrest_points_${currentTargetId}`) || '0');
             let currentCount = parseInt(localStorage.getItem(`suncrest_cruises_count_${currentTargetId}`) || '0');
             let cruisesList = JSON.parse(localStorage.getItem(`suncrest_cruises_list_${currentTargetId}`) || '[]');
 
             currentPoints += pointsToAdd;
             currentCount += 1;
-            cruisesList.push({ ship, date, points: pointsToAdd, ports: selectedPorts, bookingNumber });
+            cruisesList.push({ ship, date, points: pointsToAdd, ports: selectedPorts });
 
             localStorage.setItem(`suncrest_points_${currentTargetId}`, currentPoints);
             localStorage.setItem(`suncrest_cruises_count_${currentTargetId}`, currentCount);
@@ -1071,11 +1053,11 @@
             // Reset checklist
             document.querySelectorAll('input[name="itinerary_port"]:checked').forEach(cb => cb.checked = false);
 
-            alert(`Prior cruise successfully added to client profile! Generated Booking #: ${bookingNumber}`);
+            alert('Prior cruise and itinerary successfully added to client profile!');
             loadUserData(currentTargetId);
         }
 
-        // Chat System Implementation (Messages saved for admin/planner to receive)
+        // Chat System Implementation
         function loadChatMessages() {
             const container = document.getElementById('chat-messages-container');
             const messages = JSON.parse(localStorage.getItem('suncrest_chat_messages') || '[]');
@@ -1099,14 +1081,9 @@
             if (!text) return;
 
             const userName = localStorage.getItem('suncrest_user_name') || 'User';
-            const userRole = localStorage.getItem('suncrest_user_role') || 'user';
             let messages = JSON.parse(localStorage.getItem('suncrest_chat_messages') || '[]');
 
-            // If user is a regular client, their message is outgoing (on the receiving end for admin/planner)
-            // If user is admin/planner, their message is incoming to client view or handled appropriately
-            let senderType = (userRole === 'admin' || userRole === 'planner') ? 'incoming' : 'me';
-
-            messages.push({ author: userName, text: text, sender: senderType });
+            messages.push({ author: userName, text: text, sender: 'me' });
             localStorage.setItem('suncrest_chat_messages', JSON.stringify(messages));
 
             input.value = '';
