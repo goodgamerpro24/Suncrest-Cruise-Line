@@ -857,19 +857,28 @@
             const userEmail = localStorage.getItem('suncrest_user_email') || 'user@suncrestcruiseline.com';
             const userRole = localStorage.getItem('suncrest_user_role') || 'user';
 
-            // Ensure FunSquad ID stays permanently locked to this user account and never changes on login
-            let funSquadId = localStorage.getItem('suncrest_funsquad_id');
-            if (!funSquadId) {
-                let existingIds = JSON.parse(localStorage.getItem('suncrest_all_funsquad_ids') || '[]');
+            // Ensure FunSquad ID is uniquely bound to this user account email and permanently persists across logins without changing
+            let accountRegistry = JSON.parse(localStorage.getItem('suncrest_account_registry') || '{}');
+            let funSquadId = '';
+
+            if (accountRegistry[userEmail]) {
+                funSquadId = accountRegistry[userEmail].funSquadId;
+            } else {
+                let existingIds = Object.values(accountRegistry).map(acc => acc.funSquadId);
                 do {
                     const randomNum = Math.floor(10000 + Math.random() * 90000);
                     funSquadId = `SUN-${randomNum}`;
                 } while (existingIds.includes(funSquadId));
 
-                existingIds.push(funSquadId);
-                localStorage.setItem('suncrest_all_funsquad_ids', JSON.stringify(existingIds));
-                localStorage.setItem('suncrest_funsquad_id', funSquadId);
+                accountRegistry[userEmail] = {
+                    name: userName,
+                    email: userEmail,
+                    funSquadId: funSquadId
+                };
+                localStorage.setItem('suncrest_account_registry', JSON.stringify(accountRegistry));
             }
+
+            localStorage.setItem('suncrest_funsquad_id', funSquadId);
 
             registerClientToDirectory(userName, funSquadId, userEmail);
             currentTargetId = funSquadId;
@@ -936,7 +945,7 @@
             localStorage.removeItem('suncrest_user_name');
             localStorage.removeItem('suncrest_user_email');
             localStorage.removeItem('suncrest_user_role');
-            // Note: We intentionally DO NOT clear 'suncrest_funsquad_id' so it remains permanent for this user!
+            // FunSquad ID stays securely bound to user email in suncrest_account_registry for subsequent logins!
             window.location.href = 'signin.html';
         }
 
@@ -1014,7 +1023,6 @@
             let currentPoints = parseInt(localStorage.getItem(`suncrest_points_${currentTargetId}`) || '0');
             let currentCount = parseInt(localStorage.getItem(`suncrest_cruises_count_${currentTargetId}`) || '0');
 
-            // Remove item and adjust points/count if it was a credited past cruise
             cruisesList.splice(index, 1);
             currentPoints = Math.max(0, currentPoints - pointsToDeduct);
             currentCount = Math.max(0, currentCount - 1);
@@ -1093,7 +1101,6 @@
             loadUserData(currentTargetId);
         }
 
-        // Generate 5-digit alphanumeric booking code (letters & numbers)
         function generateBookingCode() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let code = '';
@@ -1103,7 +1110,6 @@
             return code;
         }
 
-        // Planner exclusive booking tool
         function plannerBookCruiseForClient(event) {
             event.preventDefault();
             const ship = document.getElementById('planner-ship').value;
