@@ -317,15 +317,12 @@
             color: #e63946;
         }
 
-        /* Port Selection Checkbox Grid */
-        /* Single-Column Clean Scrollable List for Ports */
+        /* Port Selection Box */
         .ports-selection-box {
-            max-height: 220px;
-            max-height: 280px;
+            max-height: 250px;
             overflow-y: auto;
             border: 1px solid #ccc;
             background: white;
-            padding: 10px;
             padding: 12px;
             border-radius: 6px;
         }
@@ -333,28 +330,20 @@
             font-size: 13px;
             font-weight: bold;
             color: #e63946;
-            margin: 10px 0 5px 0;
             margin: 12px 0 6px 0;
             text-transform: uppercase;
             border-bottom: 1px solid #eee;
             padding-bottom: 4px;
         }
-        .port-checkbox-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            font-size: 13px;
         .port-list-single {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
-        .port-checkbox-grid label {
         .port-list-single label {
             font-weight: normal;
             display: flex;
             align-items: center;
-            gap: 6px;
             gap: 10px;
             cursor: pointer;
             font-size: 14px;
@@ -610,8 +599,7 @@
                 <p>Loading your sailing itinerary...</p>
             </div>
 
-            <!-- Admin / Cruise Planner Management Section with Client Targeting & Ports Selector -->
-            <!-- Admin / Cruise Planner Management Section with Single-Column Clean List for Ports -->
+            <!-- Admin / Cruise Planner Management Section -->
             <div id="admin-management-panel" class="admin-panel">
                 <h3>Admin / Cruise Planner Portal</h3>
                 <p>Logged in as: <strong id="admin-user-display"></strong></p>
@@ -625,175 +613,99 @@
                     <small id="active-target-display" style="color: #e63946; font-weight: bold; display: block; margin-top: 8px;">Currently Managing: Self / Default Session</small>
                 </div>
 
-                <form onsubmit="adminAddCruise(event)">
+                <!-- ADD PAST CRUISE FORM -->
+                <form onsubmit="adminAddCruise(event)" style="border-bottom: 2px solid #ddd; padding-bottom: 20px; margin-bottom: 20px;">
+                    <h4 style="color: #104c81; margin-top: 0;">Credit Past Cruise & Points</h4>
                     <div class="form-group">
                         <label>Ship Name</label>
                         <input type="text" id="admin-ship" placeholder="e.g. Suncrest Empress" required>
                     </div>
                     <div class="form-group">
                         <label>Sail Date (Minimum: Dec 31, 1999)</label>
-                        <input type="date" id="admin-date" min="1999-12-31" max="2026-12-31" required>
+                        <input type="date" id="admin-date" min="1999-12-31" max="2030-12-31" required>
                     </div>
                     <div class="form-group">
                         <label>Points to Award</label>
                         <input type="number" id="admin-points" value="5" required>
                     </div>
 
-                    <!-- Itinerary / Ports Selection Checklist -->
-                    <!-- Single-Column Vertical Selection List -->
                     <div class="form-group">
                         <label>Select Itinerary Regions & Ports Visited:</label>
                         <div class="ports-selection-box">
-                            <div class="port-category-title">Grouped Regions</div>
-                            <div class="port-checkbox-grid">
                             <div class="port-list-single">
                                 <div class="port-category-title">Grouped Regions</div>
                                 <label><input type="checkbox" name="itinerary_port" value="ALASKA"> Alaska</label>
                                 <label><input type="checkbox" name="itinerary_port" value="BAHAMAS"> Bahamas</label>
                                 <label><input type="checkbox" name="itinerary_port" value="CANADA"> Canada</label>
                                 <label><input type="checkbox" name="itinerary_port" value="HAWAII"> Hawaii</label>
-                            </div>
 
-                            <div class="port-category-title">Caribbean & Bahamas</div>
-                            <div class="port-checkbox-grid">
                                 <div class="port-category-title">Caribbean & Bahamas</div>
                                 <label><input type="checkbox" name="itinerary_port" value="Grand Turk"> Grand Turk</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Emerald Bay"> Emerald Bay</label>
                                 <label><input type="checkbox" name="itinerary_port" value="San Juan"> San Juan</label>
                                 <label><input type="checkbox" name="itinerary_port" value="St. Thomas"> St. Thomas</label>
                                 <label><input type="checkbox" name="itinerary_port" value="St. Maarten"> St. Maarten</label>
-                                <label><input type="checkbox" name="itinerary_port" value="St. Kitts"> St. Kitts</label>
-                                <label><input type="checkbox" name="itinerary_port" value="St. Croix"> St. Croix</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Antigua"> Antigua</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Aruba"> Aruba</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Bonaire"> Bonaire</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Curacao"> Curacao</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Barbados"> Barbados</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Grenada"> Grenada</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Dominica"> Dominica</label>
-                                <label><input type="checkbox" name="itinerary_port" value="St. Lucia"> St. Lucia</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Martinique"> Martinique</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Cozumel"> Cozumel</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Costa Maya"> Costa Maya</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Progreso/Yucatán"> Progreso/Yucatán</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Grand Cayman"> Grand Cayman</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Compass Rose Cay"> Compass Rose Cay</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Belize City"> Belize City</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Ocho Rios"> Ocho Rios</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Montego Bay"> Montego Bay</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Falmouth"> Falmouth</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Limón"> Limón</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Colón"> Colón</label>
-                            </div>
+                                <label><input type="checkbox" name="itinerary_port" value="Nassau"> Nassau</label>
 
-                            <div class="port-category-title">North America & Atlantic</div>
-                            <div class="port-checkbox-grid">
-                                <div class="port-category-title">North America & Atlantic</div>
-                                <label><input type="checkbox" name="itinerary_port" value="Bermuda"> Bermuda</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Cabo San Lucas"> Cabo San Lucas</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Puerto Vallarta"> Puerto Vallarta</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Mazatlán"> Mazatlán</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Ensenada"> Ensenada</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Catalina Island"> Catalina Island</label>
-                            </div>
-
-                            <div class="port-category-title">Europe & Mediterranean</div>
-                            <div class="port-checkbox-grid">
                                 <div class="port-category-title">Europe & Mediterranean</div>
-                                <label><input type="checkbox" name="itinerary_port" value="Reykjavik"> Reykjavik</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Akureyri"> Akureyri</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Lerwick"> Lerwick</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Invergordon"> Invergordon</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Liverpool"> Liverpool</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Dover"> Dover</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Le Havre/Paris"> Le Havre/Paris</label>
-                                <label><input type="checkbox" name="itinerary_port" value="La Coruña"> La Coruña</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Bilbao"> Bilbao</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Vigo"> Vigo</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Lisbon"> Lisbon</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Leixões/Porto"> Leixões/Porto</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Cádiz/Seville"> Cádiz/Seville</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Málaga"> Málaga</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Valencia"> Valencia</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Barcelona"> Barcelona</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Palma de Mallorca"> Palma de Mallorca</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Marseille"> Marseille</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Livorno/Florence/Pisa"> Livorno/Florence/Pisa</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Civitavecchia/Rome"> Civitavecchia/Rome</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Naples/Pompeii"> Naples/Pompeii</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Messina/Sicily"> Messina/Sicily</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Valletta"> Valletta</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Kotor"> Kotor</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Dubrovnik"> Dubrovnik</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Zadar"> Zadar</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Trieste"> Trieste</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Venice"> Venice</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Corfu"> Corfu</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Katakolon/Olympia"> Katakolon/Olympia</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Piraeus/Athens"> Piraeus/Athens</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Mykonos"> Mykonos</label>
                                 <label><input type="checkbox" name="itinerary_port" value="Santorini"> Santorini</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Kusadasi/Ephesus"> Kusadasi/Ephesus</label>
-                            </div>
-
-                            <div class="port-category-title">Australia, New Zealand & South Pacific</div>
-                            <div class="port-checkbox-grid">
-                                <div class="port-category-title">Australia, New Zealand & South Pacific</div>
-                                <label><input type="checkbox" name="itinerary_port" value="Sydney"> Sydney</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Brisbane"> Brisbane</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Melbourne"> Melbourne</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Cairns"> Cairns</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Airlie Beach/Whitsundays"> Airlie Beach/Whitsundays</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Moreton Island"> Moreton Island</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Willis Island"> Willis Island</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Hobart/Tasmania"> Hobart/Tasmania</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Port Arthur/Tasmania"> Port Arthur/Tasmania</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Auckland"> Auckland</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Wellington"> Wellington</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Christchurch/Lyttelton"> Christchurch/Lyttelton</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Dunedin/Port Chalmers"> Dunedin/Port Chalmers</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Fiordland National Park"> Fiordland National Park</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Nouméa"> Nouméa</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Lifou Isle"> Lifou Isle</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Mare"> Mare</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Mystery Island"> Mystery Island</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Port Vila"> Port Vila</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Dravuni Island"> Dravuni Island</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Suva"> Suva</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Lautoka"> Lautoka</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Pago Pago"> Pago Pago</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Apia"> Apia</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Papeete"> Papeete</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Moorea"> Moorea</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Raiatea"> Raiatea</label>
-                            </div>
-
-                            <div class="port-category-title">Asia & Transatlantic Transit</div>
-                            <div class="port-checkbox-grid">
-                                <div class="port-category-title">Asia & Transatlantic Transit</div>
-                                <label><input type="checkbox" name="itinerary_port" value="Singapore"> Singapore</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Phu My/Ho Chi Minh City"> Phu My/Ho Chi Minh City</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Kota Kinabalu"> Kota Kinabalu</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Manila"> Manila</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Hualien"> Hualien</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Keelung/Taipei"> Keelung/Taipei</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Naha/Okinawa"> Naha/Okinawa</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Kagoshima"> Kagoshima</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Tokyo/Yokohama"> Tokyo/Yokohama</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Hiroshima"> Hiroshima</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Nagasaki"> Nagasaki</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Osaka"> Osaka</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Kochi"> Kochi</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Ponta Delgada"> Ponta Delgada</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Praia da Vitória"> Praia da Vitória</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Funchal"> Funchal</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Santa Cruz de Tenerife"> Santa Cruz de Tenerife</label>
                             </div>
                         </div>
                     </div>
-
                     <button type="submit" class="btn-save" style="background-color: #104c81;">Add Past Cruise to Target Client</button>
                 </form>
+
+                <!-- EXCLUSIVE CRUISE PLANNER BOOKING FORM -->
+                <div id="planner-booking-exclusive-section" style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e63946;">
+                    <h4 style="color: #e63946; margin-top: 0;">Cruise Planner Exclusive: Book Future Cruise</h4>
+                    <form onsubmit="plannerBookCruise(event)">
+                        <div class="form-group">
+                            <label>Ship Name / Line</label>
+                            <input type="text" id="planner-ship" placeholder="e.g. Suncrest Mardi Gras" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Travel Dates</label>
+                            <input type="text" id="planner-dates" placeholder="e.g. August 5 - August 9, 2027" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Amount of Guests</label>
+                            <input type="number" id="planner-guests" min="1" value="2" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Room Type</label>
+                            <select id="planner-room-type" required>
+                                <option value="Ocean View">Ocean View</option>
+                                <option value="Scenic Ocean View">Scenic Ocean View</option>
+                                <option value="Standard Balcony">Standard Balcony</option>
+                                <option value="Extended Balcony">Extended Balcony</option>
+                                <option value="Aft Balcony">Aft Balcony</option>
+                                <option value="Extended Aft View Balcony">Extended Aft View Balcony</option>
+                                <option value="Cove Balcony">Cove Balcony</option>
+                                <option value="Junior Suite">Junior Suite</option>
+                                <option value="Suite">Suite</option>
+                                <option value="Premium Suite">Premium Suite</option>
+                                <option value="Vista Ocean Suite">Vista Ocean Suite</option>
+                                <option value="Ocean View Suite">Ocean View Suite</option>
+                                <option value="Havana Suites (Oceanview)">Havana Suites (Oceanview)</option>
+                                <option value="Havana Suites (Interior)">Havana Suites (Interior)</option>
+                                <option value="Havana Suites (Balcony)">Havana Suites (Balcony)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Deck Assignment</label>
+                            <input type="text" id="planner-deck" placeholder="e.g. Deck 10 - Lido Deck" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Itinerary / Destination Summary</label>
+                            <input type="text" id="planner-itinerary" placeholder="e.g. 5-Day Eastern Caribbean" required>
+                        </div>
+                        <button type="submit" class="btn-save">Generate Booking & Price</button>
+                    </form>
+                </div>
             </div>
         </div>
 
@@ -821,7 +733,7 @@
     </div>
 
     <script>
-        let currentTargetId = null; // Used by admins when targeting specific clients
+        let currentTargetId = null;
 
         window.addEventListener('DOMContentLoaded', () => {
             const isRegistered = localStorage.getItem('suncrest_registered_user');
@@ -847,12 +759,9 @@
                 localStorage.setItem('suncrest_funsquad_id', funSquadId);
             }
 
-            // Save user into a searchable client registry for Admin lookups
             registerClientToDirectory(userName, funSquadId, userEmail);
+            currentTargetId = funSquadId;
 
-            currentTargetId = funSquadId; // Default to self
-
-            // Set User Elements
             document.getElementById('user-badge').innerText = `Ahoy, ${userName}!`;
             document.getElementById('display-member-name').innerText = userName.toUpperCase();
             document.getElementById('display-member-id').innerText = funSquadId;
@@ -890,7 +799,6 @@
                 targetPanel.classList.add('active');
             }
 
-            // Highlight matching tab button
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 if(btn.getAttribute('onclick')?.includes(tabName)) {
                     btn.classList.add('active');
@@ -926,7 +834,6 @@
             header.querySelector('span:last-child').innerText = content.classList.contains('open') ? '▲' : '▼';
         }
 
-        // Load points and cruises for a specific FunSquad ID
         function loadUserData(targetId) {
             let points = parseInt(localStorage.getItem(`suncrest_points_${targetId}`) || '0');
             let cruisesCount = parseInt(localStorage.getItem(`suncrest_cruises_count_${targetId}`) || '0');
@@ -964,24 +871,25 @@
 
             const container = document.getElementById('cruises-list-container');
             if (cruisesList.length === 0) {
-                container.innerHTML = '<p>No past cruises recorded yet. Reach out to an admin or travel agent to credit previous sailings dating back to December 31, 1999!</p>';
+                container.innerHTML = '<p>No past or booked cruises recorded yet.</p>';
             } else {
                 container.innerHTML = cruisesList.map(c => `
                     <div style="background: #f8fbff; border: 1px solid #d0e0f5; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-start;">
                         <div>
                             <strong>${c.ship}</strong><br>
-                            <small style="color: #666;">Sail Date: ${c.date}</small><br>
-                            <small style="color: #0077be; font-weight: bold;">Ports/Itinerary: ${c.ports && c.ports.length > 0 ? c.ports.join(', ') : 'General Itinerary'}</small>
+                            <small style="color: #666;">Dates/Sail Date: ${c.date}</small><br>
+                            <small style="color: #0077be; font-weight: bold;">Itinerary/Ports: ${c.ports ? c.ports : (c.itinerary || 'General Itinerary')}</small><br>
+                            ${c.roomType ? `<small style="color: #333;">Room: ${c.roomType} | Deck: ${c.deck} | Guests: ${c.guests}</small><br>` : ''}
+                            ${c.bookingCode ? `<small style="color: #e63946; font-weight: bold;">Booking Code: ${c.bookingCode} | Price: $${c.price}</small>` : ''}
                         </div>
                         <div style="background: #104c81; color: white; padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold;">
-                            +${c.points} Points
+                            ${c.points ? `+${c.points} Points` : 'Booked'}
                         </div>
                     </div>
                 `).join('');
             }
         }
 
-        // Admin lookup functionality to target client by name or FunSquad ID
         function lookupClient() {
             const query = document.getElementById('search-client-query').value.trim().toLowerCase();
             let directory = JSON.parse(localStorage.getItem('suncrest_client_directory') || '{}');
@@ -1003,7 +911,7 @@
                 loadUserData(currentTargetId);
                 alert(`Successfully loaded profile for ${foundClient.name}`);
             } else {
-                alert('Client not found by that Name or FunSquad ID. Ensure they have signed in at least once.');
+                alert('Client not found by that Name or FunSquad ID.');
             }
         }
 
@@ -1020,23 +928,16 @@
             window.location.reload();
         }
 
-        // Admin action to add prior cruises and itinerary ports to the actively targeted client ID
         function adminAddCruise(event) {
             event.preventDefault();
             const ship = document.getElementById('admin-ship').value;
             const date = document.getElementById('admin-date').value;
             const pointsToAdd = parseInt(document.getElementById('admin-points').value);
 
-            // Collect selected ports from checkboxes
             const selectedPorts = [];
             document.querySelectorAll('input[name="itinerary_port"]:checked').forEach(checkbox => {
                 selectedPorts.push(checkbox.value);
             });
-
-            if (new Date(date) < new Date('1999-12-31')) {
-                alert('Error: Past cruises can only be added as early as December 31, 1999.');
-                return;
-            }
 
             let currentPoints = parseInt(localStorage.getItem(`suncrest_points_${currentTargetId}`) || '0');
             let currentCount = parseInt(localStorage.getItem(`suncrest_cruises_count_${currentTargetId}`) || '0');
@@ -1050,14 +951,56 @@
             localStorage.setItem(`suncrest_cruises_count_${currentTargetId}`, currentCount);
             localStorage.setItem(`suncrest_cruises_list_${currentTargetId}`, JSON.stringify(cruisesList));
 
-            // Reset checklist
             document.querySelectorAll('input[name="itinerary_port"]:checked').forEach(cb => cb.checked = false);
-
-            alert('Prior cruise and itinerary successfully added to client profile!');
+            alert('Prior cruise successfully added to client profile!');
             loadUserData(currentTargetId);
         }
 
-        // Chat System Implementation
+        // Cruise Planner Exclusive Booking Function
+        function plannerBookCruise(event) {
+            event.preventDefault();
+            const ship = document.getElementById('planner-ship').value;
+            const dates = document.getElementById('planner-dates').value;
+            const guests = document.getElementById('planner-guests').value;
+            const roomType = document.getElementById('planner-room-type').value;
+            const deck = document.getElementById('planner-deck').value;
+            const itinerary = document.getElementById('planner-itinerary').value;
+
+            // Generate Price based on room type / guests
+            let basePrice = 600;
+            if (roomType.includes('Suite')) basePrice = 1800;
+            else if (roomType.includes('Balcony')) basePrice = 1100;
+            else if (roomType.includes('Havana')) basePrice = 1500;
+            const totalPrice = basePrice * parseInt(guests);
+
+            // Generate 5-digit booking code mixed with numbers and letters
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let bookingCode = '';
+            for (let i = 0; i < 5; i++) {
+                bookingCode += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+
+            let cruisesList = JSON.parse(localStorage.getItem(`suncrest_cruises_list_${currentTargetId}`) || '[]');
+            let currentCount = parseInt(localStorage.getItem(`suncrest_cruises_count_${currentTargetId}`) || '0') + 1;
+
+            cruisesList.push({
+                ship: ship,
+                date: dates,
+                guests: guests,
+                roomType: roomType,
+                deck: deck,
+                itinerary: itinerary,
+                price: totalPrice,
+                bookingCode: bookingCode
+            });
+
+            localStorage.setItem(`suncrest_cruises_count_${currentTargetId}`, currentCount);
+            localStorage.setItem(`suncrest_cruises_list_${currentTargetId}`, JSON.stringify(cruisesList));
+
+            alert(`Booking successful!\nBooking Code: ${bookingCode}\nTotal Price: $${totalPrice}`);
+            loadUserData(currentTargetId);
+        }
+
         function loadChatMessages() {
             const container = document.getElementById('chat-messages-container');
             const messages = JSON.parse(localStorage.getItem('suncrest_chat_messages') || '[]');
