@@ -126,7 +126,7 @@
 
         /* Profile Main Content Layout */
         .main-container {
-            max-width: 800px;
+            max-width: 850px;
             margin: 30px auto;
             background: white;
             border-radius: 12px;
@@ -317,9 +317,9 @@
             color: #e63946;
         }
 
-        /* Port Selection Box */
+        /* Ports Selection Box */
         .ports-selection-box {
-            max-height: 250px;
+            max-height: 220px;
             overflow-y: auto;
             border: 1px solid #ccc;
             background: white;
@@ -613,67 +613,67 @@
                     <small id="active-target-display" style="color: #e63946; font-weight: bold; display: block; margin-top: 8px;">Currently Managing: Self / Default Session</small>
                 </div>
 
-                <!-- ADD PAST CRUISE FORM -->
-                <form onsubmit="adminAddCruise(event)" style="border-bottom: 2px solid #ddd; padding-bottom: 20px; margin-bottom: 20px;">
-                    <h4 style="color: #104c81; margin-top: 0;">Credit Past Cruise & Points</h4>
-                    <div class="form-group">
-                        <label>Ship Name</label>
-                        <input type="text" id="admin-ship" placeholder="e.g. Suncrest Empress" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Sail Date (Minimum: Dec 31, 1999)</label>
-                        <input type="date" id="admin-date" min="1999-12-31" max="2030-12-31" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Points to Award</label>
-                        <input type="number" id="admin-points" value="5" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Select Itinerary Regions & Ports Visited:</label>
-                        <div class="ports-selection-box">
-                            <div class="port-list-single">
-                                <div class="port-category-title">Grouped Regions</div>
-                                <label><input type="checkbox" name="itinerary_port" value="ALASKA"> Alaska</label>
-                                <label><input type="checkbox" name="itinerary_port" value="BAHAMAS"> Bahamas</label>
-                                <label><input type="checkbox" name="itinerary_port" value="CANADA"> Canada</label>
-                                <label><input type="checkbox" name="itinerary_port" value="HAWAII"> Hawaii</label>
-
-                                <div class="port-category-title">Caribbean & Bahamas</div>
-                                <label><input type="checkbox" name="itinerary_port" value="Grand Turk"> Grand Turk</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Emerald Bay"> Emerald Bay</label>
-                                <label><input type="checkbox" name="itinerary_port" value="San Juan"> San Juan</label>
-                                <label><input type="checkbox" name="itinerary_port" value="St. Thomas"> St. Thomas</label>
-                                <label><input type="checkbox" name="itinerary_port" value="St. Maarten"> St. Maarten</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Cozumel"> Cozumel</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Nassau"> Nassau</label>
-
-                                <div class="port-category-title">Europe & Mediterranean</div>
-                                <label><input type="checkbox" name="itinerary_port" value="Barcelona"> Barcelona</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Civitavecchia/Rome"> Civitavecchia/Rome</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Venice"> Venice</label>
-                                <label><input type="checkbox" name="itinerary_port" value="Santorini"> Santorini</label>
+                <!-- 1. Credit Past Cruise Form -->
+                <div style="background: white; padding: 15px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 20px;">
+                    <h4 style="margin-top:0; color: #104c81;">Credit Past Cruise & Points</h4>
+                    <form onsubmit="adminAddCruise(event)">
+                        <div class="form-group">
+                            <label>Ship Name</label>
+                            <input type="text" id="admin-ship" placeholder="e.g. Suncrest Empress" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Sail Date</label>
+                            <input type="date" id="admin-date" min="1999-12-31" max="2030-12-31" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Points to Award</label>
+                            <input type="number" id="admin-points" value="5" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Select Itinerary Ports Visited:</label>
+                            <div class="ports-selection-box">
+                                <div class="port-list-single">
+                                    <div class="port-category-title">Bahamas & Caribbean</div>
+                                    <label><input type="checkbox" name="itinerary_port" value="Bahamas"> Bahamas</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Grand Turk"> Grand Turk</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="San Juan"> San Juan</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="St. Thomas"> St. Thomas</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Cozumel"> Cozumel</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Jamaica"> Jamaica</label>
+                                    <div class="port-category-title">Europe & Others</div>
+                                    <label><input type="checkbox" name="itinerary_port" value="Bermuda"> Bermuda</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Alaska"> Alaska</label>
+                                    <label><input type="checkbox" name="itinerary_port" value="Mediterranean"> Mediterranean</label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <button type="submit" class="btn-save" style="background-color: #104c81;">Add Past Cruise to Target Client</button>
-                </form>
+                        <button type="submit" class="btn-save" style="background-color: #104c81;">Add Past Cruise</button>
+                    </form>
+                </div>
 
-                <!-- EXCLUSIVE CRUISE PLANNER BOOKING FORM -->
-                <div id="planner-booking-exclusive-section" style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e63946;">
-                    <h4 style="color: #e63946; margin-top: 0;">Cruise Planner Exclusive: Book Future Cruise</h4>
-                    <form onsubmit="plannerBookCruise(event)">
+                <!-- 2. EXCLUSIVE CRUISE PLANNER BOOKING TOOL -->
+                <div id="planner-booking-section" style="background: white; padding: 15px; border-radius: 6px; border: 2px solid #e63946;">
+                    <h4 style="margin-top:0; color: #e63946;">Planner Exclusive: Book Cruise for Client</h4>
+                    <form onsubmit="plannerBookCruiseForClient(event)">
                         <div class="form-group">
-                            <label>Ship Name / Line</label>
-                            <input type="text" id="planner-ship" placeholder="e.g. Suncrest Mardi Gras" required>
+                            <label>Ship Name</label>
+                            <input type="text" id="planner-ship" placeholder="e.g. Suncrest Grandeur" required>
                         </div>
                         <div class="form-group">
-                            <label>Travel Dates</label>
-                            <input type="text" id="planner-dates" placeholder="e.g. August 5 - August 9, 2027" required>
+                            <label>Sail Date (Start)</label>
+                            <input type="date" id="planner-start-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Return Date</label>
+                            <input type="date" id="planner-end-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Itinerary / Route Description</label>
+                            <input type="text" id="planner-itinerary" placeholder="e.g. 7-Day Eastern Caribbean" required>
                         </div>
                         <div class="form-group">
                             <label>Amount of Guests</label>
-                            <input type="number" id="planner-guests" min="1" value="2" required>
+                            <input type="number" id="planner-guests" min="1" max="10" value="2" required>
                         </div>
                         <div class="form-group">
                             <label>Room Type</label>
@@ -686,26 +686,22 @@
                                 <option value="Extended Aft View Balcony">Extended Aft View Balcony</option>
                                 <option value="Cove Balcony">Cove Balcony</option>
                                 <option value="Junior Suite">Junior Suite</option>
-                                <option value="Suite">Suite</option>
                                 <option value="Premium Suite">Premium Suite</option>
                                 <option value="Vista Ocean Suite">Vista Ocean Suite</option>
                                 <option value="Ocean View Suite">Ocean View Suite</option>
-                                <option value="Havana Suites (Oceanview)">Havana Suites (Oceanview)</option>
-                                <option value="Havana Suites (Interior)">Havana Suites (Interior)</option>
-                                <option value="Havana Suites (Balcony)">Havana Suites (Balcony)</option>
+                                <option value="Havana Suite - Oceanview">Havana Suite (Oceanview)</option>
+                                <option value="Havana Suite - Interior">Havana Suite (Interior)</option>
+                                <option value="Havana Suite - Balcony">Havana Suite (Balcony)</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Deck Assignment</label>
-                            <input type="text" id="planner-deck" placeholder="e.g. Deck 10 - Lido Deck" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Itinerary / Destination Summary</label>
-                            <input type="text" id="planner-itinerary" placeholder="e.g. 5-Day Eastern Caribbean" required>
+                            <input type="text" id="planner-deck" placeholder="e.g. Deck 8 - Lido" required>
                         </div>
                         <button type="submit" class="btn-save">Generate Booking & Price</button>
                     </form>
                 </div>
+
             </div>
         </div>
 
@@ -876,14 +872,13 @@
                 container.innerHTML = cruisesList.map(c => `
                     <div style="background: #f8fbff; border: 1px solid #d0e0f5; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-start;">
                         <div>
-                            <strong>${c.ship}</strong><br>
-                            <small style="color: #666;">Dates/Sail Date: ${c.date}</small><br>
-                            <small style="color: #0077be; font-weight: bold;">Itinerary/Ports: ${c.ports ? c.ports : (c.itinerary || 'General Itinerary')}</small><br>
-                            ${c.roomType ? `<small style="color: #333;">Room: ${c.roomType} | Deck: ${c.deck} | Guests: ${c.guests}</small><br>` : ''}
-                            ${c.bookingCode ? `<small style="color: #e63946; font-weight: bold;">Booking Code: ${c.bookingCode} | Price: $${c.price}</small>` : ''}
+                            <strong>${c.ship}</strong> ${c.bookingCode ? `<span style="background:#e63946; color:white; padding:2px 6px; border-radius:4px; font-size:11px; margin-left:8px;">Booking: ${c.bookingCode}</span>` : ''}<br>
+                            <small style="color: #666;">Dates: ${c.date}</small><br>
+                            <small style="color: #0077be; font-weight: bold;">Details: ${c.ports ? c.ports.join(', ') : c.itinerary || 'General'}</small><br>
+                            ${c.roomType ? `<small style="color: #333;">Room: ${c.roomType} | Deck: ${c.deck} | Guests: ${c.guests} | Price: $${c.price}</small>` : ''}
                         </div>
                         <div style="background: #104c81; color: white; padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold;">
-                            ${c.points ? `+${c.points} Points` : 'Booked'}
+                            ${c.points ? `+${c.points} Pts` : 'Booked'}
                         </div>
                     </div>
                 `).join('');
@@ -952,53 +947,60 @@
             localStorage.setItem(`suncrest_cruises_list_${currentTargetId}`, JSON.stringify(cruisesList));
 
             document.querySelectorAll('input[name="itinerary_port"]:checked').forEach(cb => cb.checked = false);
-            alert('Prior cruise successfully added to client profile!');
+            alert('Past cruise successfully added to client profile!');
             loadUserData(currentTargetId);
         }
 
-        // Cruise Planner Exclusive Booking Function
-        function plannerBookCruise(event) {
+        // Generate 5-digit alphanumeric booking code (letters & numbers)
+        function generateBookingCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 5; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        // Planner exclusive booking tool
+        function plannerBookCruiseForClient(event) {
             event.preventDefault();
             const ship = document.getElementById('planner-ship').value;
-            const dates = document.getElementById('planner-dates').value;
+            const startDate = document.getElementById('planner-start-date').value;
+            const endDate = document.getElementById('planner-end-date').value;
+            const itinerary = document.getElementById('planner-itinerary').value;
             const guests = document.getElementById('planner-guests').value;
             const roomType = document.getElementById('planner-room-type').value;
             const deck = document.getElementById('planner-deck').value;
-            const itinerary = document.getElementById('planner-itinerary').value;
 
-            // Generate Price based on room type / guests
-            let basePrice = 600;
-            if (roomType.includes('Suite')) basePrice = 1800;
-            else if (roomType.includes('Balcony')) basePrice = 1100;
-            else if (roomType.includes('Havana')) basePrice = 1500;
-            const totalPrice = basePrice * parseInt(guests);
-
-            // Generate 5-digit booking code mixed with numbers and letters
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let bookingCode = '';
-            for (let i = 0; i < 5; i++) {
-                bookingCode += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
+            // Generate price based on room type & guests
+            let baseRate = 300;
+            if (roomType.includes('Suite')) baseRate = 950;
+            else if (roomType.includes('Balcony')) baseRate = 600;
+            else if (roomType.includes('Havana')) baseRate = 800;
+            
+            const totalPrice = baseRate * parseInt(guests);
+            const bookingCode = generateBookingCode();
 
             let cruisesList = JSON.parse(localStorage.getItem(`suncrest_cruises_list_${currentTargetId}`) || '[]');
-            let currentCount = parseInt(localStorage.getItem(`suncrest_cruises_count_${currentTargetId}`) || '0') + 1;
-
+            
             cruisesList.push({
                 ship: ship,
-                date: dates,
+                date: `${startDate} to ${endDate}`,
+                itinerary: itinerary,
                 guests: guests,
                 roomType: roomType,
                 deck: deck,
-                itinerary: itinerary,
                 price: totalPrice,
-                bookingCode: bookingCode
+                bookingCode: bookingCode,
+                points: 0
             });
 
-            localStorage.setItem(`suncrest_cruises_count_${currentTargetId}`, currentCount);
             localStorage.setItem(`suncrest_cruises_list_${currentTargetId}`, JSON.stringify(cruisesList));
 
-            alert(`Booking successful!\nBooking Code: ${bookingCode}\nTotal Price: $${totalPrice}`);
+            alert(`Cruise booked successfully for client!\nBooking Code: ${bookingCode}\nTotal Price: $${totalPrice}`);
             loadUserData(currentTargetId);
+            document.getElementById('planner-ship').value = '';
+            document.getElementById('planner-itinerary').value = '';
         }
 
         function loadChatMessages() {
