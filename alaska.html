@@ -1,1 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suncrest Cruise Line - Alaska Itineraries</title>
+    <style>
+        :root {
+            --primary-blue: #104c81;
+            --accent-red: #e63946;
+            --light-gray: #f4f6f9;
+            --dark-blue: #0b3154;
+            --text-dark: #222;
+        }
 
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+        }
+
+        .navbar {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .back-btn {
+            background-color: var(--accent-red);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(11, 49, 84, 0.45), rgba(16, 76, 129, 0.65)), url('alaska1.jpg') center/cover no-repeat;
+            color: white;
+            text-align: center;
+            padding: 90px 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        .hero h1 { 
+            margin: 0; 
+            font-size: 48px; 
+            letter-spacing: 1px;
+            font-family: 'Georgia', serif;
+        }
+        .hero p { 
+            margin: 15px 0 0 0; 
+            font-size: 21px; 
+            font-weight: bold;
+            color: #f1f5f9;
+        }
+
+        .search-engine {
+            background: white;
+            max-width: 1100px;
+            margin: -40px auto 30px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.2);
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .filter-group select {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .results-header {
+            max-width: 1100px;
+            margin: 0 auto 15px auto;
+            padding: 0 20px;
+            font-size: 18px;
+            color: var(--dark-blue);
+            font-weight: bold;
+        }
+
+        .itinerary-list {
+            max-width: 1100px;
+            margin: 0 auto 50px auto;
+            padding: 0 20px;
+        }
+
+        .itinerary-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+        }
+
+        .card-image-banner {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-main {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            align-items: center;
+        }
+
+        .card-details {
+            flex: 1;
+            padding: 0 20px 0 0;
+            min-width: 280px;
+        }
+
+        .card-details h2 {
+            margin: 0 0 5px 0;
+            color: var(--dark-blue);
+            font-size: 22px;
+        }
+
+        .ship-badge {
+            display: inline-block;
+            background-color: #eef4fa;
+            color: var(--primary-blue);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .route-path {
+            font-size: 13px;
+            color: #444;
+            line-height: 1.4;
+        }
+
+        .card-action {
+            text-align: right;
+            min-width: 160px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .price-label { font-size: 12px; color: #666; }
+        .price-value { font-size: 32px; font-weight: bold; color: var(--dark-blue); }
+
+        .view-dates-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            transition: background-color 0.2s;
+        }
+
+        .view-dates-btn:hover {
+            background-color: var(--dark-blue);
+        }
+
+        .timeline-section {
+            background-color: #fafbfc;
+            border-top: 1px solid #f0f0f0;
+            padding: 15px 20px;
+        }
+
+        .timeline-title { font-size: 13px; font-weight: bold; color: #555; margin-bottom: 8px; }
+        
+        .timeline-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .timeline-day {
+            background-color: #eef2f6;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--dark-blue);
+        }
+
+        .pricing-section {
+            background-color: #f8fafc;
+            border-top: 1px dashed #cbd5e1;
+            padding: 20px;
+            display: none;
+        }
+
+        .pricing-section.active {
+            display: block;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .price-card {
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .price-header {
+            background-color: #e2e8f0;
+            color: var(--dark-blue);
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            font-size: 13px;
+        }
+
+        .category-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 12px;
+        }
+
+        .category-row:last-of-type { border-bottom: none; }
+
+        .book-now-btn {
+            display: block;
+            background-color: var(--accent-red);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="index.html" class="brand">SUNCREST</a>
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </div>
+
+    <div class="hero">
+        <h1>Alaska Itineraries</h1>
+        <p>Explore Glacier Bay, Inside Passage, and Majestic Frontiers</p>
+    </div>
+
+    <div class="search-engine">
+        <div class="filter-group">
+            <label for="filter-month">Sailing Month</label>
+            <select id="filter-month" onchange="updateFilters()">
+                <option value="all">-- All Months --</option>
+                <option value="Sept 2026">Sept 2026</option>
+                <option value="Apr 2027">Apr 2027</option>
+                <option value="May 2027">May 2027</option>
+                <option value="Jun 2027">Jun 2027</option>
+                <option value="Jul 2027">Jul 2027</option>
+                <option value="Aug 2027">Aug 2027</option>
+                <option value="Sept 2027">Sept 2027</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="filter-port">Homeport</label>
+            <select id="filter-port" onchange="updateFilters()">
+                <option value="all">-- All Homeports --</option>
+                <option value="Seattle">Seattle</option>
+                <option value="San Francisco">San Francisco</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="filter-duration">Duration</label>
+            <select id="filter-duration" onchange="updateFilters()">
+                <option value="all">-- All Durations --</option>
+                <option value="7">7 Days</option>
+                <option value="8">8 Days</option>
+                <option value="9">9 Days</option>
+                <option value="10">10 Days</option>
+                <option value="11">11 Days</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="results-header" id="results-count">Showing Results...</div>
+    <div class="itinerary-list" id="itinerary-list"></div>
+
+    <script>
+        const itineraryTemplates = [
+            {
+                id: "alaska-1",
+                monthKey: "Sept 2026",
+                homeport: "Seattle",
+                disembark: "Seattle",
+                duration: 7,
+                type: "Round Trip",
+                ship: "Suncrest Miracle",
+                basePrice: 540,
+                image: "alaska1.jpg",
+                route: "Seattle > Ketchikan > Juneau > Skagway > Glacier Bay > Victoria > Seattle",
+                datesText: "September 2026",
+                days: ["Seattle (Embark)", "At Sea", "Ketchikan", "Juneau", "Skagway", "Glacier Bay", "Victoria, BC", "Seattle (Disembark)"]
+            },
+            {
+                id: "alaska-2",
+                monthKey: "Apr 2027",
+                homeport: "San Francisco",
+                disembark: "San Francisco",
+                duration: 8,
+                type: "Round Trip",
+                ship: "Suncrest Luminosa",
+                basePrice: 620,
+                image: "alaska2.jpg",
+                route: "San Francisco > At Sea > Ketchikan > Juneau > Skagway > Glacier Bay > At Sea > San Francisco",
+                datesText: "April 2027",
+                days: ["San Francisco (Embark)", "At Sea", "Ketchikan", "Juneau", "Skagway", "Glacier Bay", "At Sea", "San Francisco (Disembark)"]
+            },
+            {
+                id: "alaska-3",
+                monthKey: "May 2027",
+                homeport: "Seattle",
+                disembark: "Seattle",
+                duration: 7,
+                type: "Round Trip",
+                ship: "Suncrest Valor",
+                basePrice: 590,
+                image: "alaska3.jpg",
+                route: "Seattle > At Sea > Ketchikan > Skagway > Glacier Bay > Sitka > At Sea > Seattle",
+                datesText: "May 2027",
+                days: ["Seattle (Embark)", "At Sea", "Ketchikan", "Skagway", "Glacier Bay", "Sitka", "At Sea", "Seattle (Disembark)"]
+            },
+            {
+                id: "alaska-4",
+                monthKey: "May 2027",
+                homeport: "San Francisco",
+                disembark: "San Francisco",
+                duration: 8,
+                type: "Round Trip",
+                ship: "Suncrest Luminosa",
+                basePrice: 650,
+                image: "alaska4.jpg",
+                route: "San Francisco > At Sea > Ketchikan > Juneau > Tracy Arm > Prince Rupert > At Sea > San Francisco",
+                datesText: "May 2027",
+                days: ["San Francisco (Embark)", "At Sea", "Ketchikan", "Juneau", "Tracy Arm", "Prince Rupert", "At Sea", "San Francisco (Disembark)"]
+            },
+            {
+                id: "alaska-5",
+                monthKey: "Jun 2027",
+                homeport: "Seattle",
+                disembark: "Seattle",
+                duration: 10,
+                type: "Extended Voyage",
+                ship: "Suncrest Suncrest",
+                basePrice: 890,
+                image: "alaska5.jpg",
+                route: "Seattle > Ketchikan > Wrangell > Juneau > Skagway > Glacier Bay > Hubbard Glacier > Sitka > Victoria > Seattle",
+                datesText: "June 2027",
+                days: ["Seattle (Embark)", "Ketchikan", "Wrangell", "Juneau", "Skagway", "Glacier Bay", "Hubbard Glacier", "Sitka", "Victoria, BC", "Seattle (Disembark)"]
+            },
+            {
+                id: "alaska-6",
+                monthKey: "Jun 2027",
+                homeport: "San Francisco",
+                disembark: "San Francisco",
+                duration: 10,
+                type: "Extended Round Trip",
+                ship: "Suncrest Luminosa",
+                basePrice: 910,
+                image: "alaska1.jpg",
+                route: "San Francisco > At Sea > Astoria > Ketchikan > Juneau > Skagway > Glacier Bay > Sitka > At Sea > San Francisco",
+                datesText: "June 2027",
+                days: ["San Francisco (Embark)", "At Sea", "Astoria", "Ketchikan", "Juneau", "Skagway", "Glacier Bay", "Sitka", "At Sea", "San Francisco (Disembark)"]
+            },
+            {
+                id: "alaska-7",
+                monthKey: "Jul 2027",
+                homeport: "Seattle",
+                disembark: "Seattle",
+                duration: 10,
+                type: "Extended Voyage",
+                ship: "Suncrest Panamax",
+                basePrice: 880,
+                image: "alaska2.jpg",
+                route: "Seattle > Ketchikan > Juneau > Skagway > Glacier Bay > Hubbard Glacier > Icy Strait Point > Ketchikan > Victoria > Seattle",
+                datesText: "July 2027",
+                days: ["Seattle (Embark)", "Ketchikan", "Juneau", "Skagway", "Glacier Bay", "Hubbard Glacier", "Icy Strait Point", "Ketchikan", "Victoria", "Seattle (Disembark)"]
+            },
+            {
+                id: "alaska-8",
+                monthKey: "Jul 2027",
+                homeport: "San Francisco",
+                disembark: "San Francisco",
+                duration: 9,
+                type: "Extended Round Trip",
+                ship: "Suncrest Luminosa",
+                basePrice: 790,
+                image: "alaska3.jpg",
+                route: "San Francisco > At Sea > Astoria > Ketchikan > Juneau > Skagway > Glacier Bay > At Sea > San Francisco",
+                datesText: "July 2027",
+                days: ["San Francisco (Embark)", "At Sea", "Astoria", "Ketchikan", "Juneau", "Skagway", "Glacier Bay", "At Sea", "San Francisco (Disembark)"]
+            },
+            {
+                id: "alaska-9",
+                monthKey: "Aug 2027",
+                homeport: "Seattle",
+                disembark: "Seattle",
+                duration: 11,
+                type: "Extended Voyage",
+                ship: "Suncrest Valor",
+                basePrice: 990,
+                image: "alaska4.jpg",
+                route: "Seattle > Ketchikan > Juneau > Skagway > Glacier Bay > Whittier > Hubbard Glacier > Sitka > Victoria > Seattle",
+                datesText: "August 2027",
+                days: ["Seattle (Embark)", "At Sea", "Ketchikan", "Juneau", "Skagway", "Glacier Bay", "Whittier", "Hubbard Glacier", "Sitka", "Victoria", "Seattle (Disembark)"]
+            },
+            {
+                id: "alaska-10",
+                monthKey: "Aug 2027",
+                homeport: "San Francisco",
+                disembark: "San Francisco",
+                duration: 9,
+                type: "Extended Round Trip",
+                ship: "Suncrest Luminosa",
+                basePrice: 810,
+                image: "alaska5.jpg",
+                route: "San Francisco > At Sea > Ketchikan > Juneau > Skagway > Glacier Bay > Sitka > At Sea > San Francisco",
+                datesText: "August 2027",
+                days: ["San Francisco (Embark)", "At Sea", "Ketchikan", "Juneau", "Skagway", "Glacier Bay", "Sitka", "At Sea", "San Francisco (Disembark)"]
+            },
+            {
+                id: "alaska-11",
+                monthKey: "Sept 2027",
+                homeport: "Seattle",
+                disembark: "Seattle",
+                duration: 9,
+                type: "Extended Voyage",
+                ship: "Suncrest Panamax",
+                basePrice: 740,
+                image: "alaska1.jpg",
+                route: "Seattle > Ketchikan > Juneau > Skagway > Glacier Bay > Sitka > Victoria > Seattle",
+                datesText: "September 2027",
+                days: ["Seattle (Embark)", "Ketchikan", "Juneau", "Skagway", "Glacier Bay", "Sitka", "Victoria", "Seattle (Disembark)"]
+            }
+        ];
+
+        function generateSailingsDatabase() {
+            return itineraryTemplates;
+        }
+
+        const database = generateSailingsDatabase();
+
+        function renderItineraries(list) {
+            const container = document.getElementById("itinerary-list");
+            const counter = document.getElementById("results-count");
+            
+            if (!container || !counter) return;
+            
+            container.innerHTML = "";
+            counter.innerText = list.length + " Itinerary" + (list.length === 1 ? "" : "s") + " Found";
+
+            if (list.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding: 40px; font-weight:bold; color:#555;">No itineraries found matching your criteria.</div>';
+                return;
+            }
+
+            list.forEach(function(item) {
+                let timelineHTML = "";
+                item.days.forEach(function(day, index) {
+                    timelineHTML += '<div class="timeline-day">Day ' + (index + 1) + ': ' + day + '</div>';
+                });
+
+                let datesHTML = `
+                    <div class="price-card">
+                        <div class="price-header">${item.datesText} (${item.type})</div>
+                        <div class="category-row">
+                            <span>Interior</span>
+                            <strong>$${item.basePrice}*</strong>
+                        </div>
+                        <div class="category-row">
+                            <span>Ocean View</span>
+                            <strong>$${Math.round(item.basePrice * 1.25)}*</strong>
+                        </div>
+                        <div class="category-row">
+                            <span>Balcony</span>
+                            <strong>$${Math.round(item.basePrice * 1.55)}*</strong>
+                        </div>
+                        <div class="category-row">
+                            <span>Suite</span>
+                            <strong>$${Math.round(item.basePrice * 2.20)}*</strong>
+                        </div>
+                        <a href="#" class="book-now-btn">Book Itinerary</a>
+                    </div>
+                `;
+
+                const cardHTML = `
+                    <div class="itinerary-card">
+                        <img class="card-image-banner" src="${item.image}" alt="${item.route}">
+                        <div class="card-main">
+                            <div class="card-details">
+                                <span class="ship-badge">🚢 ${item.ship}</span>
+                                <h2>${item.duration}-Day Alaska (${item.homeport} to ${item.disembark})</h2>
+                                <p class="route-path"><strong>Route:</strong> ${item.route}</p>
+                            </div>
+                            <div class="card-action">
+                                <span class="price-label">Starting at</span>
+                                <div class="price-value">$${item.basePrice}*</div>
+                                <button class="view-dates-btn" onclick="togglePricing('${item.id}')">View Details & Dates</button>
+                            </div>
+                        </div>
+                        <div class="timeline-section">
+                            <div class="timeline-title">ITINERARY PATHWAY</div>
+                            <div class="timeline-grid">${timelineHTML}</div>
+                        </div>
+                        <div class="pricing-section" id="pricing-${item.id}">
+                            <div style="font-weight:bold; color:var(--dark-blue); margin-bottom:10px;">Select Room Category & Departure Dates</div>
+                            <div class="pricing-grid">${datesHTML}</div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        function togglePricing(id) {
+            const section = document.getElementById("pricing-" + id);
+            if (section) {
+                section.classList.toggle("active");
+            }
+        }
+
+        function updateFilters() {
+            const monthSelect = document.getElementById("filter-month");
+            const portSelect = document.getElementById("filter-port");
+            const durSelect = document.getElementById("filter-duration");
+
+            if (!monthSelect || !portSelect || !durSelect) return;
+
+            const selectedMonth = monthSelect.value;
+            const selectedPort = portSelect.value;
+            const selectedDur = durSelect.value;
+
+            const filteredList = database.filter(function(item) {
+                const monthMatch = (selectedMonth === "all" || item.monthKey === selectedMonth);
+                const portMatch = (selectedPort === "all" || item.homeport === selectedPort);
+                const durationMatch = (selectedDur === "all" || item.duration.toString() === selectedDur);
+
+                return monthMatch && portMatch && durationMatch;
+            });
+
+            renderItineraries(filteredList);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateFilters();
+        });
+    </script>
+</body>
+</html>
+
+<script src="script.js"></script>
