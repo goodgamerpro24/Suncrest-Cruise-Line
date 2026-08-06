@@ -65,7 +65,7 @@
             position: absolute;
             right: 0;
             top: 50px;
-            width: 280px;
+            width: 300px;
             background: white;
             border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.2);
@@ -89,7 +89,7 @@
             text-decoration: none;
             color: #104c81;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 15px;
             display: block;
         }
         .dropdown-menu-list li a:hover {
@@ -286,6 +286,48 @@
             background-color: #c52a36;
         }
 
+        /* Planner Admin Panel for unlocking custom deals */
+        .admin-controls-card {
+            background: #eef4fc;
+            border: 2px solid #104c81;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .admin-controls-card h3 {
+            margin-top: 0;
+            color: #104c81;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+        .admin-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .admin-form-group input, .admin-form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #104c81;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .btn-admin-unlock {
+            background-color: #104c81;
+            color: white;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+        .btn-admin-unlock:hover {
+            background-color: #0b355c;
+        }
+
         /* Logged-out state container for personal deals */
         .login-prompt-card {
             background: #f8fbff;
@@ -352,10 +394,10 @@
                 <div id="profile-dropdown" class="profile-dropdown">
                     <ul class="dropdown-menu-list">
                         <li><a href="profile.html?tab=profile">My Profile</a></li>
-                        <li><a href="profile.html?tab=benefits">My Benefits</a></li>
+                        <li><a href="profile.html?tab=benefits">My Fun Squad Benefits</a></li>
                         <li><a href="profile.html?tab=cruises">My Cruises</a></li>
                         <li><a href="profile.html?tab=chat">Client Chat</a></li>
-                        <li><a href="profile.html?tab=offers">My Offers</a></li>
+                        <li><a href="profile.html?tab=offers">My Tailored Deals</a></li>
                     </ul>
                     <div class="logout-btn-box">
                         <button class="btn-logout" onclick="handleLogout()">LOG OUT</button>
@@ -375,18 +417,13 @@
             <p>*Starting price in USD. Taxes and fees are included.</p>
         </div>
 
-        <!-- FILTER BAR -->
+        <!-- FILTER BAR (Months updated dynamically through December 2028) -->
         <div class="filter-bar">
             <div class="filter-group">
                 <label>Month / Sail Date</label>
                 <select id="filter-month" onchange="renderOffers()">
                     <option value="ALL">All Months / Upcoming</option>
-                    <option value="AUGUST">August 2026</option>
-                    <option value="SEPTEMBER">September 2026</option>
-                    <option value="OCTOBER">October 2026</option>
-                    <option value="NOVEMBER">November 2026</option>
-                    <option value="SPRING2027">Spring 2027</option>
-                    <option value="SUMMER2027">Summer 2027 (Family Reunion)</option>
+                    <!-- Dynamically populated month options through Dec 2028 -->
                 </select>
             </div>
             <div class="filter-group">
@@ -408,6 +445,41 @@
             </div>
         </div>
 
+        <!-- CRUISE ADMIN / PLANNER DEAL UNLOCK PANEL (Visible only if signed in as Admin or Planner) -->
+        <div id="admin-planner-panel" style="display: none;" class="admin-controls-card">
+            <h3>Cruise Planner / Admin Deal Generator</h3>
+            <p style="font-size: 13px; color: #444; margin-top: 2px;">Unlock or activate custom targeted deals for clients based on past sailings, high spending, casino play volume, and Fun Squad loyalty tier.</p>
+            <div class="admin-form-grid">
+                <div class="admin-form-group">
+                    <input type="text" id="custom-deal-title" placeholder="Deal Title (e.g., VIP High Roller Upgrade)">
+                </div>
+                <div class="admin-form-group">
+                    <select id="custom-deal-tier">
+                        <option value="FUN SQUAD MEMBER">Fun Squad Member</option>
+                        <option value="FUN SQUAD GOLD">Fun Squad Gold Tier</option>
+                        <option value="FUN SQUAD PLATINUM">Fun Squad Platinum Tier</option>
+                        <option value="FUN SQUAD DIAMOND">Fun Squad Diamond / Casino VIP</option>
+                    </select>
+                </div>
+                <div class="admin-form-group">
+                    <select id="custom-deal-month">
+                        <option value="ALL">Valid All Months</option>
+                        <option value="2026-08">August 2026</option>
+                        <option value="2026-09">September 2026</option>
+                        <option value="2026-10">October 2026</option>
+                        <option value="2026-11">November 2026</option>
+                        <option value="2026-12">December 2026</option>
+                        <option value="2027-01">January 2027</option>
+                        <option value="2027-06">June 2027</option>
+                        <option value="2028-12">December 2028</option>
+                    </select>
+                </div>
+                <div class="admin-form-group">
+                    <button class="btn-admin-unlock" onclick="unlockPlannerDeal()">+ Unlock Custom Deal</button>
+                </div>
+            </div>
+        </div>
+
         <!-- OFFERS FEED -->
         <div id="offers-feed-container" class="offers-grid">
             <!-- Dynamically rendered via JavaScript -->
@@ -415,8 +487,39 @@
     </div>
 
     <script>
+        // Generate month options moving forward until December 2028
+        function populateMonthDropdown() {
+            const monthSelect = document.getElementById('filter-month');
+            const adminMonthSelect = document.getElementById('custom-deal-month');
+            
+            const startYear = 2026;
+            const startMonth = 8; // August 2026
+            const endYear = 2028;
+            const endMonth = 12; // December 2028
+
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+            let optionsHtml = '<option value="ALL">All Months / Upcoming</option>';
+            let adminOptionsHtml = '<option value="ALL">Valid All Months</option>';
+
+            for (let y = startYear; y <= endYear; y++) {
+                let mStart = (y === startYear) ? startMonth : 1;
+                let mEnd = (y === endYear) ? endMonth : 12;
+
+                for (let m = mStart; m <= mEnd; m++) {
+                    const monthValue = `${y}-${String(m).padStart(2, '0')}`;
+                    const monthLabel = `${monthNames[m - 1]} ${y}`;
+                    optionsHtml += `<option value="${monthValue}">${monthLabel}</option>`;
+                    adminOptionsHtml += `<option value="${monthValue}">${monthLabel}</option>`;
+                }
+            }
+
+            monthSelect.innerHTML = optionsHtml;
+            if (adminMonthSelect) adminMonthSelect.innerHTML = adminOptionsHtml;
+        }
+
         // Master catalog combining public deals & personal returning-cruiser deals
-        const allOffersDatabase = [
+        let allOffersDatabase = [
             {
                 id: 'PUB-01',
                 type: 'public',
@@ -432,7 +535,7 @@
                 ],
                 price: '352',
                 perMonth: '38/mo',
-                month: 'AUGUST',
+                month: '2026-08',
                 destination: 'BAHAMAS',
                 duration: 'SHORT',
                 code: 'BUNDLE500'
@@ -452,7 +555,7 @@
                 ],
                 price: '183',
                 perMonth: '28/mo',
-                month: 'OCTOBER',
+                month: '2026-10',
                 destination: 'ALASKA',
                 duration: 'LONG',
                 code: 'EARLYSAVER'
@@ -470,7 +573,7 @@
                 ],
                 price: '184',
                 perMonth: '28/mo',
-                month: 'NOVEMBER',
+                month: '2026-11',
                 destination: 'BAHAMAS',
                 duration: 'SHORT',
                 code: 'BUNCHSAVE'
@@ -489,54 +592,65 @@
                 ],
                 price: '1,161',
                 perMonth: '123/mo',
-                month: 'SPRING2027',
+                month: '2027-01',
                 destination: 'EUROPE',
                 duration: 'LONG',
                 code: 'CASINOVIP'
             },
-            // Personal Returning Cruiser Deals (Matched when logged in)
+            // Personal Returning Cruiser / Fun Squad Deals
             {
                 id: 'PER-01',
                 type: 'personal',
-                title: 'Loyalty Tier Status Match & Free Interior Room Voucher',
-                badge: 'VIFP CLUB - EXCLUSIVE',
+                title: 'Fun Squad Loyalty Status Match & Free Interior Room Voucher',
+                badge: 'FUN SQUAD CLUB - EXCLUSIVE',
                 bullets: [
-                    'Recognizing your prior sailings with Suncrest, enjoy a complimentary Interior Stateroom guarantee or heavy discount on Balcony upgrades.',
+                    'Recognizing your prior sailings and onboard spending, enjoy a complimentary Interior Stateroom guarantee or heavy discount on Balcony upgrades.',
                     'Includes $150 Casino Play Credit and welcome champagne.',
-                    'Double loyalty point earnings on your next booked voyage.'
+                    'Double Fun Squad loyalty point earnings on your next booked voyage.'
                 ],
                 price: '145',
                 perMonth: '22/mo',
                 month: 'ALL',
                 destination: 'BAHAMAS',
                 duration: 'SHORT',
-                code: 'VIFPMATCH26'
+                code: 'FUNMATCH26'
             },
             {
                 id: 'PER-02',
                 type: 'personal',
-                title: 'August 2027 Family Reunion Group Rate Lock-In',
-                badge: 'PRIVATE REUNION INVITATION',
+                title: 'High-Roller Casino Play & Spend Bonus Package',
+                badge: 'FUN SQUAD DIAMOND VIP',
                 bullets: [
-                    'Special multi-generational family pricing locked in for the August 5-9, 2027 Mardi Gras sailing.',
-                    'Priority check-in and private group cocktail reception.',
-                    'Complimentary commemorative 1.5 liter bottle of water delivered to your cabin.'
+                    'Unlocked based on your high casino point volume and onboard spending history.',
+                    'Complimentary drinks on us in the casino and priority table seating.',
+                    'Free stateroom Wi-Fi package included for all days sailed.'
                 ],
-                price: '210',
-                perMonth: '32/mo',
-                month: 'SUMMER2027',
+                price: '190',
+                perMonth: '29/mo',
+                month: 'ALL',
                 destination: 'BAHAMAS',
-                duration: 'SHORT',
-                code: 'REUNION27FAM'
+                duration: 'LONG',
+                code: 'CASINOPLAYVIP'
             }
         ];
 
         window.addEventListener('DOMContentLoaded', () => {
+            populateMonthDropdown();
+
             const isRegistered = localStorage.getItem('suncrest_registered_user');
+            const userRole = localStorage.getItem('suncrest_user_role') || 'client'; // 'client', 'planner', 'admin'
+
             if (isRegistered) {
                 const userName = localStorage.getItem('suncrest_user_name') || 'Guest';
                 document.getElementById('user-badge').innerText = `Ahoy, ${userName}!`;
             }
+
+            // Check if user is logged in as cruise admin or planner
+            if (userRole === 'planner' || userRole === 'admin' || isRegistered === 'true') {
+                // Display admin/planner panel to unlock/activate custom deals
+                document.getElementById('admin-planner-panel').style.display = 'block';
+            }
+
             renderOffers();
         });
 
@@ -559,6 +673,40 @@
             localStorage.removeItem('suncrest_user_email');
             localStorage.removeItem('suncrest_user_role');
             window.location.href = 'signin.html';
+        }
+
+        function unlockPlannerDeal() {
+            const title = document.getElementById('custom-deal-title').value;
+            const tier = document.getElementById('custom-deal-tier').value;
+            const month = document.getElementById('custom-deal-month').value;
+
+            if (!title) {
+                alert('Please enter a valid deal title to unlock.');
+                return;
+            }
+
+            const newCustomDeal = {
+                id: 'CUSTOM-' + Date.now(),
+                type: 'personal',
+                title: title,
+                badge: tier.toUpperCase(),
+                bullets: [
+                    'Custom tailored and unlocked by Cruise Planner / Admin.',
+                    'Based on verified past sailings, high spending tier, and casino play metrics.',
+                    'Includes priority boarding and exclusive onboard perks.'
+                ],
+                price: '160',
+                perMonth: '25/mo',
+                month: month,
+                destination: 'ALL',
+                duration: 'SHORT',
+                code: 'PLANNERVIP'
+            };
+
+            allOffersDatabase.unshift(newCustomDeal);
+            alert(`Success! Custom deal "${title}" has been unlocked and added for client views.`);
+            document.getElementById('custom-deal-title').value = '';
+            renderOffers();
         }
 
         function renderOffers() {
@@ -603,10 +751,10 @@
                 `;
             });
 
-            // Render Personal Deals / VIFP Club Section
+            // Render Personal / Fun Squad Deals
             if (isRegistered) {
                 const userName = localStorage.getItem('suncrest_user_name') || 'Member';
-                htmlOutput += `<div style="margin-top: 10px; border-top: 3px solid #e63946; padding-top: 20px;"><h3 style="color: #e63946; text-transform: uppercase; margin-bottom: 5px;">VIFP Club: Personal Offers for ${userName}</h3><p style="color: #666; font-size: 14px; margin-top:0;">Matched directly to your loyalty profile and sailing history.</p></div>`;
+                htmlOutput += `<div style="margin-top: 10px; border-top: 3px solid #e63946; padding-top: 20px;"><h3 style="color: #e63946; text-transform: uppercase; margin-bottom: 5px;">Fun Squad Club: Tailored Offers for ${userName}</h3><p style="color: #666; font-size: 14px; margin-top:0;">Unlocked based on your past sailings, spending, casino play volume, and loyalty tier.</p></div>`;
 
                 personalDeals.forEach(offer => {
                     htmlOutput += `
@@ -629,12 +777,12 @@
                     `;
                 });
             } else {
-                // Not logged in: Show the VIFP Club Log-in Card matching the screenshot design
+                // Not logged in: Show the Fun Squad Log-in Card
                 htmlOutput += `
                     <div class="login-prompt-card">
-                        <div style="font-size: 14px; font-weight: bold; color: #104c81; letter-spacing: 1px; margin-bottom: 5px;">VIFP CLUB</div>
+                        <div style="font-size: 14px; font-weight: bold; color: #104c81; letter-spacing: 1px; margin-bottom: 5px;">FUN SQUAD CLUB</div>
                         <h3>LOG IN TO SEE MY DEALS</h3>
-                        <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Access your private loyalty rates, past guest perks, and tailored status-match discounts.</p>
+                        <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Access your private loyalty rates, past guest perks, casino rewards, and planner-unlocked offers.</p>
                         <div>
                             <a href="signin.html" class="btn-login-action">LOG IN</a>
                             <a href="signin.html" class="btn-register-action">Create Account</a>
