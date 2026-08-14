@@ -136,6 +136,9 @@
             border-radius: 5px;
             cursor: pointer;
             text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
         }
 
         .btn:hover { background-color: var(--dark-blue); }
@@ -201,14 +204,6 @@
             padding-top: 10px;
             margin-top: 10px;
         }
-
-        #confirmation-screen {
-            display: none;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        #confirmation-screen h2 { color: #2e7d32; font-size: 32px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -268,20 +263,12 @@
             </div>
 
             <div style="margin-top: 30px; text-align: right;">
-                <button type="submit" class="btn" style="background-color: var(--accent-red); font-size: 16px; padding: 15px 30px;">Proceed to Secure Payment</button>
+                <button type="submit" class="btn" style="background-color: var(--accent-red); font-size: 16px; padding: 15px 30px;">Proceed to Payment</button>
             </div>
         </form>
     </div>
 
-    <div class="container" id="confirmation-screen">
-        <h2>🎉 Booking Confirmed!</h2>
-        <p>Thank you for choosing Suncrest Cruise Line. Your reservation and payment option have been successfully processed.</p>
-        <div id="assigned-rooms-details" style="margin: 25px 0; text-align: left; background: #f8fafc; padding: 20px; border-radius: 6px; border: 1px solid #cbd5e1;"></div>
-        <a href="deepdive.html" class="btn" id="return-itinerary-btn">Choose Another Itinerary</a>
-    </div>
-
     <script>
-        // Full Fleet Class Database with capacities and simulated load numbers
         const fleetData = {
             "Suncrest Excitement": { class: "Seabreeze", maxCap: 2124, currentLoad: 1850 },
             "Suncrest Elation": { class: "Seabreeze", maxCap: 2124, currentLoad: 1900 },
@@ -316,7 +303,6 @@
             "Suncrest Key": { class: "Tropical", maxCap: 6465, currentLoad: 5300 }
         };
 
-        // Parse URL Parameters from any itinerary page
         const urlParams = new URLSearchParams(window.location.search);
         const shipName = urlParams.get('ship') || "Suncrest Magic";
         const route = urlParams.get('route') || "Port Canaveral > International Destination > Port Canaveral";
@@ -328,10 +314,8 @@
         let cabins = [{ category: "Interior", adults: 2, children: 0 }];
 
         function initBookingPage() {
-            // Update navigation links back to originating itinerary page
             document.getElementById("nav-brand-link").setAttribute("href", referrerPage);
             document.getElementById("nav-back-btn").setAttribute("href", referrerPage);
-            document.getElementById("return-itinerary-btn").setAttribute("href", referrerPage);
 
             const summaryBox = document.getElementById("itinerary-summary");
             summaryBox.innerHTML = `
@@ -341,7 +325,6 @@
                 <p><strong>Base Fare Rate:</strong> $${basePrice} per person (Interior reference)</p>
             `;
 
-            // Check if ship is sold out ($\ge 98\%$ capacity load)
             const shipInfo = fleetData[shipName] || { maxCap: 3581, currentLoad: 3000 };
             const loadPercentage = shipInfo.currentLoad / shipInfo.maxCap;
 
@@ -360,7 +343,6 @@
             calculatePricing();
         }
 
-        // Dynamic Max Occupancy scaling based on ship load
         function getMaxCabinOccupancy() {
             const shipInfo = fleetData[shipName] || { maxCap: 3581, currentLoad: 3000 };
             const loadRatio = shipInfo.currentLoad / shipInfo.maxCap;
@@ -466,7 +448,6 @@
                 totalFare += cabinCost;
             });
 
-            // Calculate Add-ons
             let addonsTotal = 0;
             const insuranceSelected = document.getElementById("travel-insurance").checked;
             const gratuitiesSelected = document.getElementById("prepay-gratuities").checked;
@@ -479,12 +460,9 @@
             }
 
             let grandTotal = totalFare + addonsTotal;
-
-            // Variable upfront deposit calculation
             let depositRate = duration > 7 ? 0.25 : 0.20;
             let requiredDeposit = Math.round(grandTotal * depositRate);
 
-            // Payment preference check
             const paymentType = document.querySelector('input[name="paymentType"]:checked').value;
             let dueToday = paymentType === 'full' ? grandTotal : requiredDeposit;
 
@@ -519,22 +497,43 @@
             }
 
             const paymentType = document.querySelector('input[name="paymentType"]:checked').value;
-            let confirmationHTML = `<h4>Assigned Stateroom Manifest for ${shipName}</h4>`;
-            cabins.forEach((cabin, idx) => {
-                let randomDeck = Math.floor(Math.random() * 6) + 6;
-                let randomRoomNo = randomDeck * 100 + Math.floor(Math.random() * 80) + 10;
-                confirmationHTML += `
-                    <p><strong>Cabin ${idx + 1} (${cabin.category}):</strong> Stateroom #${randomRoomNo} (Deck ${randomDeck}) — ${cabin.adults} Adult(s), ${cabin.children} Child(ren) assigned.</p>
-                `;
+            const insuranceSelected = document.getElementById("travel-insurance").checked;
+            const gratuitiesSelected = document.getElementById("prepay-gratuities").checked;
+
+            // Calculate exact total due today for passing to payment.html
+            let totalFare = 0;
+            let totalGuests = 0;
+            cabins.forEach(cabin => {
+                let multiplier = 1.0;
+                if (cabin.category === "Ocean View") multiplier = 1.25;
+                if (cabin.category === "Balcony") multiplier = 1.55;
+                if (cabin.category === "Suite") multiplier = 2.20;
+                let cabinGuests = cabin.adults + cabin.children;
+                totalGuests += cabinGuests;
+                totalFare += (basePrice * multiplier) * cabinGuests;
             });
 
-            confirmationHTML += `<p style="margin-top: 15px; font-weight: bold; color: var(--dark-blue);">Payment Mode: ${paymentType === 'full' ? 'Paid in Full' : 'Structured Payment Plan (Deposit Paid)'}</p>`;
+            let addonsTotal = 0;
+            if (insuranceSelected) addonsTotal += 79 * totalGuests;
+            if (gratuitiesSelected) addonsTotal += 16 * duration * totalGuests;
 
-            document.getElementById("assigned-rooms-details").innerHTML = confirmationHTML;
-            document.getElementById("booking-form").style.display = "none";
-            document.getElementById("itinerary-summary").style.display = "none";
-            document.getElementById("confirmation-screen").style.display = "block";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            let grandTotal = totalFare + addonsTotal;
+            let depositRate = duration > 7 ? 0.25 : 0.20;
+            let requiredDeposit = Math.round(grandTotal * depositRate);
+            let dueToday = paymentType === 'full' ? grandTotal : requiredDeposit;
+
+            // Pack parameters and transition to payment.html
+            const paymentParams = new URLSearchParams({
+                ship: shipName,
+                route: route,
+                duration: duration,
+                dates: datesText,
+                dueToday: dueToday.toFixed(2),
+                paymentType: paymentType,
+                cabins: JSON.stringify(cabins)
+            });
+
+            window.location.href = `payment.html?${paymentParams.toString()}`;
         }
 
         document.addEventListener("DOMContentLoaded", initBookingPage);
