@@ -29,8 +29,6 @@
             align-items: center;
         }
 
-        
-
         .brand {
             font-size: 24px;
             font-weight: bold;
@@ -229,7 +227,7 @@
             background-color: #f8fafc;
             border-top: 1px dashed #cbd5e1;
             padding: 20px;
-            display: none; /* Collapsed by default until View Details & Dates is clicked */
+            display: none;
         }
 
         .pricing-section.active {
@@ -275,11 +273,17 @@
             background-color: var(--accent-red);
             color: white;
             text-align: center;
-            padding: 8px;
+            padding: 10px;
             text-decoration: none;
             font-weight: bold;
             font-size: 12px;
             text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        .book-now-btn:hover {
+            background-color: #c53038;
         }
     </style>
 </head>
@@ -505,6 +509,15 @@
                     timelineHTML += '<div class="timeline-day">Day ' + (index + 1) + ': ' + day + '</div>';
                 });
 
+                const bookingQuery = new URLSearchParams({
+                    ship: item.ship,
+                    route: item.route,
+                    duration: item.duration,
+                    basePrice: item.basePrice,
+                    dates: item.datesText,
+                    ref: "panamacanal.html"
+                }).toString();
+
                 let datesHTML = `
                     <div class="price-card">
                         <div class="price-header">${item.datesText} (${item.type})</div>
@@ -524,7 +537,7 @@
                             <span>Suite</span>
                             <strong>$${Math.round(item.basePrice * 2.20)}*</strong>
                         </div>
-                        <a href="#" class="book-now-btn">Book Itinerary</a>
+                        <a href="bookcruise.html?${bookingQuery}" class="book-now-btn">Book Itinerary</a>
                     </div>
                 `;
 
@@ -592,5 +605,3 @@
     </script>
 </body>
 </html>
-
-<script src="script.js"></script>
