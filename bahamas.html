@@ -270,6 +270,10 @@
             font-size: 12px;
             text-transform: uppercase;
         }
+
+        .book-now-btn:hover {
+            background-color: #c5303c;
+        }
     </style>
 </head>
 <body>
@@ -1223,6 +1227,8 @@
 
                 let datesHTML = "";
                 item.dates.forEach(function(date) {
+                    const bookingURL = `bookcruise.html?ship=${encodeURIComponent(item.ship)}&homeport=${encodeURIComponent(item.homeport)}&duration=${item.duration}&variant=${encodeURIComponent(item.variant)}&route=${encodeURIComponent(item.route)}&dates=${encodeURIComponent(date.range)}&interior=${date.prices.interior}&oceanview=${date.prices.oceanview}&balcony=${date.prices.balcony}&suite=${date.prices.suite}`;
+
                     datesHTML += `
                         <div class="price-card">
                             <div class="price-header">${date.range}</div>
@@ -1242,7 +1248,7 @@
                                 <span>Suite</span>
                                 <strong>$${date.prices.suite}*</strong>
                             </div>
-                            <a href="#" class="book-now-btn">Start Booking</a>
+                            <a href="${bookingURL}" class="book-now-btn">Start Booking</a>
                         </div>
                     `;
                 });
@@ -1311,5 +1317,3 @@
     </script>
 </body>
 </html>
-
-<script src="script.js"></script>
