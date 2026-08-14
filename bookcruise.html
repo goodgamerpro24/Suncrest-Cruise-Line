@@ -1,1 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUNCREST Cruise Line - Secure Booking Engine</title>
+    <style>
+        :root {
+            --primary-blue: #104c81;
+            --accent-red: #e63946;
+            --light-gray: #f4f6f9;
+            --dark-blue: #0b3154;
+            --text-dark: #222;
+        }
 
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+        }
+
+        .navbar {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .back-btn {
+            background-color: var(--accent-red);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .itinerary-summary-box {
+            background: #eef4fa;
+            border-left: 5px solid var(--primary-blue);
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .itinerary-summary-box h2 {
+            margin: 0 0 8px 0;
+            color: var(--dark-blue);
+            font-size: 20px;
+        }
+
+        .itinerary-summary-box p {
+            margin: 4px 0;
+            font-size: 14px;
+            color: #444;
+        }
+
+        h3 {
+            color: var(--dark-blue);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-top: 25px;
+        }
+
+        .cabin-container {
+            background: #fafbfc;
+            border: 1px solid #cbd5e1;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .cabin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .cabin-header h4 { margin: 0; color: var(--dark-blue); font-size: 16px; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .form-group select, .form-group input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .btn:hover { background-color: var(--dark-blue); }
+
+        .btn-danger {
+            background-color: var(--accent-red);
+            font-size: 12px;
+            padding: 6px 12px;
+        }
+        .btn-danger:hover { background-color: #c53038; }
+
+        .btn-secondary {
+            background-color: #475569;
+            margin-right: 10px;
+        }
+        .btn-secondary:hover { background-color: #334155; }
+
+        .error-banner {
+            background-color: #ffeeee;
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .price-summary-box {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 25px;
+        }
+
+        .price-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .price-line.total {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--dark-blue);
+            border-top: 2px solid #cbd5e1;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        #confirmation-screen {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        #confirmation-screen h2 { color: #2e7d32; font-size: 32px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="deepdive.html" class="brand">SUNCREST</a>
+        <a href="deepdive.html" class="back-btn">← Back to Itineraries</a>
+    </div>
+
+    <div class="container" id="booking-container">
+        <div class="itinerary-summary-box" id="itinerary-summary">
+            <!-- Populated via JS -->
+        </div>
+
+        <div class="error-banner" id="error-banner"></div>
+
+        <form id="booking-form" onsubmit="processCheckout(event)">
+            <h3>Passenger & Cabin Selection</h3>
+            <p style="font-size: 13px; color: #666;">You can book up to 3 cabins. Maximum guests per cabin adjusts dynamically based on ship capacity safety rules.</p>
+            
+            <div id="cabins-wrapper">
+                <!-- Cabin 1 injected via JS -->
+            </div>
+
+            <button type="button" class="btn btn-secondary" id="add-cabin-btn" onclick="addCabin()">+ Add Another Cabin (Max 3)</button>
+
+            <div class="price-summary-box">
+                <h3>Price & Deposit Breakdown</h3>
+                <div class="price-line"><span>Total Voyage Fare:</span> <strong id="total-fare">$0.00</strong></div>
+                <div class="price-line"><span>Required Upfront Deposit:</span> <strong id="required-deposit">$0.00</strong></div>
+                <div class="price-line total"><span>Due Today:</span> <span id="due-today">$0.00</span></div>
+            </div>
+
+            <div style="margin-top: 30px; text-align: right;">
+                <button type="submit" class="btn" style="background-color: var(--accent-red); font-size: 16px; padding: 15px 30px;">Proceed to Secure Payment</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container" id="confirmation-screen">
+        <h2>🎉 Booking Confirmed!</h2>
+        <p>Thank you for choosing Suncrest Cruise Line. Your payment has been successfully processed.</p>
+        <div id="assigned-rooms-details" style="margin: 25px 0; text-align: left; background: #f8fafc; padding: 20px; border-radius: 6px; border: 1px solid #cbd5e1;"></div>
+        <a href="deepdive.html" class="btn">Book Another Voyage</a>
+    </div>
+
+    <script>
+        // Fleet Database mapping class metrics
+        const fleetData = {
+            "Suncrest Excitement": { class: "Seabreeze", maxCap: 2124, currentLoad: 1850 },
+            "Suncrest Elation": { class: "Seabreeze", maxCap: 2124, currentLoad: 1900 },
+            "Suncrest Hideaway": { class: "Hideaway", maxCap: 3750, currentLoad: 3200 },
+            "Suncrest Utopia": { class: "Hideaway", maxCap: 3750, currentLoad: 3740 }, // Near max! Triggers capacity limits
+            "Suncrest Retreat": { class: "Hideaway", maxCap: 3750, currentLoad: 2500 },
+            "Suncrest Panamax": { class: "Panamax", maxCap: 2680, currentLoad: 2100 },
+            "Suncrest Gateway": { class: "Panamax", maxCap: 2680, currentLoad: 2000 },
+            "Suncrest Miracle": { class: "Panamax", maxCap: 2680, currentLoad: 2300 },
+            "Suncrest Valor": { class: "Panamax", maxCap: 2680, currentLoad: 2400 },
+            "Suncrest Oceanic": { class: "Oceanic", maxCap: 3581, currentLoad: 3100 },
+            "Suncrest Atlantica": { class: "Oceanic", maxCap: 3581, currentLoad: 2900 },
+            "Suncrest Pacifica": { class: "Oceanic", maxCap: 3581, currentLoad: 3000 },
+            "Suncrest Magic": { class: "Oceanic", maxCap: 3581, currentLoad: 3450 }, // Near max capacity
+            "Suncrest Victory": { class: "Oceanic", maxCap: 3581, currentLoad: 3100 },
+            "Suncrest Legacy": { class: "Legacy", maxCap: 4724, currentLoad: 4000 },
+            "Suncrest Horizon": { class: "Legacy", maxCap: 4724, currentLoad: 4100 },
+            "Suncrest Dream": { class: "Legacy", maxCap: 4724, currentLoad: 4300 },
+            "Suncrest Nightmare": { class: "Legacy", maxCap: 4724, currentLoad: 3900 },
+            "Suncrest Radiance": { class: "Radiance", maxCap: 3850, currentLoad: 3200 },
+            "Suncrest Brilliance": { class: "Radiance", maxCap: 3850, currentLoad: 3300 },
+            "Suncrest Glow": { class: "Radiance", maxCap: 3850, currentLoad: 3100 },
+            "Suncrest Sunrise": { class: "Radiance", maxCap: 3850, currentLoad: 3400 },
+            "Suncrest Sunshine": { class: "Radiance", maxCap: 3850, currentLoad: 3000 },
+            "Suncrest Aurora": { class: "Aurora", maxCap: 4977, currentLoad: 4100 },
+            "Suncrest Nova": { class: "Aurora", maxCap: 4977, currentLoad: 4300 },
+            "Suncrest Eclipse": { class: "Aurora", maxCap: 4977, currentLoad: 4500 },
+            "Suncrest Tropical": { class: "Tropical", maxCap: 6465, currentLoad: 5200 },
+            "Suncrest Sunkissed": { class: "Tropical", maxCap: 6465, currentLoad: 5500 },
+            "Suncrest Mirage": { class: "Tropical", maxCap: 6465, currentLoad: 5800 },
+            "Suncrest Paradise": { class: "Tropical", maxCap: 6465, currentLoad: 5100 },
+            "Suncrest Key": { class: "Tropical", maxCap: 6465, currentLoad: 5300 }
+        };
+
+        // Parse URL Parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const shipName = urlParams.get('ship') || "Suncrest Magic";
+        const route = urlParams.get('route') || "Port Canaveral > Dominican Republic > Port Canaveral";
+        const duration = parseInt(urlParams.get('duration')) || 5;
+        const basePrice = parseFloat(urlParams.get('basePrice')) || 620;
+        const datesText = urlParams.get('dates') || "June-July 2027";
+
+        let cabins = [{ category: "Interior", adults: 2, children: 0 }];
+
+        function initBookingPage() {
+            const summaryBox = document.getElementById("itinerary-summary");
+            summaryBox.innerHTML = `
+                <h2>${shipName} (${duration}-Day Voyage)</h2>
+                <p><strong>Route:</strong> ${route}</p>
+                <p><strong>Scheduled Window:</strong> ${datesText}</p>
+                <p><strong>Base Fare Rate:</strong> $${basePrice} per person (Interior reference)</p>
+            `;
+
+            // Check if ship is sold out or near capacity
+            const shipInfo = fleetData[shipName] || { maxCap: 3581, currentLoad: 3000 };
+            const loadPercentage = shipInfo.currentLoad / shipInfo.maxCap;
+
+            if (loadPercentage >= 0.98) {
+                document.getElementById("booking-container").innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <h2 style="color: var(--accent-red); font-size: 28px;">🔴 Sailing Sold Out</h2>
+                        <p style="font-size: 16px; color: #555;">We're sorry! ${shipName} has reached maximum capacity for this departure window.</p>
+                        <a href="deepdive.html" class="btn" style="margin-top: 20px; display:inline-block;">Choose Another Itinerary</a>
+                    </div>
+                `;
+                return;
+            }
+
+            renderCabins();
+            calculatePricing();
+        }
+
+        // Determine dynamic max occupancy based on how full the ship is
+        function getMaxCabinOccupancy() {
+            const shipInfo = fleetData[shipName] || { maxCap: 3581, currentLoad: 3000 };
+            const loadRatio = shipInfo.currentLoad / shipInfo.maxCap;
+
+            if (loadRatio > 0.95) return 2; // Near capacity cut-off
+            if (loadRatio > 0.90) return 3;
+            if (loadRatio > 0.80) return 4;
+            return 5; // Normal max capacity per cabin
+        }
+
+        function renderCabins() {
+            const wrapper = document.getElementById("cabins-wrapper");
+            wrapper.innerHTML = "";
+            const maxOccupancy = getMaxCabinOccupancy();
+
+            cabins.forEach((cabin, index) => {
+                let removeBtn = cabins.length > fales = `
+                    <div class="cabin-container" id="cabin-${index}">
+                        <div class="cabin-header">
+                            <h4>Stateroom ${index + 1}</h4>
+                            ${cabins.length > 1 ? `<button type="button" class="btn btn-danger" onclick="removeCabin(${index})">Remove Cabin</button>` : ''}
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Cabin Category</label>
+                                <select onchange="updateCabinData(${index}, 'category', this.value)">
+                                    <option value="Interior" ${cabin.category === 'Interior' ? 'selected' : ''}>Interior ($${basePrice})</option>
+                                    <option value="Ocean View" ${cabin.category === 'Ocean View' ? 'selected' : ''}>Ocean View ($${Math.round(basePrice * 1.25)})</option>
+                                    <option value="Balcony" ${cabin.category === 'Balcony' ? 'selected' : ''}>Balcony ($${Math.round(basePrice * 1.55)})</option>
+                                    <option value="Suite" ${cabin.category === 'Suite' ? 'selected' : ''}>Suite ($${Math.round(basePrice * 2.20)})</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Max Allowed Occupancy (Capacity Throttled): ${maxOccupancy} Guests</label>
+                                <span style="font-size: 11px; color: #666; padding-top: 6px;">Configured to ensure safe fleet passenger limits.</span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Adults (18+)</label>
+                                <select onchange="updateCabinData(${index}, 'adults', parseInt(this.value))">
+                                    ${generateOptions(1, maxOccupancy, cabin.adults)}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Children (Ages 0-17)</label>
+                                <select onchange="updateCabinData(${index}, 'children', parseInt(this.value))">
+                                    ${generateOptions(0, maxOccupancy - 1, cabin.children)}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                wrapper.innerHTML += fales;
+            });
+
+            document.getElementById("add-cabin-btn").style.display = cabins.length >= 3 ? "none" : "inline-block";
+            calculatePricing();
+        }
+
+        function generateOptions(min, max, selectedVal) {
+            let options = "";
+            for (let i = min; i <= max; i++) {
+                options += `<option value="${i}" ${i === selectedVal ? 'selected' : ''}>${i} Guest${i > 1 ? 's' : ''}</option>`;
+            }
+            return options;
+        }
+
+        function addCabin() {
+            if (cabins.length < 3) {
+                cabins.push({ category: "Interior", adults: 1, children: 0 });
+                renderCabins();
+            }
+        }
+
+        function removeCabin(index) {
+            cabins.splice(index, 1);
+            renderCabins();
+        }
+
+        function updateCabinData(index, field, value) {
+            cabins[index][field] = value;
+            // Validate limits dynamically
+            const maxOcc = getMaxCabinOccupancy();
+            if ((cabins[index].adults + cabins[index].children) > maxOcc) {
+                cabins[index].children = Math.max(0, maxOcc - cabins[index].adults);
+            }
+            calculatePricing();
+        }
+
+        function calculatePricing() {
+            let totalFare = 0;
+            let totalGuests = 0;
+
+            cabins.forEach(cabin => {
+                let multiplier = 1.0;
+                if (cabin.category === "Ocean View") multiplier = 1.25;
+                if (cabin.category === "Balcony") multiplier = 1.55;
+                if (cabin.category === "Suite") multiplier = 2.20;
+
+                let cabinGuests = cabin.adults + cabin.children;
+                totalGuests += cabinGuests;
+                let cabinCost = (basePrice * multiplier) * cabinGuests;
+                totalFare += cabinCost;
+            });
+
+            // Variable deposit formula based on duration and scale
+            let depositRate = duration > 7 ? 0.25 : 0.20;
+            let requiredDeposit = Math.round(totalFare * depositRate);
+
+            document.getElementById("total-fare").innerText = `$${totalFare.toFixed(2)}`;
+            document.getElementById("required-deposit").innerText = `$${requiredDeposit.toFixed(2)} (${Math.round(depositRate * 100)}% dynamic rate)`;
+            document.getElementById("due-today").innerText = `$${requiredDeposit.toFixed(2)}`;
+        }
+
+        function validateConnectingRooms() {
+            const errorBanner = document.getElementById("error-banner");
+            errorBanner.style.display = "none";
+            errorBanner.innerText = "";
+
+            if (cabins.length > 1) {
+                // Check if any cabin has minors (0-17) without an adult or if minors are split across rooms
+                for (let i = 0; i < cabins.length; i++) {
+                    if (cabins[i].children > 0 && cabins[i].adults === 0) {
+                        errorBanner.innerText = `Booking Error: Cabin ${i + 1} contains children (0-17) with 0 adults. Each cabin with minors must have at least one adult, or require connecting stateroom pairing.`;
+                        errorBanner.style.display = "block";
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function processCheckout(event) {
+            event.preventDefault();
+            if (!validateConnectingRooms()) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+
+            // Generate assigned rooms upon successful checkout
+            let confirmationHTML = `<h4>Assigned Stateroom Manifest for ${shipName}</h4>`;
+            cabins.forEach((cabin, idx) => {
+                let randomDeck = Math.floor(Math.random() * 6) + 6; // Assigned on upper passenger decks
+                let randomRoomNo = randomDeck * 100 + Math.floor(Math.random() * 80) + 10;
+                confirmationHTML += `
+                    <p><strong>Cabin ${idx + 1} (${cabin.category}):</strong> Stateroom #${randomRoomNo} (Deck ${randomDeck}) — ${cabin.adults} Adult(s), ${cabin.children} Child(ren) assigned.</p>
+                `;
+            });
+
+            document.getElementById("assigned-rooms-details").innerHTML = confirmationHTML;
+            document.getElementById("booking-form").style.display = "none";
+            document.getElementById("itinerary-summary").style.display = "none";
+            document.getElementById("confirmation-screen").style.display = "block";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener("DOMContentLoaded", initBookingPage);
+    </script>
+</body>
+</html>
