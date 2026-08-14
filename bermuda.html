@@ -557,6 +557,8 @@
 
                 let datesHTML = "";
                 item.dates.forEach(function(date) {
+                    const bookingUrl = `bookcruise.html?ship=${encodeURIComponent(item.ship)}&route=${encodeURIComponent(item.route)}&duration=${item.duration}&date=${encodeURIComponent(date.range)}&interior=${date.prices.interior}&oceanview=${date.prices.oceanview}&balcony=${date.prices.balcony}&suite=${date.prices.suite}`;
+                    
                     datesHTML += `
                         <div class="price-card">
                             <div class="price-header">${date.range}</div>
@@ -576,7 +578,7 @@
                                 <span>Suite</span>
                                 <strong>$${date.prices.suite}*</strong>
                             </div>
-                            <a href="#" class="book-now-btn">Start Booking</a>
+                            <a href="${bookingUrl}" class="book-now-btn">Start Booking</a>
                         </div>
                     `;
                 });
@@ -645,5 +647,3 @@
     </script>
 </body>
 </html>
-
-<script src="script.js"></script>
