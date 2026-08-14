@@ -48,7 +48,7 @@
         }
 
         .hero {
-            background: linear-gradient(rgba(11, 49, 84, 0.4), rgba(16, 76, 129, 0.65)), url('caribbean.JPG') center/cover no-repeat;
+            background: linear-gradient(rgba(11, 49, 84, 0.4), rgba(16, 76, 129, 0.65)), url('caribbean1.jpg') center/cover no-repeat;
             color: white;
             text-align: center;
             padding: 90px 20px;
@@ -76,7 +76,7 @@
             box-shadow: 0 4px 25px rgba(0,0,0,0.2);
             padding: 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             position: relative;
             z-index: 10;
@@ -323,24 +323,29 @@
                 <option value="long">Long (9+ Days)</option>
             </select>
         </div>
+
+        <div class="filter-group">
+            <label for="filter-sort">Sort By</label>
+            <select id="filter-sort" onchange="updateFilters()">
+                <option value="default">Recommended</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="duration-desc">Duration: Longest</option>
+            </select>
+        </div>
     </div>
 
     <div class="results-header" id="results-count">Showing Results...</div>
     <div class="itinerary-list" id="itinerary-list"></div>
 
     <script>
-        const destinationImages = {
-            stLucia: "https://images.unsplash.com/photo-1544551763-46a013bb70d5",
-            ochoRios: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
-            emeraldBay: "https://images.unsplash.com/photo-1506929562872-bb421503ef21",
-            aruba: "https://images.unsplash.com/photo-1519046904884-53103b34b206",
-            bonaire: "https://images.unsplash.com/photo-1512100356356-de1b84283e18",
-            curacao: "https://images.unsplash.com/photo-1540555700478-4be289fbecef",
-            grandTurk: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21",
-            sanJuan: "https://images.unsplash.com/photo-1589553416260-f586c8f1514f",
-            stMaarten: "https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86",
-            stThomas: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
-        };
+        const caribbeanImages = [
+            "caribbean1.jpg",
+            "caribbean2.jpg",
+            "caribbean3.jpg",
+            "caribbean4.jpg",
+            "caribbean5.jpg"
+        ];
 
         const itineraryTemplates = [
             // --- BALTIMORE (7+ Days) ---
@@ -350,7 +355,6 @@
                 duration: 9,
                 variant: "Eastern Escape & Bahamas",
                 basePrice: 820,
-                image: destinationImages.sanJuan,
                 route: "Baltimore > Fun Day at Sea > Fun Day at Sea > Grand Turk > San Juan, Puerto Rico > Charlotte Amalie, St. Thomas > Fun Day at Sea > Fun Day at Sea > Fun Day at Sea > Baltimore",
                 days: ["Baltimore (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Grand Turk, Turks & Caicos", "San Juan, Puerto Rico", "Charlotte Amalie, St. Thomas", "Fun Day at Sea", "Fun Day at Sea", "Fun Day at Sea", "Baltimore (Disembarkation)"],
                 applicableShips: ["SUNCREST MIRACLE", "SUNCREST GATEWAY"]
@@ -363,7 +367,6 @@
                 duration: 6,
                 variant: "Western Caribbean (Rose Cay Escape)",
                 basePrice: 510,
-                image: destinationImages.stLucia,
                 route: "Galveston > Fun Day at Sea > Cozumel, Mexico > Isla Compass Rose Cay (Roatan) > Fun Day at Sea > Fun Day at Sea > Galveston",
                 days: ["Galveston (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Isla Compass Rose Cay (Roatan Private Paradise)", "Fun Day at Sea", "Fun Day at Sea", "Galveston (Disembarkation)"],
                 applicableShips: ["SUNCREST PANAMAX", "SUNCREST MIRACLE", "SUNCREST MIRAGE", "SUNCREST HIDEAWAY", "SUNCREST GLOW"]
@@ -374,7 +377,6 @@
                 duration: 7,
                 variant: "Western Caribbean Classic",
                 basePrice: 590,
-                image: destinationImages.ochoRios,
                 route: "Galveston > Fun Day at Sea > Montego Bay, Jamaica > Grand Cayman > Cozumel, Mexico > Fun Day at Sea > Galveston",
                 days: ["Galveston (Embarkation)", "Fun Day at Sea", "Montego Bay, Jamaica", "Grand Cayman", "Cozumel, Mexico", "Fun Day at Sea", "Galveston (Disembarkation)"],
                 applicableShips: ["SUNCREST PANAMAX", "SUNCREST MIRACLE", "SUNCREST MIRAGE", "SUNCREST HIDEAWAY", "SUNCREST GLOW"]
@@ -385,7 +387,6 @@
                 duration: 8,
                 variant: "Deep Western Caribbean Odyssey",
                 basePrice: 680,
-                image: destinationImages.ochoRios,
                 route: "Galveston > Fun Day at Sea > Fun Day at Sea > Montego Bay, Jamaica > Grand Cayman > Cozumel, Mexico > Progreso, Yucatán > Fun Day at Sea > Galveston",
                 days: ["Galveston (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Montego Bay, Jamaica", "Grand Cayman", "Cozumel, Mexico", "Progreso, Yucatán", "Fun Day at Sea", "Galveston (Disembarkation)"],
                 applicableShips: ["SUNCREST PANAMAX", "SUNCREST MIRACLE", "SUNCREST MIRAGE", "SUNCREST HIDEAWAY", "SUNCREST GLOW"]
@@ -398,7 +399,6 @@
                 duration: 3,
                 variant: "Weekend Bahamas Getaway",
                 basePrice: 280,
-                image: destinationImages.emeraldBay,
                 route: "Miami > Nassau, Bahamas > Olann Island™️ > Miami",
                 days: ["Miami (Embarkation)", "Nassau, Bahamas", "Olann Island™️ Private Haven", "Miami (Disembarkation)"],
                 applicableShips: ["SUNCREST OCEANIC"]
@@ -409,7 +409,6 @@
                 duration: 4,
                 variant: "Bahamian Sun Breeze",
                 basePrice: 340,
-                image: destinationImages.emeraldBay,
                 route: "Miami > Fun Day at Sea > Nassau, Bahamas > Olann Island™️ > Miami",
                 days: ["Miami (Embarkation)", "Fun Day at Sea", "Nassau, Bahamas", "Olann Island™️ Private Haven", "Miami (Disembarkation)"],
                 applicableShips: ["SUNCREST OCEANIC", "SUNCREST UTOPIA"]
@@ -420,7 +419,6 @@
                 duration: 5,
                 variant: "Western Caribbean Escape",
                 basePrice: 410,
-                image: destinationImages.ochoRios,
                 route: "Miami > Fun Day at Sea > Ocho Rios, Jamaica > Grand Cayman > Fun Day at Sea > Miami",
                 days: ["Miami (Embarkation)", "Fun Day at Sea", "Ocho Rios, Jamaica", "Grand Cayman", "Fun Day at Sea", "Miami (Disembarkation)"],
                 applicableShips: ["SUNCREST UTOPIA", "SUNCREST OCEANIC"]
@@ -431,7 +429,6 @@
                 duration: 7,
                 variant: "Eastern Paradise Path",
                 basePrice: 620,
-                image: destinationImages.stMaarten,
                 route: "Miami > Fun Day at Sea > Fun Day at Sea > St. Maarten > San Juan, Puerto Rico > Fun Day at Sea > Unsunken City of Atlantis®️ > Miami",
                 days: ["Miami (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Philipsburg, St. Maarten", "San Juan, Puerto Rico", "Fun Day at Sea", "Unsunken City of Atlantis®️", "Miami (Disembarkation)"],
                 applicableShips: ["SUNCREST TRIANGLE", "SUNCREST ROMANCE"]
@@ -442,7 +439,6 @@
                 duration: 8,
                 variant: "8-Day Eastern Caribbean & Virgin Islands",
                 basePrice: 740,
-                image: destinationImages.stThomas,
                 route: "Miami > Fun Day at Sea > Fun Day at Sea > St. Maarten > Charlotte Amalie, St. Thomas > San Juan, Puerto Rico > Fun Day at Sea > Olann Island™️ > Miami",
                 days: ["Miami (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Philipsburg, St. Maarten", "Charlotte Amalie, St. Thomas", "San Juan, Puerto Rico", "Fun Day at Sea", "Olann Island™️ Private Haven", "Miami (Disembarkation)"],
                 applicableShips: ["SUNCREST TRIANGLE", "SUNCREST ROMANCE"]
@@ -453,7 +449,6 @@
                 duration: 8,
                 variant: "Southern ABC Islands",
                 basePrice: 760,
-                image: destinationImages.curacao,
                 route: "Miami > Fun Day at Sea > Fun Day at Sea > Oranjestad, Aruba > Kralendijk, Bonaire > Willemstad, Curaçao > Fun Day at Sea > Fun Day at Sea > Miami",
                 days: ["Miami (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Oranjestad, Aruba", "Kralendijk, Bonaire", "Willemstad, Curaçao", "Fun Day at Sea", "Fun Day at Sea", "Miami (Disembarkation)"],
                 applicableShips: ["SUNCREST TRIANGLE", "SUNCREST ROMANCE"]
@@ -466,7 +461,6 @@
                 duration: 7,
                 variant: "Western Caribbean Pathway",
                 basePrice: 530,
-                image: destinationImages.stLucia,
                 route: "Mobile > Fun Day at Sea > Cozumel, Mexico > Belize City, Belize > Isla Compass Rose Cay (Roatan) > Fun Day at Sea > Fun Day at Sea > Mobile",
                 days: ["Mobile (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Belize City, Belize", "Isla Compass Rose Cay (Roatan Private Paradise)", "Fun Day at Sea", "Fun Day at Sea", "Mobile (Disembarkation)"],
                 applicableShips: ["SUNCREST ATLANTICA", "SUNCREST PANAMAX"]
@@ -479,7 +473,6 @@
                 duration: 6,
                 variant: "Western Caribbean",
                 basePrice: 480,
-                image: destinationImages.ochoRios,
                 route: "New Orleans > Fun Day at Sea > Cozumel, Mexico > Belize City, Belize > Fun Day at Sea > Fun Day at Sea > New Orleans",
                 days: ["New Orleans (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Belize City, Belize", "Fun Day at Sea", "Fun Day at Sea", "New Orleans (Disembarkation)"],
                 applicableShips: ["SUNCREST ATLANTICA", "SUNCREST PACIFICA", "SUNCREST GLOW"]
@@ -490,7 +483,6 @@
                 duration: 7,
                 variant: "Western Caribbean (Compass Rose)",
                 basePrice: 570,
-                image: destinationImages.stLucia,
                 route: "New Orleans > Fun Day at Sea > Cozumel, Mexico > Belize City, Belize > Isla Compass Rose Cay (Roatan) > Fun Day at Sea > Fun Day at Sea > New Orleans",
                 days: ["New Orleans (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Belize City, Belize", "Isla Compass Rose Cay (Roatan Private Paradise)", "Fun Day at Sea", "Fun Day at Sea", "New Orleans (Disembarkation)"],
                 applicableShips: ["SUNCREST ATLANTICA", "SUNCREST PACIFICA", "SUNCREST GLOW"]
@@ -503,7 +495,6 @@
                 duration: 7,
                 variant: "Bahamas & Olann Island Run",
                 basePrice: 620,
-                image: destinationImages.emeraldBay,
                 route: "Norfolk > Fun Day at Sea > Fun Day at Sea > Nassau, Bahamas > Olann Island™️ > Fun Day at Sea > Fun Day at Sea > Norfolk",
                 days: ["Norfolk (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Nassau, Bahamas", "Olann Island™️ Private Haven", "Fun Day at Sea", "Fun Day at Sea", "Norfolk (Disembarkation)"],
                 applicableShips: ["SUNCREST MAGIC", "SUNCREST HIDEAWAY"]
@@ -514,7 +505,6 @@
                 duration: 8,
                 variant: "Eastern Caribbean Voyager",
                 basePrice: 750,
-                image: destinationImages.sanJuan,
                 route: "Norfolk > Fun Day at Sea > Fun Day at Sea > Grand Turk > San Juan, Puerto Rico > Charlotte Amalie, St. Thomas > Fun Day at Sea > Fun Day at Sea > Norfolk",
                 days: ["Norfolk (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Grand Turk, Turks & Caicos", "San Juan, Puerto Rico", "Charlotte Amalie, St. Thomas", "Fun Day at Sea", "Fun Day at Sea", "Norfolk (Disembarkation)"],
                 applicableShips: ["SUNCREST MAGIC", "SUNCREST HIDEAWAY"]
@@ -525,7 +515,6 @@
                 duration: 9,
                 variant: "Mid-Atlantic to Tropical Paradise Odyssey",
                 basePrice: 840,
-                image: destinationImages.emeraldBay,
                 route: "Norfolk > Fun Day at Sea > Fun Day at Sea > St. Maarten > Charlotte Amalie, St. Thomas > San Juan, Puerto Rico > Emerald Bay > Fun Day at Sea > Fun Day at Sea > Norfolk",
                 days: ["Norfolk (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Philipsburg, St. Maarten", "Charlotte Amalie, St. Thomas", "San Juan, Puerto Rico", "Emerald Bay Private Paradise", "Fun Day at Sea", "Fun Day at Sea", "Norfolk (Disembarkation)"],
                 applicableShips: ["SUNCREST MAGIC", "SUNCREST HIDEAWAY"]
@@ -538,7 +527,6 @@
                 duration: 3,
                 variant: "Bahamian Getaway",
                 basePrice: 290,
-                image: destinationImages.emeraldBay,
                 route: "Port Canaveral > Nassau, Bahamas > Olann Island™️ > Port Canaveral",
                 days: ["Port Canaveral (Embarkation)", "Nassau, Bahamas", "Olann Island™️ Private Haven", "Port Canaveral (Disembarkation)"],
                 applicableShips: ["TROPICAL™️", "SUNCREST VICTORY", "SUNCREST PARADISE"]
@@ -549,7 +537,6 @@
                 duration: 4,
                 variant: "Bahama Sound",
                 basePrice: 350,
-                image: destinationImages.emeraldBay,
                 route: "Port Canaveral > Fun Day at Sea > Nassau, Bahamas > Olann Island™️ > Port Canaveral",
                 days: ["Port Canaveral (Embarkation)", "Fun Day at Sea", "Nassau, Bahamas", "Olann Island™️ Private Haven", "Port Canaveral (Disembarkation)"],
                 applicableShips: ["TROPICAL™️", "SUNCREST VICTORY", "SUNCREST SUNRISE", "SUNCREST PARADISE"]
@@ -560,7 +547,6 @@
                 duration: 5,
                 variant: "Western Escape",
                 basePrice: 420,
-                image: destinationImages.ochoRios,
                 route: "Port Canaveral > Fun Day at Sea > Cozumel, Mexico > Progreso, Yucatán > Fun Day at Sea > Port Canaveral",
                 days: ["Port Canaveral (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Progreso, Yucatán", "Fun Day at Sea", "Port Canaveral (Disembarkation)"],
                 applicableShips: ["TROPICAL™️", "SUNCREST ROMANCE", "SUNCREST MAGIC", "SUNCREST SUNRISE", "SUNCREST VICTORY", "SUNCREST PARADISE"]
@@ -571,7 +557,6 @@
                 duration: 7,
                 variant: "Eastern Sunshine",
                 basePrice: 610,
-                image: destinationImages.stThomas,
                 route: "Port Canaveral > Fun Day at Sea > Fun Day at Sea > Philipsburg, St. Maarten > Charlotte Amalie, St. Thomas > Fun Day at Sea > Unsunken City of Atlantis®️ > Port Canaveral",
                 days: ["Port Canaveral (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Philipsburg, St. Maarten", "Charlotte Amalie, St. Thomas", "Fun Day at Sea", "Unsunken City of Atlantis®️", "Port Canaveral (Disembarkation)"],
                 applicableShips: ["SUNCREST TRIANGLE", "SUNCREST ROMANCE"]
@@ -584,7 +569,6 @@
                 duration: 5,
                 variant: "Gulf Breeze Getaway",
                 basePrice: 350,
-                image: destinationImages.ochoRios,
                 route: "Tampa > Fun Day at Sea > Key West, FL > Cozumel, Mexico > Fun Day at Sea > Tampa",
                 days: ["Tampa (Embarkation)", "Fun Day at Sea", "Key West, FL", "Cozumel, Mexico", "Fun Day at Sea", "Tampa (Disembarkation)"],
                 applicableShips: ["SUNCREST EXCITEMENT", "SUNCREST PANAMAX"]
@@ -595,7 +579,6 @@
                 duration: 6,
                 variant: "Western Gulf Explorer",
                 basePrice: 460,
-                image: destinationImages.ochoRios,
                 route: "Tampa > Fun Day at Sea > Cozumel, Mexico > Grand Cayman > Fun Day at Sea > Fun Day at Sea > Tampa",
                 days: ["Tampa (Embarkation)", "Fun Day at Sea", "Cozumel, Mexico", "Grand Cayman", "Fun Day at Sea", "Fun Day at Sea", "Tampa (Disembarkation)"],
                 applicableShips: ["SUNCREST EXCITEMENT", "SUNCREST PANAMAX"]
@@ -608,7 +591,6 @@
                 duration: 7,
                 variant: "Atlantic Run",
                 basePrice: 650,
-                image: destinationImages.emeraldBay,
                 route: "Manhattan > Fun Day at Sea > Fun Day at Sea > Nassau, Bahamas > Olann Island™️ > Fun Day at Sea > Fun Day at Sea > Manhattan",
                 days: ["Manhattan (Embarkation)", "Fun Day at Sea", "Fun Day at Sea", "Nassau, Bahamas", "Olann Island™️ Private Haven", "Fun Day at Sea", "Fun Day at Sea", "Manhattan (Disembarkation)"],
                 applicableShips: ["SUNCREST TRIANGLE"]
@@ -644,10 +626,9 @@
             const sailings = [];
             const years = ["2026", "2027", "2028"];
             
-            itineraryTemplates.forEach(function(tpl) {
+            itineraryTemplates.forEach(function(tpl, index) {
                 years.forEach(function(year) {
                     tpl.applicableShips.forEach(function(ship) {
-                        // Skip Suncrest Paradise before 2027 arrival
                         if (ship === "SUNCREST PARADISE" && year === "2026") {
                             return;
                         }
@@ -663,14 +644,17 @@
                             rangeStr = "Jan 09 - " + (9 + tpl.duration) + ", 2028";
                         }
 
-                        sailings.push(createSailingInstance(tpl, ship, year, rangeStr, classInfo));
+                        // Assign image from caribbean1.jpg through caribbean5.jpg cyclically
+                        const assignedImage = caribbeanImages[index % caribbeanImages.length];
+
+                        sailings.push(createSailingInstance(tpl, ship, year, rangeStr, classInfo, assignedImage));
                     });
                 });
             });
             return sailings;
         }
 
-        function createSailingInstance(tpl, ship, year, dateRange, classInfo) {
+        function createSailingInstance(tpl, ship, year, dateRange, classInfo, assignedImage) {
             const finalBasePrice = tpl.basePrice + classInfo.offset;
 
             return {
@@ -681,7 +665,7 @@
                 duration: tpl.duration,
                 variant: tpl.variant,
                 basePrice: finalBasePrice,
-                image: tpl.image,
+                image: assignedImage,
                 route: tpl.route,
                 days: tpl.days,
                 dates: [
@@ -741,7 +725,7 @@
                                 <span>Suite</span>
                                 <strong>$${date.prices.suite}*</strong>
                             </div>
-                            <a href="#" class="book-now-btn">Start Booking</a>
+                            <a href="bookcruise.html" class="book-now-btn">Start Booking</a>
                         </div>
                     `;
                 });
@@ -786,14 +770,16 @@
             const yearSelect = document.getElementById("filter-year");
             const portSelect = document.getElementById("filter-port");
             const durSelect = document.getElementById("filter-duration");
+            const sortSelect = document.getElementById("filter-sort");
 
-            if (!yearSelect || !portSelect || !durSelect) return;
+            if (!yearSelect || !portSelect || !durSelect || !sortSelect) return;
 
             const selectedYear = yearSelect.value;
             const selectedPort = portSelect.value;
             const selectedDur = durSelect.value;
+            const selectedSort = sortSelect.value;
 
-            const filteredList = database.filter(function(item) {
+            let filteredList = database.filter(function(item) {
                 const yearMatch = (selectedYear === "all" || item.year === selectedYear);
                 const portMatch = (selectedPort === "all" || item.homeport === selectedPort);
                 
@@ -809,6 +795,15 @@
                 return yearMatch && portMatch && durationMatch;
             });
 
+            // Sorting logic
+            if (selectedSort === "price-asc") {
+                filteredList.sort((a, b) => a.basePrice - b.basePrice);
+            } else if (selectedSort === "price-desc") {
+                filteredList.sort((a, b) => b.basePrice - a.basePrice);
+            } else if (selectedSort === "duration-desc") {
+                filteredList.sort((a, b) => b.duration - a.duration);
+            }
+
             renderItineraries(filteredList);
         }
 
@@ -818,4 +813,3 @@
     </script>
 </body>
 </html>
-
