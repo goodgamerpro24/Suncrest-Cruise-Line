@@ -164,12 +164,26 @@
             display: none;
         }
 
-        .price-summary-box {
+        .addon-box, .price-summary-box {
             background: #f8fafc;
             border: 1px solid #cbd5e1;
             padding: 20px;
             border-radius: 6px;
             margin-top: 25px;
+        }
+
+        .addon-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .addon-option input {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
         }
 
         .price-line {
@@ -200,20 +214,20 @@
 <body>
 
     <div class="navbar">
-        <a href="deepdive.html" class="brand">SUNCREST</a>
-        <a href="deepdive.html" class="back-btn">← Back to Itineraries</a>
+        <a href="deepdive.html" class="brand" id="nav-brand-link">SUNCREST</a>
+        <a href="deepdive.html" class="back-btn" id="nav-back-btn">← Back to Itinerary</a>
     </div>
 
     <div class="container" id="booking-container">
         <div class="itinerary-summary-box" id="itinerary-summary">
-            <!-- Populated via JS -->
+            <!-- Populated via URL query params -->
         </div>
 
         <div class="error-banner" id="error-banner"></div>
 
         <form id="booking-form" onsubmit="processCheckout(event)">
             <h3>Passenger & Cabin Selection</h3>
-            <p style="font-size: 13px; color: #666;">You can book up to 3 cabins. Maximum guests per cabin adjusts dynamically based on ship capacity safety rules.</p>
+            <p style="font-size: 13px; color: #666;">Book up to 3 cabins. Maximum guest limits adjust dynamically based on ship occupancy load factors.</p>
             
             <div id="cabins-wrapper">
                 <!-- Cabin 1 injected via JS -->
@@ -221,9 +235,34 @@
 
             <button type="button" class="btn btn-secondary" id="add-cabin-btn" onclick="addCabin()">+ Add Another Cabin (Max 3)</button>
 
+            <div class="addon-box">
+                <h3>Optional Voyage Enhancements</h3>
+                <label class="addon-option">
+                    <input type="checkbox" id="travel-insurance" onchange="calculatePricing()">
+                    <span><strong>Add Cruise Protection Plan (Travel Insurance)</strong> — +$79.00 per guest</span>
+                </label>
+                <label class="addon-option">
+                    <input type="checkbox" id="prepay-gratuities" onchange="calculatePricing()">
+                    <span><strong>Prepay Crew Gratuities</strong> — +$16.00 per guest, per day</span>
+                </label>
+            </div>
+
+            <div class="addon-box">
+                <h3>Payment Preference</h3>
+                <div style="margin-bottom: 10px;">
+                    <label style="margin-right: 20px; font-weight: bold; cursor: pointer;">
+                        <input type="radio" name="paymentType" value="deposit" checked onchange="calculatePricing()"> Structured Payment Plan (Pay Required Deposit Today)
+                    </label>
+                    <label style="font-weight: bold; cursor: pointer;">
+                        <input type="radio" name="paymentType" value="full" onchange="calculatePricing()"> Pay Complete Balance in Full Today
+                    </label>
+                </div>
+            </div>
+
             <div class="price-summary-box">
-                <h3>Price & Deposit Breakdown</h3>
+                <h3>Price & Payment Breakdown</h3>
                 <div class="price-line"><span>Total Voyage Fare:</span> <strong id="total-fare">$0.00</strong></div>
+                <div class="price-line"><span>Selected Add-ons Total:</span> <strong id="addons-total">$0.00</strong></div>
                 <div class="price-line"><span>Required Upfront Deposit:</span> <strong id="required-deposit">$0.00</strong></div>
                 <div class="price-line total"><span>Due Today:</span> <span id="due-today">$0.00</span></div>
             </div>
@@ -236,18 +275,18 @@
 
     <div class="container" id="confirmation-screen">
         <h2>🎉 Booking Confirmed!</h2>
-        <p>Thank you for choosing Suncrest Cruise Line. Your payment has been successfully processed.</p>
+        <p>Thank you for choosing Suncrest Cruise Line. Your reservation and payment option have been successfully processed.</p>
         <div id="assigned-rooms-details" style="margin: 25px 0; text-align: left; background: #f8fafc; padding: 20px; border-radius: 6px; border: 1px solid #cbd5e1;"></div>
-        <a href="deepdive.html" class="btn">Book Another Voyage</a>
+        <a href="deepdive.html" class="btn" id="return-itinerary-btn">Choose Another Itinerary</a>
     </div>
 
     <script>
-        // Fleet Database mapping class metrics
+        // Full Fleet Class Database with capacities and simulated load numbers
         const fleetData = {
             "Suncrest Excitement": { class: "Seabreeze", maxCap: 2124, currentLoad: 1850 },
             "Suncrest Elation": { class: "Seabreeze", maxCap: 2124, currentLoad: 1900 },
             "Suncrest Hideaway": { class: "Hideaway", maxCap: 3750, currentLoad: 3200 },
-            "Suncrest Utopia": { class: "Hideaway", maxCap: 3750, currentLoad: 3740 }, // Near max! Triggers capacity limits
+            "Suncrest Utopia": { class: "Hideaway", maxCap: 3750, currentLoad: 3740 },
             "Suncrest Retreat": { class: "Hideaway", maxCap: 3750, currentLoad: 2500 },
             "Suncrest Panamax": { class: "Panamax", maxCap: 2680, currentLoad: 2100 },
             "Suncrest Gateway": { class: "Panamax", maxCap: 2680, currentLoad: 2000 },
@@ -256,7 +295,7 @@
             "Suncrest Oceanic": { class: "Oceanic", maxCap: 3581, currentLoad: 3100 },
             "Suncrest Atlantica": { class: "Oceanic", maxCap: 3581, currentLoad: 2900 },
             "Suncrest Pacifica": { class: "Oceanic", maxCap: 3581, currentLoad: 3000 },
-            "Suncrest Magic": { class: "Oceanic", maxCap: 3581, currentLoad: 3450 }, // Near max capacity
+            "Suncrest Magic": { class: "Oceanic", maxCap: 3581, currentLoad: 3450 },
             "Suncrest Victory": { class: "Oceanic", maxCap: 3581, currentLoad: 3100 },
             "Suncrest Legacy": { class: "Legacy", maxCap: 4724, currentLoad: 4000 },
             "Suncrest Horizon": { class: "Legacy", maxCap: 4724, currentLoad: 4100 },
@@ -277,26 +316,32 @@
             "Suncrest Key": { class: "Tropical", maxCap: 6465, currentLoad: 5300 }
         };
 
-        // Parse URL Parameters
+        // Parse URL Parameters from any itinerary page
         const urlParams = new URLSearchParams(window.location.search);
         const shipName = urlParams.get('ship') || "Suncrest Magic";
-        const route = urlParams.get('route') || "Port Canaveral > Dominican Republic > Port Canaveral";
+        const route = urlParams.get('route') || "Port Canaveral > International Destination > Port Canaveral";
         const duration = parseInt(urlParams.get('duration')) || 5;
-        const basePrice = parseFloat(urlParams.get('basePrice')) || 620;
-        const datesText = urlParams.get('dates') || "June-July 2027";
+        const basePrice = parseFloat(urlParams.get('basePrice')) || 750;
+        const datesText = urlParams.get('dates') || "2027 Season";
+        const referrerPage = urlParams.get('ref') || "deepdive.html";
 
         let cabins = [{ category: "Interior", adults: 2, children: 0 }];
 
         function initBookingPage() {
+            // Update navigation links back to originating itinerary page
+            document.getElementById("nav-brand-link").setAttribute("href", referrerPage);
+            document.getElementById("nav-back-btn").setAttribute("href", referrerPage);
+            document.getElementById("return-itinerary-btn").setAttribute("href", referrerPage);
+
             const summaryBox = document.getElementById("itinerary-summary");
             summaryBox.innerHTML = `
                 <h2>${shipName} (${duration}-Day Voyage)</h2>
-                <p><strong>Route:</strong> ${route}</p>
-                <p><strong>Scheduled Window:</strong> ${datesText}</p>
+                <p><strong>Route / Destinations:</strong> ${route}</p>
+                <p><strong>Scheduled Window / Dates:</strong> ${datesText}</p>
                 <p><strong>Base Fare Rate:</strong> $${basePrice} per person (Interior reference)</p>
             `;
 
-            // Check if ship is sold out or near capacity
+            // Check if ship is sold out ($\ge 98\%$ capacity load)
             const shipInfo = fleetData[shipName] || { maxCap: 3581, currentLoad: 3000 };
             const loadPercentage = shipInfo.currentLoad / shipInfo.maxCap;
 
@@ -305,7 +350,7 @@
                     <div style="text-align: center; padding: 40px;">
                         <h2 style="color: var(--accent-red); font-size: 28px;">🔴 Sailing Sold Out</h2>
                         <p style="font-size: 16px; color: #555;">We're sorry! ${shipName} has reached maximum capacity for this departure window.</p>
-                        <a href="deepdive.html" class="btn" style="margin-top: 20px; display:inline-block;">Choose Another Itinerary</a>
+                        <a href="${referrerPage}" class="btn" style="margin-top: 20px; display:inline-block;">Choose Another Itinerary</a>
                     </div>
                 `;
                 return;
@@ -315,15 +360,15 @@
             calculatePricing();
         }
 
-        // Determine dynamic max occupancy based on how full the ship is
+        // Dynamic Max Occupancy scaling based on ship load
         function getMaxCabinOccupancy() {
             const shipInfo = fleetData[shipName] || { maxCap: 3581, currentLoad: 3000 };
             const loadRatio = shipInfo.currentLoad / shipInfo.maxCap;
 
-            if (loadRatio > 0.95) return 2; // Near capacity cut-off
+            if (loadRatio > 0.95) return 2;
             if (loadRatio > 0.90) return 3;
             if (loadRatio > 0.80) return 4;
-            return 5; // Normal max capacity per cabin
+            return 5;
         }
 
         function renderCabins() {
@@ -332,7 +377,7 @@
             const maxOccupancy = getMaxCabinOccupancy();
 
             cabins.forEach((cabin, index) => {
-                let removeBtn = cabins.length > fales = `
+                let cabinHTML = `
                     <div class="cabin-container" id="cabin-${index}">
                         <div class="cabin-header">
                             <h4>Stateroom ${index + 1}</h4>
@@ -349,8 +394,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Max Allowed Occupancy (Capacity Throttled): ${maxOccupancy} Guests</label>
-                                <span style="font-size: 11px; color: #666; padding-top: 6px;">Configured to ensure safe fleet passenger limits.</span>
+                                <label>Max Allowed Occupancy: ${maxOccupancy} Guests</label>
+                                <span style="font-size: 11px; color: #666; padding-top: 6px;">Dynamically regulated by current fleet capacity load.</span>
                             </div>
                         </div>
                         <div class="form-row">
@@ -369,7 +414,7 @@
                         </div>
                     </div>
                 `;
-                wrapper.innerHTML += fales;
+                wrapper.innerHTML += cabinHTML;
             });
 
             document.getElementById("add-cabin-btn").style.display = cabins.length >= 3 ? "none" : "inline-block";
@@ -398,7 +443,6 @@
 
         function updateCabinData(index, field, value) {
             cabins[index][field] = value;
-            // Validate limits dynamically
             const maxOcc = getMaxCabinOccupancy();
             if ((cabins[index].adults + cabins[index].children) > maxOcc) {
                 cabins[index].children = Math.max(0, maxOcc - cabins[index].adults);
@@ -422,13 +466,32 @@
                 totalFare += cabinCost;
             });
 
-            // Variable deposit formula based on duration and scale
+            // Calculate Add-ons
+            let addonsTotal = 0;
+            const insuranceSelected = document.getElementById("travel-insurance").checked;
+            const gratuitiesSelected = document.getElementById("prepay-gratuities").checked;
+
+            if (insuranceSelected) {
+                addonsTotal += 79 * totalGuests;
+            }
+            if (gratuitiesSelected) {
+                addonsTotal += 16 * duration * totalGuests;
+            }
+
+            let grandTotal = totalFare + addonsTotal;
+
+            // Variable upfront deposit calculation
             let depositRate = duration > 7 ? 0.25 : 0.20;
-            let requiredDeposit = Math.round(totalFare * depositRate);
+            let requiredDeposit = Math.round(grandTotal * depositRate);
+
+            // Payment preference check
+            const paymentType = document.querySelector('input[name="paymentType"]:checked').value;
+            let dueToday = paymentType === 'full' ? grandTotal : requiredDeposit;
 
             document.getElementById("total-fare").innerText = `$${totalFare.toFixed(2)}`;
+            document.getElementById("addons-total").innerText = `$${addonsTotal.toFixed(2)}`;
             document.getElementById("required-deposit").innerText = `$${requiredDeposit.toFixed(2)} (${Math.round(depositRate * 100)}% dynamic rate)`;
-            document.getElementById("due-today").innerText = `$${requiredDeposit.toFixed(2)}`;
+            document.getElementById("due-today").innerText = `$${dueToday.toFixed(2)}`;
         }
 
         function validateConnectingRooms() {
@@ -437,10 +500,9 @@
             errorBanner.innerText = "";
 
             if (cabins.length > 1) {
-                // Check if any cabin has minors (0-17) without an adult or if minors are split across rooms
                 for (let i = 0; i < cabins.length; i++) {
                     if (cabins[i].children > 0 && cabins[i].adults === 0) {
-                        errorBanner.innerText = `Booking Error: Cabin ${i + 1} contains children (0-17) with 0 adults. Each cabin with minors must have at least one adult, or require connecting stateroom pairing.`;
+                        errorBanner.innerText = `Booking Error: Cabin ${i + 1} contains children (0-17) with 0 adults. Each cabin containing minors must have at least one adult assigned.`;
                         errorBanner.style.display = "block";
                         return false;
                     }
@@ -456,15 +518,17 @@
                 return;
             }
 
-            // Generate assigned rooms upon successful checkout
+            const paymentType = document.querySelector('input[name="paymentType"]:checked').value;
             let confirmationHTML = `<h4>Assigned Stateroom Manifest for ${shipName}</h4>`;
             cabins.forEach((cabin, idx) => {
-                let randomDeck = Math.floor(Math.random() * 6) + 6; // Assigned on upper passenger decks
+                let randomDeck = Math.floor(Math.random() * 6) + 6;
                 let randomRoomNo = randomDeck * 100 + Math.floor(Math.random() * 80) + 10;
                 confirmationHTML += `
                     <p><strong>Cabin ${idx + 1} (${cabin.category}):</strong> Stateroom #${randomRoomNo} (Deck ${randomDeck}) — ${cabin.adults} Adult(s), ${cabin.children} Child(ren) assigned.</p>
                 `;
             });
+
+            confirmationHTML += `<p style="margin-top: 15px; font-weight: bold; color: var(--dark-blue);">Payment Mode: ${paymentType === 'full' ? 'Paid in Full' : 'Structured Payment Plan (Deposit Paid)'}</p>`;
 
             document.getElementById("assigned-rooms-details").innerHTML = confirmationHTML;
             document.getElementById("booking-form").style.display = "none";
