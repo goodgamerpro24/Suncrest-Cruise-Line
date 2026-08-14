@@ -273,11 +273,17 @@
             background-color: var(--accent-red);
             color: white;
             text-align: center;
-            padding: 8px;
+            padding: 10px;
             text-decoration: none;
             font-weight: bold;
             font-size: 12px;
             text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        .book-now-btn:hover {
+            background-color: #c53038;
         }
     </style>
 </head>
@@ -398,7 +404,7 @@
                 disembark: "Seattle",
                 duration: 10,
                 type: "Extended Voyage",
-                ship: "Suncrest Suncrest",
+                ship: "Suncrest Sunshine",
                 basePrice: 890,
                 image: "alaska5.jpg",
                 route: "Seattle > Ketchikan > Wrangell > Juneau > Skagway > Glacier Bay > Hubbard Glacier > Sitka > Victoria > Seattle",
@@ -517,6 +523,16 @@
                     timelineHTML += '<div class="timeline-day">Day ' + (index + 1) + ': ' + day + '</div>';
                 });
 
+                // Build query params pointing to bookcruise.html with current page as reference
+                const bookingQuery = new URLSearchParams({
+                    ship: item.ship,
+                    route: item.route,
+                    duration: item.duration,
+                    basePrice: item.basePrice,
+                    dates: item.datesText,
+                    ref: "alaska.html"
+                }).toString();
+
                 let datesHTML = `
                     <div class="price-card">
                         <div class="price-header">${item.datesText} (${item.type})</div>
@@ -536,7 +552,7 @@
                             <span>Suite</span>
                             <strong>$${Math.round(item.basePrice * 2.20)}*</strong>
                         </div>
-                        <a href="#" class="book-now-btn">Book Itinerary</a>
+                        <a href="bookcruise.html?${bookingQuery}" class="book-now-btn">Book Itinerary</a>
                     </div>
                 `;
 
@@ -604,5 +620,3 @@
     </script>
 </body>
 </html>
-
-<script src="script.js"></script>
