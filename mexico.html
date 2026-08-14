@@ -75,8 +75,9 @@
             box-shadow: 0 4px 25px rgba(0,0,0,0.2);
             padding: 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
+            align-items: flex-end;
             position: relative;
             z-index: 10;
         }
@@ -101,6 +102,23 @@
             background-color: white;
             font-size: 14px;
             outline: none;
+        }
+
+        .btn-reset {
+            background-color: #e2e8f0;
+            color: var(--dark-blue);
+            border: 1px solid #cbd5e1;
+            padding: 12px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-reset:hover {
+            background-color: #cbd5e1;
         }
 
         .results-header {
@@ -319,6 +337,18 @@
                 <option value="long">Extended / Hidden (14+ Days)</option>
             </select>
         </div>
+
+        <div class="filter-group">
+            <label for="filter-sort">Sort By</label>
+            <select id="filter-sort" onchange="updateFilters()">
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="duration-asc">Duration: Shortest First</option>
+                <option value="duration-desc">Duration: Longest First</option>
+            </select>
+        </div>
+
+        <button class="btn-reset" onclick="resetFilters()">Reset Filters</button>
     </div>
 
     <div class="results-header" id="results-count">Showing Results...</div>
@@ -629,18 +659,28 @@
             }
         }
 
+        function resetFilters() {
+            document.getElementById("filter-year").value = "all";
+            document.getElementById("filter-port").value = "all";
+            document.getElementById("filter-duration").value = "all";
+            document.getElementById("filter-sort").value = "price-asc";
+            updateFilters();
+        }
+
         function updateFilters() {
             const yearSelect = document.getElementById("filter-year");
             const portSelect = document.getElementById("filter-port");
             const durSelect = document.getElementById("filter-duration");
+            const sortSelect = document.getElementById("filter-sort");
 
-            if (!yearSelect || !portSelect || !durSelect) return;
+            if (!yearSelect || !portSelect || !durSelect || !sortSelect) return;
 
             const selectedYear = yearSelect.value;
             const selectedPort = portSelect.value;
             const selectedDur = durSelect.value;
+            const selectedSort = sortSelect.value;
 
-            const filteredList = database.filter(function(item) {
+            let filteredList = database.filter(function(item) {
                 const yearMatch = (selectedYear === "all" || item.year === selectedYear);
                 
                 let portMatch = true;
@@ -658,6 +698,20 @@
                 }
 
                 return yearMatch && portMatch && durationMatch;
+            });
+
+            // Sorting logic
+            filteredList.sort(function(a, b) {
+                if (selectedSort === "price-asc") {
+                    return a.basePrice - b.basePrice;
+                } else if (selectedSort === "price-desc") {
+                    return b.basePrice - a.basePrice;
+                } else if (selectedSort === "duration-asc") {
+                    return a.duration - b.duration;
+                } else if (selectedSort === "duration-desc") {
+                    return b.duration - a.duration;
+                }
+                return 0;
             });
 
             renderItineraries(filteredList);
