@@ -557,3 +557,68 @@
     </script>
 </body>
 </html>
+// Function to get all site data (deals + users)
+async function getSuncrestData() {
+    let localData = localStorage.getItem('suncrest_full_data');
+    if (localData) {
+        return JSON.parse(localData);
+    } else {
+        try {
+            let response = await fetch('data.json');
+            let data = await response.json();
+            localStorage.setItem('suncrest_full_data', JSON.stringify(data));
+            return data;
+        } catch (error) {
+            console.error('Error loading data.json:', error);
+        }
+    }
+}
+
+// Function used when the Admin clicks "Add Past Cruise to Target Client"
+async function addCruiseToClient(targetId, newCruiseData) {
+    let siteData = await getSuncrestData();
+    
+    // Find the user by their Funisquad ID
+    let targetUser = siteData.users.find(u => u.funisquadId.trim().toUpperCase() === targetId.trim().toUpperCase());
+    
+    if (targetUser) {
+        if (!targetUser.pastCruises) {
+            targetUser.pastCruises = [];
+        }
+        targetUser.pastCruises.push(newCruiseData);
+        
+        // Save the updated master data back to localStorage
+        localStorage.setItem('suncrest_full_data', JSON.stringify(siteData));
+        alert('Success! Cruise added to client profile.');
+        location.reload(); // Refresh to reflect changes
+    } else {
+        alert('Client ID not found in database. Check the ID and try again.');
+    }
+}
+
+// Function used on the Client Dashboard to display their cruises
+async function renderClientDashboard(currentUserId) {
+    let siteData = await getSuncrestData();
+    let currentUser = siteData.users.find(u => u.funisquadId === currentUserId);
+    
+    const container = document.getElementById('pastCruisesContainer'); // Match your HTML container ID
+    if (!container) return;
+
+    if (currentUser && currentUser.pastCruises && currentUser.pastCruises.length > 0) {
+        container.innerHTML = '';
+        currentUser.pastCruises.forEach(cruise => {
+            container.innerHTML += `
+                <div class="booked-cruise-card">
+                    <h4>${cruise.shipName}</h4>
+                    <p>Sail Date: ${cruise.sailDate}</p>
+                    <p>Booking ID: ${cruise.bookingId}</p>
+                    <p>Port/Itinerary: ${cruise.itinerary}</p>
+                    <span class="badge">${cruise.points}</span>
+                </div>
+            `;
+        });
+    } else {
+        container.innerHTML = `<p>No past cruises recorded yet. Reach out to an admin or travel agent to credit previous sailings.</p>`;
+    }
+}
+
