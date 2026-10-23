@@ -1,1 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- EDITABLE: Page Title -->
+    <title>Suncrest Cruise Line - Ship Overview Template</title>
+    <style>
+        :root {
+            --primary-blue: #104c81;
+            --accent-red: #e63946;
+            --light-gray: #f4f6f9;
+            --dark-blue: #0b3154;
+            --text-dark: #222222;
+            --text-light: #666666;
+            --border-color: #dbe2ef;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Top Navigation Header */
+        .navbar {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .back-btn {
+            background-color: var(--accent-red);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background-color: #c5303c;
+        }
+
+        /* Page Heading */
+        .ship-hero-header {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 30px 20px 20px 20px;
+            text-align: center;
+        }
+
+        .ship-hero-header h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        /* EDITABLE: Ship Main Photo Banner (.jpg) */
+        .ship-photo-banner {
+            width: 100%;
+            max-height: 480px;
+            overflow: hidden;
+            background-color: #0b3154;
+        }
+
+        .ship-photo-banner img {
+            width: 100%;
+            height: 100%;
+            max-height: 480px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Metadata Ribbon */
+        .meta-ribbon {
+            background-color: var(--dark-blue);
+            padding: 15px 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .ship-meta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            font-size: 14px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .badge-item strong {
+            color: white;
+            display: block;
+            font-size: 15px;
+        }
+
+        /* Main Content Container */
+        .container {
+            max-width: 1100px;
+            margin: 30px auto 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 22px;
+            color: var(--dark-blue);
+            font-weight: bold;
+            border-left: 5px solid var(--accent-red);
+            padding-left: 12px;
+            margin: 0;
+        }
+
+        /* Carousel Navigation Controls */
+        .carousel-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .carousel-btn {
+            background: #e2e8f0;
+            color: var(--dark-blue);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .carousel-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-card {
+            background: var(--light-gray);
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-card .number {
+            font-size: 26px;
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Description & History Toggle */
+        .description-content {
+            font-size: 15px;
+            color: var(--text-dark);
+            line-height: 1.7;
+        }
+
+        .description-content p {
+            margin-bottom: 12px;
+        }
+
+        .read-more-btn {
+            background: none;
+            border: none;
+            color: var(--accent-red);
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 0;
+            margin-top: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .collapsible-text {
+            display: none;
+        }
+
+        .collapsible-text.expanded {
+            display: block;
+        }
+
+        /* Inside This Ship Section */
+        .deck-section-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .deck-text {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .pdf-btn {
+            background-color: var(--accent-red);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: background 0.2s;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+
+        .pdf-btn:hover {
+            background-color: #c5303c;
+        }
+
+        /* Staterooms Section */
+        .stateroom-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .sr-tab {
+            padding: 10px 18px;
+            background: var(--light-gray);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--dark-blue);
+            transition: all 0.2s;
+            font-size: 13px;
+        }
+
+        .sr-tab.active, .sr-tab:hover {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .stateroom-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            align-items: center;
+        }
+
+        @media(max-width: 768px) {
+            .stateroom-display {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sr-image-container img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 6px;
+            display: block;
+        }
+
+        .sr-details h3 {
+            font-size: 20px;
+            color: var(--dark-blue);
+            margin-bottom: 10px;
+        }
+
+        .sr-details p {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .sr-details ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .sr-details li {
+            margin-bottom: 5px;
+        }
+
+        /* Touch / Swipe Horizontal Carousel Containers */
+        .swipe-carousel-wrapper {
+            display: flex;
+            gap: 18px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .swipe-carousel-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .swipe-carousel-wrapper::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        /* Feature Cards (Activities & Dining Carousel) */
+        .feature-card {
+            min-width: 260px;
+            max-width: 280px;
+            scroll-snap-align: start;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+            flex-shrink: 0;
+        }
+
+        .feature-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .feature-card-body {
+            padding: 15px;
+        }
+
+        .feature-card h4 {
+            font-size: 16px;
+            color: var(--dark-blue);
+            margin-bottom: 5px;
+        }
+
+        .feature-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .badge-included {
+            background-color: #eef4fa;
+            color: var(--primary-blue);
+        }
+
+        .badge-additional {
+            background-color: #ffeef0;
+            color: var(--accent-red);
+        }
+
+        /* Itinerary Cards Swipe Carousel */
+        .itinerary-card {
+            min-width: 280px;
+            max-width: 300px;
+            scroll-snap-align: start;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .itinerary-header-img {
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+            padding: 12px;
+            color: white;
+        }
+
+        .duration-tag {
+            background: rgba(11, 49, 84, 0.85);
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .itinerary-body {
+            padding: 15px;
+            flex-grow: 1;
+        }
+
+        .itinerary-body h4 {
+            font-size: 16px;
+            color: var(--dark-blue);
+            margin-bottom: 5px;
+        }
+
+        .itinerary-body p {
+            color: var(--text-light);
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px 15px 15px;
+        }
+
+        .price-info .starting {
+            font-size: 11px;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .price-info .amount {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--dark-blue);
+        }
+
+        .see-cruises-btn {
+            background-color: var(--accent-red);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        .see-cruises-btn:hover {
+            background-color: #c5303c;
+        }
+
+        /* Search Engine Box */
+        .search-box {
+            background: var(--primary-blue);
+            padding: 25px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .search-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) 130px;
+            gap: 15px;
+            align-items: end;
+            margin-top: 15px;
+        }
+
+        @media(max-width: 768px) {
+            .search-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            color: #cbd5e1;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background: white;
+            font-size: 14px;
+            color: var(--text-dark);
+            outline: none;
+        }
+
+        .search-submit-btn {
+            background-color: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.2s;
+            height: 40px;
+            font-size: 13px;
+        }
+
+        .search-submit-btn:hover {
+            background-color: #c5303c;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navbar -->
+    <div class="navbar">
+        <a href="index.html" class="brand">SUNCREST</a>
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </div>
+
+    <!-- Page Heading -->
+    <div class="ship-hero-header">
+        <!-- EDITABLE: Ship Name -->
+        <h1 id="shipName">SUNCREST OCEANIC</h1>
+    </div>
+
+    <!-- EDITABLE: Ship Photo Banner (.jpg) -->
+    <div class="ship-photo-banner">
+        <img src="oceanic.jpg" alt="Suncrest Cruise Ship Photo Banner">
+    </div>
+
+    <!-- Metadata Ribbon -->
+    <div class="meta-ribbon">
+        <div class="ship-meta-badges">
+            <div class="badge-item">Sails To: <strong>Bahamas, Caribbean</strong></div>
+            <div class="badge-item">Sails From: <strong>Miami, FL</strong></div>
+            <div class="badge-item">Duration: <strong>3–11 Days</strong></div>
+        </div>
+    </div>
+
+    <!-- Main Body Container -->
+    <div class="container">
+
+        <!-- Ship Statistics -->
+        <div class="card">
+            <h2>Ship Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="number">110,000</div>
+                    <div class="label">Gross Tonnage</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">2,980</div>
+                    <div class="label">Guest Capacity</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">952 ft</div>
+                    <div class="label">Length</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">1,150</div>
+                    <div class="label">Onboard Crew</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About the Ship -->
+        <div class="card">
+            <h2>About the Ship</h2>
+            <div class="description-content">
+                <p>Welcome aboard your Suncrest voyage. Enter the main introduction overview for the ship here.</p>
+                
+                <div class="collapsible-text" id="moreHistory">
+                    <p>Add full historical background, fleet class details, unique onboard features, and dining options here.</p>
+                </div>
+
+                <button class="read-more-btn" id="toggleReadMore" onclick="toggleHistory()">Read More &or;</button>
+            </div>
+        </div>
+
+        <!-- Inside This Ship / Deck Plan -->
+        <div class="card">
+            <h2>Inside This Ship</h2>
+            <div class="deck-section-content">
+                <div class="deck-text">
+                    <p>Just like a delicious cake, your ship is made of layers. Find out which fun ingredients — staterooms, dining, activities — go into each deck.</p>
+                </div>
+                <div>
+                    <!-- EDITABLE: Deck Plan link ending in .pdf -->
+                    <a href="deckplan.pdf" target="_blank" class="pdf-btn">Download PDF</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Staterooms Section -->
+        <div class="card">
+            <h2>Your Stateroom</h2>
+            <div class="stateroom-tabs">
+                <button class="sr-tab active" onclick="switchStateroom('interior', this)">Interior</button>
+                <button class="sr-tab" onclick="switchStateroom('oceanview', this)">Ocean View</button>
+                <button class="sr-tab" onclick="switchStateroom('balcony', this)">Balcony</button>
+                <button class="sr-tab" onclick="switchStateroom('suite', this)">Suite</button>
+            </div>
+
+            <div class="stateroom-display" id="stateroomContainer">
+                <!-- Dynamically loaded via JavaScript -->
+            </div>
+        </div>
+
+        <!-- Onboard Activities Swipe Carousel -->
+        <div class="card">
+            <div class="card-header-row">
+                <h2>Onboard Activities</h2>
+                <div class="carousel-controls">
+                    <button class="carousel-btn" onclick="scrollCarousel('activitiesWrapper', -300)">❮</button>
+                    <button class="carousel-btn" onclick="scrollCarousel('activitiesWrapper', 300)">❯</button>
+                </div>
+            </div>
+            
+            <div class="swipe-carousel-wrapper" id="activitiesWrapper">
+                <!-- EDITABLE: Card images end with .jpg -->
+                <div class="feature-card">
+                    <img src="activity1.jpg" alt="Activity 1">
+                    <div class="feature-card-body">
+                        <h4>Venue / Activity Name</h4>
+                        <span class="feature-badge badge-additional">Additional Fee</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <img src="activity2.jpg" alt="Activity 2">
+                    <div class="feature-card-body">
+                        <h4>Camp Suncrest</h4>
+                        <span class="feature-badge badge-included">Included</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <img src="activity3.jpg" alt="Activity 3">
+                    <div class="feature-card-body">
+                        <h4>Serenity Adult Retreat</h4>
+                        <span class="feature-badge badge-included">Included</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <img src="activity4.jpg" alt="Activity 4">
+                    <div class="feature-card-body">
+                        <h4>Waterworks & Slides</h4>
+                        <span class="feature-badge badge-included">Included</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Onboard Dining Swipe Carousel -->
+        <div class="card">
+            <div class="card-header-row">
+                <h2>Onboard Dining</h2>
+                <div class="carousel-controls">
+                    <button class="carousel-btn" onclick="scrollCarousel('diningWrapper', -300)">❮</button>
+                    <button class="carousel-btn" onclick="scrollCarousel('diningWrapper', 300)">❯</button>
+                </div>
+            </div>
+
+            <div class="swipe-carousel-wrapper" id="diningWrapper">
+                <!-- EDITABLE: Card images end with .jpg -->
+                <div class="feature-card">
+                    <img src="dining1.jpg" alt="Dining 1">
+                    <div class="feature-card-body">
+                        <h4>Main Dining Room</h4>
+                        <span class="feature-badge badge-included">Included</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <img src="dining2.jpg" alt="Dining 2">
+                    <div class="feature-card-body">
+                        <h4>DUUUDE'S Burger Joint</h4>
+                        <span class="feature-badge badge-included">Included</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <img src="dining3.jpg" alt="Dining 3">
+                    <div class="feature-card-body">
+                        <h4>Specialty Steakhouse</h4>
+                        <span class="feature-badge badge-additional">Additional Fee</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <img src="dining4.jpg" alt="Dining 4">
+                    <div class="feature-card-body">
+                        <h4>Seaday Brunch</h4>
+                        <span class="feature-badge badge-included">Included</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Where To For You Swipe Carousel -->
+        <div class="card">
+            <div class="card-header-row">
+                <h2>Where To For You?</h2>
+                <div class="carousel-controls">
+                    <button class="carousel-btn" onclick="scrollCarousel('itineraryWrapper', -320)">❮</button>
+                    <button class="carousel-btn" onclick="scrollCarousel('itineraryWrapper', 320)">❯</button>
+                </div>
+            </div>
+            <p style="color:var(--text-light); margin-bottom: 15px; font-size: 14px;">Swipe across to see more itineraries for this ship.</p>
+            
+            <div class="swipe-carousel-wrapper" id="itineraryWrapper">
+                <!-- EDITABLE: Itinerary Card -1 (.jpg) -->
+                <div class="itinerary-card">
+                    <div class="itinerary-header-img" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('bahamas.jpg');">
+                        <span class="duration-tag">3 Day</span>
+                    </div>
+                    <div class="itinerary-body">
+                        <h4>The Bahamas from Miami, FL</h4>
+                        <p>Miami &bull; Olann Island</p>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-info">
+                            <span class="starting">Starting From</span>
+                            <div class="amount">$195*</div>
+                        </div>
+                        <a href="deepdive.html?ship=Suncrest+Oceanic&route=Bahamas" class="see-cruises-btn">See Cruises</a>
+                    </div>
+                </div>
+              
+                <!-- EDITABLE: Itinerary Card 1 (.jpg) -->
+                <div class="itinerary-card">
+                    <div class="itinerary-header-img" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('bahamas.jpg');">
+                        <span class="duration-tag">4 Day</span>
+                    </div>
+                    <div class="itinerary-body">
+                        <h4>The Bahamas from Miami, FL</h4>
+                        <p>Miami &bull; Nassau &bull; Olann Island</p>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-info">
+                            <span class="starting">Starting From</span>
+                            <div class="amount">$255*</div>
+                        </div>
+                        <a href="deepdive.html?ship=Suncrest+Oceanic&route=Bahamas" class="see-cruises-btn">See Cruises</a>
+                    </div>
+                </div>
+
+                <!-- EDITABLE: Itinerary Card 2 (.jpg) -->
+                <div class="itinerary-card">
+                    <div class="itinerary-header-img" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('caribbean.jpg');">
+                        <span class="duration-tag">4 Day</span>
+                    </div>
+                    <div class="itinerary-body">
+                        <h4>Western Caribbean from Miami, FL</h4>
+                        <p>Miami &bull; Cozumel</p>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-info">
+                            <span class="starting">Starting From</span>
+                            <div class="amount">$210*</div>
+                        </div>
+                        <a href="deepdive.html?ship=Suncrest+Oceanic&route=Western+Caribbean" class="see-cruises-btn">See Cruises</a>
+                    </div>
+                </div>
+
+                <!-- EDITABLE: Itinerary Card 3 (.jpg) -->
+                <div class="itinerary-card">
+                    <div class="itinerary-header-img" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('southern.jpg');">
+                        <span class="duration-tag">11 Day</span>
+                    </div>
+                    <div class="itinerary-body">
+                        <h4>Southern Caribbean from Miami, FL</h4>
+                        <p>Miami &bull; St. Thomas &bull; Dominica &bull; Grenada &bull; Barbados &bull; Antigua &bull; Olann Island</p>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-info">
+                            <span class="starting">Starting From</span>
+                            <div class="amount">$659*</div>
+                        </div>
+                        <a href="deepdive.html?ship=Suncrest+Oceanic&route=Southern+Caribbean" class="see-cruises-btn">See Cruises</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Find a Cruise Search Form (Opens deepdive.html on submit) -->
+        <div class="search-box">
+            <h3 style="font-size: 20px; color: white;">Find a Cruise</h3>
+            <form id="cruiseSearchForm" onsubmit="submitSearch(event)">
+                <div class="search-row">
+                    <div class="form-group">
+                        <label for="searchSailTo">Sail To</label>
+                        <select id="searchSailTo">
+                            <option value="Bahamas">Bahamas</option>
+                            <option value="Caribbean">Caribbean</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="searchSailFrom">Sail From</label>
+                        <select id="searchSailFrom">
+                            <option value="Miami">Miami, FL</option>
+                            <option value="Port Canaveral">Port Canaveral, FL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="searchDates">Dates</label>
+                        <select id="searchDates">
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit" class="search-submit-btn" style="width: 100%;">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- JavaScript Handlers -->
+    <script>
+        // Smooth Carousel Button Scrolling
+        function scrollCarousel(elementId, distance) {
+            const wrapper = document.getElementById(elementId);
+            if (wrapper) {
+                wrapper.scrollBy({ left: distance, behavior: 'smooth' });
+            }
+        }
+
+        // Collapsible Description Read More / Read Less
+        function toggleHistory() {
+            const moreText = document.getElementById('moreHistory');
+            const btn = document.getElementById('toggleReadMore');
+            if (moreText.classList.contains('expanded')) {
+                moreText.classList.remove('expanded');
+                btn.innerHTML = 'Read More &or;';
+            } else {
+                moreText.classList.add('expanded');
+                btn.innerHTML = 'Read Less &and;';
+            }
+        }
+
+        // EDITABLE: Stateroom Images (ending in .jpg)
+        const stateroomData = {
+            interior: {
+                title: "Interior Stateroom",
+                desc: "Comfortable and private interior room featuring cozy amenities and full climate control.",
+                img: "interior.jpg",
+                includes: [
+                    "Dedicated stateroom attendant",
+                    "Soft, cozy linens",
+                    "Plenty of closet space",
+                    "In-room safe"
+                ]
+            },
+            oceanview: {
+                title: "Ocean View Stateroom",
+                desc: "Enjoy picture-window ocean views directly from your room throughout your voyage.",
+                img: "oceanview.jpg",
+                includes: [
+                    "Dedicated stateroom attendant",
+                    "Picture window view",
+                    "Television & climate control"
+                ]
+            },
+            balcony: {
+                title: "Balcony Stateroom",
+                desc: "Step out onto your private balcony and enjoy
 
