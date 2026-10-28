@@ -65,20 +65,132 @@
             background-color: #c5303c;
         }
 
-        /* EDITABLE: Main Photo Banner (.jpg) */
-        .destination-photo-banner {
+        /* Slideshow Banner Container */
+        .slideshow-container {
+            position: relative;
             width: 100%;
-            max-height: 480px;
-            overflow: hidden;
+            height: 420px;
             background-color: #0b3154;
+            overflow: hidden;
         }
 
-        .destination-photo-banner img {
+        @media(max-width: 768px) {
+            .slideshow-container {
+                height: 260px;
+            }
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            max-height: 480px;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            display: block;
+        }
+
+        /* Slide Content Overlay (Optional text/buttons on banners) */
+        .slide-content {
+            position: absolute;
+            bottom: 30px;
+            left: 50px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+            z-index: 3;
+        }
+
+        .slide-content h2 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            border-left: none;
+            padding-left: 0;
+            color: white;
+        }
+
+        .slide-content p {
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .slide-btn {
+            background-color: var(--accent-red);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        .slide-btn:hover {
+            background-color: #c5303c;
+        }
+
+        /* Slideshow Navigation Arrows */
+        .slide-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: background 0.2s;
+        }
+
+        .slide-arrow:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .slide-prev { left: 20px; }
+        .slide-next { right: 20px; }
+
+        /* Slideshow Dots Indicator */
+        .slide-dots {
+            position: absolute;
+            bottom: 15px;
+            right: 30px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .dot.active {
+            background: white;
         }
 
         /* Sticky Destination Sub-Nav Bar */
@@ -220,7 +332,7 @@
             display: block;
         }
 
-        /* "You Want Where? We Go There" Ports Grid */
+        /* Ports Grid Section */
         .ports-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -470,9 +582,49 @@
         <a href="index.html" class="back-btn">← Back to Home</a>
     </div>
 
-    <!-- EDITABLE: Main Destination Header Image (.jpg) -->
-    <div class="destination-photo-banner">
-        <img src="destination-hero.jpg" alt="Destination Banner Image">
+    <!-- EDITABLE: Slideshow Banner (.jpg files) -->
+    <div class="slideshow-container" id="destinationSlideshow">
+        
+        <!-- Slide 1 -->
+        <div class="slide active">
+            <img src="unsunkencityofatlantis.jpg" alt="Destination Banner 1">
+            <div class="slide-content">
+                <h2>Unsunken City of Atlantis</h2>
+                <p>Discover pristine white sands and crystal-clear waters.</p>
+                <a href="#sailings" class="slide-btn">Learn More</a>
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide">
+            <img src="olannisland.jpg" alt="Destination Banner 2">
+            <div class="slide-content">
+                <h2>Olann Island™</h2>
+                <p>Your ultimate private destination designed for paradise.</p>
+                <a href="#sailings" class="slide-btn">Explore Now</a>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide">
+            <img src="nassau.jpg" alt="Destination Banner 3">
+            <div class="slide-content">
+                <h2>Nassau, Bahamas</h2>
+                <p>Explore vibrant culture, shopping, and world-class beaches.</p>
+                <a href="#sailings" class="slide-btn">View Cruises</a>
+            </div>
+        </div>
+
+        <!-- Slideshow Controls -->
+        <button class="slide-arrow slide-prev" onclick="changeSlide(-1)">❮</button>
+        <button class="slide-arrow slide-next" onclick="changeSlide(1)">❯</button>
+
+        <!-- Slideshow Dots -->
+        <div class="slide-dots">
+            <span class="dot active" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+        </div>
     </div>
 
     <!-- Sticky Sub-Nav Bar -->
@@ -518,24 +670,65 @@
             
             <div class="ports-grid">
                 
-                <!-- EDITABLE: Port Card 1 -->
-                <a href="deepdive.html?destination=Nassau" class="port-card">
+                <!-- EDITABLE: Port Card 1 (.jpg) -->
+                <a href="bahamas.html?destination=Nassau" class="port-card">
                     <img src="nassau.jpg" alt="Nassau">
                     <div class="port-overlay">
                         <div class="port-title">Nassau</div>
                     </div>
                 </a>
 
-                <!-- EDITABLE: Port Card 2 (Private Destination) -->
-                <a href="deepdive.html?destination=OlannIsland" class="port-card">
-                    <img src="olann-island.jpg" alt="Olann Island">
+                <!-- EDITABLE: Port Card 2 (.jpg) -->
+                <a href="bahamas.html?destination=OlannIsland" class="port-card">
+                    <img src="olannisland.jpg" alt="Olann Island">
                     <div class="port-overlay">
                         <div class="port-title">Olann Island™</div>
                     </div>
                 </a>
 
-                <!-- EDITABLE: Port Card 3 (Homeport with badge) -->
-                <a href="deepdive.html?port=Miami" class="port-card">
+                <!-- EDITABLE: Port Card 2 (.jpg) -->
+                <a href="bahamas.html?destination=Bimini" class="port-card">
+                    <img src="bimini.jpg" alt="Bimini">
+                    <div class="port-overlay">
+                        <div class="port-title">Bimini</div>
+                    </div>
+                </a>
+
+                <!-- EDITABLE: Port Card 1 (.jpg) -->
+                <a href="bahamas.html?destination=Unsunken City of Atlantis" class="port-card">
+                    <img src="unsunkencityofatlantis2.jpg" alt="Unsunken City of Atlantis ">
+                    <div class="port-overlay">
+                        <div class="port-title">Unsunken City of Atlantis </div>
+                    </div>
+                </a>
+
+                <!-- EDITABLE: Port Card 1 (.jpg) -->
+                <a href="bahamas.html?destination=Empress Cays" class="port-card">
+                    <img src="empresscays.jpg" alt="Empress Cays">
+                    <div class="port-overlay">
+                        <div class="port-title">Empress Cays</div>
+                    </div>
+                </a>
+                
+                <!-- EDITABLE: Port Card 2 (.jpg) -->
+                <a href="bahamas.html?destination=Key West" class="port-card">
+                    <img src="keywest.jpg" alt="Key West">
+                    <div class="port-overlay">
+                        <div class="port-title">Key West</div>
+                    </div>
+                </a>
+                
+                <!-- EDITABLE: Port Card 3 (.jpg) -->
+                <a href="bahamas.html?port=Baltimore" class="port-card">
+                    <span class="badge-depart">Depart From</span>
+                    <img src="baltimore.jpg" alt="Baltimore">
+                    <div class="port-overlay">
+                        <div class="port-title">Baltimore, MD</div>
+                    </div>
+                </a>
+                
+                <!-- EDITABLE: Port Card 3 (.jpg) -->
+                <a href="bahamas.html?port=Miami" class="port-card">
                     <span class="badge-depart">Depart From</span>
                     <img src="miami.jpg" alt="Miami">
                     <div class="port-overlay">
@@ -543,10 +736,28 @@
                     </div>
                 </a>
 
-                <!-- EDITABLE: Port Card 4 (Homeport with badge) -->
-                <a href="deepdive.html?port=PortCanaveral" class="port-card">
+                <!-- EDITABLE: Port Card 3 (.jpg) -->
+                <a href="bahamas.html?port=Jacksonville" class="port-card">
                     <span class="badge-depart">Depart From</span>
-                    <img src="port-canaveral.jpg" alt="Port Canaveral">
+                    <img src="jacksonville.jpg" alt="Jacksonville">
+                    <div class="port-overlay">
+                        <div class="port-title">Jacksonville, FL</div>
+                    </div>
+                </a>
+                
+                <!-- EDITABLE: Port Card 3 (.jpg) -->
+                <a href="bahamas.html?port=Norfolk" class="port-card">
+                    <span class="badge-depart">Depart From</span>
+                    <img src="norfolk.jpg" alt="Norfolk">
+                    <div class="port-overlay">
+                        <div class="port-title">Norfol, VA</div>
+                    </div>
+                </a>
+
+                <!-- EDITABLE: Port Card 4 (.jpg) -->
+                <a href="bahamas.html?port=PortCanaveral" class="port-card">
+                    <span class="badge-depart">Depart From</span>
+                    <img src="portcanaveral.jpg" alt="Port Canaveral">
                     <div class="port-overlay">
                         <div class="port-title">Port Canaveral, FL</div>
                     </div>
@@ -555,10 +766,10 @@
             </div>
         </div>
 
-        <!-- "Thinking About [Destination]?" Itinerary Carousel -->
+        <!-- Itinerary Carousel -->
         <div class="card" id="sailings">
             <div class="card-header-row">
-                <!-- EDITABLE: Destination Name in Header -->
+                <!-- EDITABLE: Destination Name -->
                 <h2>THINKING ABOUT THE BAHAMAS?</h2>
                 <div class="carousel-controls">
                     <button class="carousel-btn" onclick="scrollCarousel('itineraryWrapper', -320)">❮</button>
@@ -569,14 +780,14 @@
 
             <div class="swipe-carousel-wrapper" id="itineraryWrapper">
                 
-                <!-- EDITABLE: Itinerary Card 1 -->
+                <!-- EDITABLE: Itinerary Card 1 (.jpg) -->
                 <div class="itinerary-card">
                     <div class="itinerary-header-img" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('bahamas1.jpg');">
                         <span class="duration-tag">4 DAY</span>
                     </div>
                     <div class="itinerary-body">
-                        <h4>The Bahamas from Miami, FL</h4>
-                        <p>Miami &bull; Nassau &bull; Olann Island</p>
+                        <h4>The Bahamas from Port Canaveral(Orlando), FL</h4>
+                        <p>Orlando &bull; Nassau &bull; Olann Island</p>
                     </div>
                     <div class="price-row">
                         <div class="price-info">
@@ -587,14 +798,14 @@
                     </div>
                 </div>
 
-                <!-- EDITABLE: Itinerary Card 2 -->
+                <!-- EDITABLE: Itinerary Card 2 (.jpg) -->
                 <div class="itinerary-card">
                     <div class="itinerary-header-img" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('bahamas2.jpg');">
                         <span class="duration-tag">5 DAY</span>
                     </div>
                     <div class="itinerary-body">
-                        <h4>The Bahamas from Port Canaveral, FL</h4>
-                        <p>Orlando &bull; Freeport &bull; Unsunken City</p>
+                        <h4>The Bahamas from Miami, FL</h4>
+                        <p>Miami &bull; Freeport &bull; Unsunken City</p>
                     </div>
                     <div class="price-row">
                         <div class="price-info">
@@ -605,14 +816,14 @@
                     </div>
                 </div>
 
-                <!-- EDITABLE: Itinerary Card 3 -->
+                <!-- EDITABLE: Itinerary Card 3 (.jpg) -->
                 <div class="itinerary-card">
                     <div class="itinerary-header-img" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('bahamas3.jpg');">
                         <span class="duration-tag">7 DAY</span>
                     </div>
                     <div class="itinerary-body">
-                        <h4>The Bahamas from Baltimore, MD</h4>
-                        <p>Baltimore &bull; Freeport &bull; Nassau &bull; Olann Island</p>
+                        <h4>The Bahamas from Mobile, AL</h4>
+                        <p>Mobile &bull; Key West &bull; Nassau &bull; Olann Island</p>
                     </div>
                     <div class="price-row">
                         <div class="price-info">
@@ -626,7 +837,7 @@
             </div>
         </div>
 
-        <!-- Find a Cruise Search Engine (Opens deepdive.html on submit) -->
+        <!-- Find a Cruise Search Engine -->
         <div class="search-box">
             <h3 style="font-size: 20px; color: white;">Find a Cruise</h3>
             <form id="cruiseSearchForm" onsubmit="submitSearch(event)">
@@ -642,10 +853,16 @@
                     <div class="form-group">
                         <label for="searchSailFrom">Sail From</label>
                         <select id="searchSailFrom">
-                            <option value="Miami">Miami, FL</option>
-                            <option value="Port Canaveral">Port Canaveral, FL</option>
                             <option value="Baltimore">Baltimore, MD</option>
                             <option value="Galveston">Galveston, TX</option>
+                            <option value="Jacksonville">Jacksonville, FL</option>
+                            <option value="Miami">Miami, FL</option>
+                            <option value="Mobile">Mobile, AL</option>
+                            <option value="New Orleans">New Orleans, LA</option>
+                            <option value="Norfolk">Norfolk, Va</option>
+                            <option value="Port Canaveral">Port Canaveral, FL</option>
+                            <option value="Tampa">Tampa, FL</option>
+                            
                         </select>
                     </div>
                     <div class="form-group">
@@ -667,7 +884,53 @@
 
     <!-- JavaScript Handlers -->
     <script>
-        // Smooth Horizontal Scroll
+        // Slideshow Banner Logic
+        let slideIndex = 0;
+        let slideTimer;
+
+        function showSlides(n) {
+            let slides = document.querySelectorAll('.slide');
+            let dots = document.querySelectorAll('.dot');
+            
+            if (n >= slides.length) { slideIndex = 0; }
+            if (n < 0) { slideIndex = slides.length - 1; }
+
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            slides[slideIndex].classList.add('active');
+            dots[slideIndex].classList.add('active');
+        }
+
+        function changeSlide(n) {
+            clearTimeout(slideTimer);
+            slideIndex += n;
+            showSlides(slideIndex);
+            autoSlide();
+        }
+
+        function currentSlide(n) {
+            clearTimeout(slideTimer);
+            slideIndex = n;
+            showSlides(slideIndex);
+            autoSlide();
+        }
+
+        function autoSlide() {
+            slideTimer = setTimeout(() => {
+                slideIndex++;
+                showSlides(slideIndex);
+                autoSlide();
+            }, 4000); // Changes image every 4 seconds
+        }
+
+        // Initialize slideshow on page load
+        window.onload = function() {
+            showSlides(slideIndex);
+            autoSlide();
+        };
+
+        // Smooth Horizontal Scroll for carousels
         function scrollCarousel(elementId, distance) {
             const wrapper = document.getElementById(elementId);
             if (wrapper) {
