@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- EDITABLE: Destination Page Title -->
+    <title>Suncrest Cruise Line - Destination Template</title>
+    <style>
+        :root {
+            --primary-blue: #104c81;
+            --accent-red: #e63946;
+            --light-gray: #f4f6f9;
+            --dark-blue: #0b3154;
+            --text-dark: #222222;
+            --text-light: #666666;
+            --border-color: #dbe2ef;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Top Header Navbar */
+        .navbar {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .back-btn {
+            background-color: var(--accent-red);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background-color: #c5303c;
+        }
+
+        /* EDITABLE: Main Photo Banner (.jpg) */
+        .destination-photo-banner {
+            width: 100%;
+            max-height: 480px;
+            overflow: hidden;
+            background-color: #0b3154;
+        }
+
+        .destination-photo-banner img {
+            width: 100%;
+            height: 100%;
+            max-height: 480px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Sticky Destination Sub-Nav Bar */
+        .subnav-bar {
+            background-color: white;
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 60px;
+            z-index: 990;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .subnav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .subnav-link {
+            padding: 15px 0;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .subnav-link.active, .subnav-link:hover {
+            color: var(--primary-blue);
+            border-bottom-color: var(--accent-red);
+        }
+
+        .view-sailings-btn {
+            background-color: var(--accent-red);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        .view-sailings-btn:hover {
+            background-color: #c5303c;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 30px auto 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 22px;
+            color: var(--dark-blue);
+            font-weight: bold;
+            border-left: 5px solid var(--accent-red);
+            padding-left: 12px;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        /* Overview Section Layout */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        @media(max-width: 768px) {
+            .overview-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 12px;
+            font-weight: bold;
+            color: var(--dark-blue);
+        }
+
+        .bullet-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary-blue);
+            font-weight: bold;
+        }
+
+        .read-more-btn {
+            background: none;
+            border: none;
+            color: var(--accent-red);
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 0;
+            margin-top: 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .collapsible-text {
+            display: none;
+        }
+
+        .collapsible-text.expanded {
+            display: block;
+        }
+
+        /* "You Want Where? We Go There" Ports Grid */
+        .ports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 18px;
+            margin-top: 20px;
+        }
+
+        .port-card {
+            position: relative;
+            height: 180px;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            text-decoration: none;
+        }
+
+        .port-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .port-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .port-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(11, 49, 84, 0.9));
+            padding: 15px 12px 10px 12px;
+            color: white;
+            text-align: center;
+        }
+
+        .port-title {
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-depart {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent-red);
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Touch / Swipe Carousel */
+        .carousel-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .carousel-btn {
+            background: #e2e8f0;
+            color: var(--dark-blue);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .carousel-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .swipe-carousel-wrapper {
+            display: flex;
+            gap: 18px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .swipe-carousel-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .swipe-carousel-wrapper::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        .itinerary-card {
+            min-width: 280px;
+            max-width: 300px;
+            scroll-snap-align: start;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .itinerary-header-img {
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+            padding: 12px;
+            color: white;
+        }
+
+        .duration-tag {
+            background: rgba(11, 49, 84, 0.85);
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .itinerary-body {
+            padding: 15px;
+            flex-grow: 1;
+        }
+
+        .itinerary-body h4 {
+            font-size: 15px;
+            color: var(--dark-blue);
+            margin-bottom: 5px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px 15px 15px;
+        }
+
+        .price-info .starting {
+            font-size: 11px;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .price-info .amount {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--dark-blue);
+        }
+
+        .see-cruises-btn {
+            background-color: var(--accent-red);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        .see-cruises-btn:hover {
+            background-color: #c5303c;
+        }
+
+        /* Search Engine Box */
+        .search-box {
+            background: var(--primary-blue);
+            padding: 25px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .search-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) 130px;
+            gap: 15px;
+            align-items: end;
+            margin-top: 15px;
+        }
+
+        @media(max-width: 768px) {
+            .search-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            color: #cbd5e1;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background: white;
+            font-size: 14px;
+            color: var(--text-dark);
+            outline: none;
+        }
+
+        .search-submit-btn {
+            background-color: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.2s;
+            height: 40px;
+            font-size: 13px;
+        }
+
+        .search-submit-btn:hover {
+            background-color: #c5303c;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navbar -->
+    <div class="navbar">
+        <a href="index.html" class="brand">SUNCREST</a>
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </div>
+
+    <!-- EDITABLE: Main Destination Header Image (.jpg) -->
+    <div class="destination-photo-banner">
+        <img src="destination-hero.jpg" alt="Destination Banner Image">
+    </div>
+
+    <!-- Sticky Sub-Nav Bar -->
+    <div class="subnav-bar">
+        <div class="subnav-links">
+            <a href="#overview" class="subnav-link active">Overview</a>
+            <a href="#ports" class="subnav-link">Ports of Call</a>
+            <a href="#sailings" class="subnav-link">Sailings</a>
+        </div>
+        <a href="#sailings" class="view-sailings-btn">View Sailings</a>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Overview Section -->
+        <div class="card" id="overview">
+            <!-- EDITABLE: Destination Title -->
+            <h2>CRUISES TO THE BAHAMAS</h2>
+            <div class="overview-grid" style="margin-top: 15px;">
+                <div>
+                    <p>You know the name, the laid-back attitude, and where to find them, but you'll just have to visit the Bahamas to truly appreciate this classic cruise destination in the blue Atlantic.</p>
+                    <div class="collapsible-text" id="moreOverview">
+                        <p>The central port of Nassau is the bustling capital of the country — lively, relaxing, and full of history. Beyond Nassau, private island paradises await like Olann Island™ and Empress Cays®.</p>
+                    </div>
+                    <button class="read-more-btn" id="toggleReadMore" onclick="toggleOverview()">Read More &or;</button>
+                </div>
+                <div>
+                    <ul class="bullet-list">
+                        <!-- EDITABLE: Highlights -->
+                        <li>Swim and splash in the sparkling waters of the Atlantic Ocean.</li>
+                        <li>Explore thrilling waterparks on private island destinations.</li>
+                        <li>Discover white-sand beaches and crystal-clear turquoise bays.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- "You Want Where? We Go There" Ports Grid Section -->
+        <div class="card" id="ports">
+            <h2>YOU WANT WHERE? WE GO THERE.</h2>
+            <p style="color: var(--text-light); font-size: 14px; margin-top: 5px;">Explore ports of call and homeports available in this destination region.</p>
+            
+            <div class="ports-grid">
+                
+                <!-- EDITABLE: Port Card 1 -->
+                <a href="deepdive.html?destination=Nassau" class="port-card">
+                    <img src="nassau.jpg" alt="Nassau">
+                    <div class="port-overlay">
+                        <div class="port-title">Nassau</div>
+                    </div>
+                </a>
+
+                <!-- EDITABLE: Port Card 2 (Private Destination) -->
+                <a href="deepdive.html?destination=OlannIsland" class="port-card">
+                    <img src="olann-island.jpg" alt="Olann Island">
+                    <div class="port-overlay">
+                        <div class="port-title">Olann Island™</div>
+                    </div>
+                </a>
+
+                <!-- EDITABLE: Port Card 3 (Homeport with badge) -->
+                <a href="deepdive.html?port=Miami" class="port-card">
+                    <span class="badge-depart">Depart From</span>
+                    <img src="miami.jpg" alt="Miami">
+                    <div class="port-overlay">
+                        <div class="port-title">Miami, FL</div>
+                    </div>
+                </a>
+
+                <!-- EDITABLE: Port Card 4 (Homeport with badge) -->
+                <a href="deepdive.html?port=PortCanaveral" class="port-card">
+                    <span class="badge-depart">Depart From</span>
+                    <img src="port-canaveral.jpg" alt="Port Canaveral">
+                    <div class="port-overlay">
+                        <div class="port-title">Port Canaveral, FL</div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+        <!-- "Thinking About [Destination]?" Itinerary Carousel -->
+        <div class="card" id="sailings">
+            <div class="card-header-row">
+                <!-- EDITABLE: Destination Name in Header -->
+                <h2>THINKING ABOUT THE BAHAMAS?</h2>
+                <div class="carousel-controls">
+                    <button class="carousel-btn" onclick="scrollCarousel('itineraryWrapper', -320)">❮</button>
+                    <button class="carousel-btn" onclick="scrollCarousel('itineraryWrapper', 320)">❯</button>
+                </div>
+            </div>
+            <p style="color:var(--text-light); margin-bottom: 15px; font-size: 14px;">We've got some daydream options for you. Swipe across to see cruises.</p>
+
+            <div class="swipe-carousel-wrapper" id="itineraryWrapper">
+                
+                <!-- EDITABLE: Itinerary Card 1 -->
+                <div class="itinerary-card">
+                    <div class="itinerary-header-img" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('bahamas1.jpg');">
+                        <span class="duration-tag">4 DAY</span>
+                    </div>
+                    <div class="itinerary-body">
+                        <h4>The Bahamas from Miami, FL</h4>
+                        <p>Miami &bull; Nassau &bull; Olann Island</p>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-info">
+                            <span class="starting">1 Cruises From</span>
+                            <div class="amount">$195*</div>
+                        </div>
+                        <a href="deepdive.html?route=Bahamas&from=Miami" class="see-cruises-btn">See Cruises</a>
+                    </div>
+                </div>
+
+                <!-- EDITABLE: Itinerary Card 2 -->
+                <div class="itinerary-card">
+                    <div class="itinerary-header-img" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('bahamas2.jpg');">
+                        <span class="duration-tag">5 DAY</span>
+                    </div>
+                    <div class="itinerary-body">
+                        <h4>The Bahamas from Port Canaveral, FL</h4>
+                        <p>Orlando &bull; Freeport &bull; Unsunken City</p>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-info">
+                            <span class="starting">16 Cruises From</span>
+                            <div class="amount">$231*</div>
+                        </div>
+                        <a href="deepdive.html?route=Bahamas&from=PortCanaveral" class="see-cruises-btn">See Cruises</a>
+                    </div>
+                </div>
+
+                <!-- EDITABLE: Itinerary Card 3 -->
+                <div class="itinerary-card">
+                    <div class="itinerary-header-img" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('bahamas3.jpg');">
+                        <span class="duration-tag">7 DAY</span>
+                    </div>
+                    <div class="itinerary-body">
+                        <h4>The Bahamas from Baltimore, MD</h4>
+                        <p>Baltimore &bull; Freeport &bull; Nassau &bull; Olann Island</p>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-info">
+                            <span class="starting">8 Cruises From</span>
+                            <div class="amount">$459*</div>
+                        </div>
+                        <a href="deepdive.html?route=Bahamas&from=Baltimore" class="see-cruises-btn">See Cruises</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Find a Cruise Search Engine (Opens deepdive.html on submit) -->
+        <div class="search-box">
+            <h3 style="font-size: 20px; color: white;">Find a Cruise</h3>
+            <form id="cruiseSearchForm" onsubmit="submitSearch(event)">
+                <div class="search-row">
+                    <div class="form-group">
+                        <label for="searchSailTo">Sail To</label>
+                        <select id="searchSailTo">
+                            <option value="Bahamas">The Bahamas</option>
+                            <option value="Caribbean">Caribbean</option>
+                            <option value="Mexico">Mexico</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="searchSailFrom">Sail From</label>
+                        <select id="searchSailFrom">
+                            <option value="Miami">Miami, FL</option>
+                            <option value="Port Canaveral">Port Canaveral, FL</option>
+                            <option value="Baltimore">Baltimore, MD</option>
+                            <option value="Galveston">Galveston, TX</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="searchDates">Dates</label>
+                        <select id="searchDates">
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit" class="search-submit-btn" style="width: 100%;">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- JavaScript Handlers -->
+    <script>
+        // Smooth Horizontal Scroll
+        function scrollCarousel(elementId, distance) {
+            const wrapper = document.getElementById(elementId);
+            if (wrapper) {
+                wrapper.scrollBy({ left: distance, behavior: 'smooth' });
+            }
+        }
+
+        // Overview Text Expand / Collapse
+        function toggleOverview() {
+            const moreText = document.getElementById('moreOverview');
+            const btn = document.getElementById('toggleReadMore');
+            if (moreText.classList.contains('expanded')) {
+                moreText.classList.remove('expanded');
+                btn.innerHTML = 'Read More &or;';
+            } else {
+                moreText.classList.add('expanded');
+                btn.innerHTML = 'Read Less &and;';
+            }
+        }
+
+        // Search Form Redirect to deepdive.html
+        function submitSearch(event) {
+            event.preventDefault();
+            const sailTo = document.getElementById('searchSailTo').value;
+            const sailFrom = document.getElementById('searchSailFrom').value;
+            const dates = document.getElementById('searchDates').value;
+
+            window.location.href = `deepdive.html?route=${encodeURIComponent(sailTo)}&from=${encodeURIComponent(sailFrom)}&dates=${encodeURIComponent(dates)}`;
+        }
+    </script>
+</body>
+</html>
