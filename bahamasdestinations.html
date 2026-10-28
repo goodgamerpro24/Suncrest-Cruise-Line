@@ -794,7 +794,7 @@
                             <span class="starting">1 Cruises From</span>
                             <div class="amount">$195*</div>
                         </div>
-                        <a href="deepdive.html?route=Bahamas&from=Miami" class="see-cruises-btn">See Cruises</a>
+                        <a href="bahamas.html?route=Bahamas&from=Miami" class="see-cruises-btn">See Cruises</a>
                     </div>
                 </div>
 
@@ -812,7 +812,7 @@
                             <span class="starting">16 Cruises From</span>
                             <div class="amount">$231*</div>
                         </div>
-                        <a href="deepdive.html?route=Bahamas&from=PortCanaveral" class="see-cruises-btn">See Cruises</a>
+                        <a href="bahamas.html?route=Bahamas&from=PortCanaveral" class="see-cruises-btn">See Cruises</a>
                     </div>
                 </div>
 
@@ -830,7 +830,7 @@
                             <span class="starting">8 Cruises From</span>
                             <div class="amount">$459*</div>
                         </div>
-                        <a href="deepdive.html?route=Bahamas&from=Baltimore" class="see-cruises-btn">See Cruises</a>
+                        <a href="bahamas.html?route=Bahamas&from=Baltimore" class="see-cruises-btn">See Cruises</a>
                     </div>
                 </div>
 
@@ -951,14 +951,14 @@
             }
         }
 
-        // Search Form Redirect to deepdive.html
+        // Search Form Redirect to bahamas.html
         function submitSearch(event) {
             event.preventDefault();
             const sailTo = document.getElementById('searchSailTo').value;
             const sailFrom = document.getElementById('searchSailFrom').value;
             const dates = document.getElementById('searchDates').value;
 
-            window.location.href = `deepdive.html?route=${encodeURIComponent(sailTo)}&from=${encodeURIComponent(sailFrom)}&dates=${encodeURIComponent(dates)}`;
+            window.location.href = `bahamas.html?route=${encodeURIComponent(sailTo)}&from=${encodeURIComponent(sailFrom)}&dates=${encodeURIComponent(dates)}`;
         }
     </script>
 </body>
