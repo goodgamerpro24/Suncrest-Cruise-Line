@@ -104,7 +104,7 @@
             object-fit: cover;
         }
 
-        /* Slide Content Overlay (Optional text/buttons on banners) */
+        /* Slide Content Overlay */
         .slide-content {
             position: absolute;
             bottom: 30px;
@@ -332,17 +332,76 @@
             display: block;
         }
 
-        /* Ports Grid Section */
+        /* Ports Two-Column Layout (Sidebar + Grid) */
+        .ports-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        @media(max-width: 768px) {
+            .ports-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Sidebar Filter Box */
+        .filter-sidebar {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 15px;
+            height: fit-content;
+        }
+
+        .filter-header {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--text-light);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-group-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--dark-blue);
+            margin-bottom: 10px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox-label input {
+            accent-color: var(--primary-blue);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        /* Ports Grid */
         .ports-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 18px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
         }
 
         .port-card {
             position: relative;
-            height: 180px;
+            height: 170px;
             border-radius: 6px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0,0,0,0.12);
@@ -372,7 +431,7 @@
         }
 
         .port-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -582,7 +641,7 @@
         <a href="index.html" class="back-btn">← Back to Home</a>
     </div>
 
-    <!-- EDITABLE: Slideshow Banner (.jpg files) -->
+    <!-- Slideshow Banner (.jpg files) -->
     <div class="slideshow-container" id="destinationSlideshow">
         
         <!-- Slide 1 -->
@@ -663,105 +722,128 @@
             </div>
         </div>
 
-        <!-- "You Want Where? We Go There" Ports Grid Section -->
+        <!-- "You Want Where? We Go There" Ports Section with Sidebar Filter -->
         <div class="card" id="ports">
             <h2>YOU WANT WHERE? WE GO THERE.</h2>
-            <p style="color: var(--text-light); font-size: 14px; margin-top: 5px;">Explore ports of call and homeports available in this destination region.</p>
             
-            <div class="ports-grid">
+            <div class="ports-layout">
                 
-                <!-- EDITABLE: Port Card 1 (.jpg) -->
-                <a href="bahamas.html?destination=Nassau" class="port-card">
-                    <img src="nassau1.jpg" alt="Nassau">
-                    <div class="port-overlay">
-                        <div class="port-title">Nassau</div>
+                <!-- Left Sidebar: Sail From Filter Checkboxes -->
+                <div class="filter-sidebar">
+                    <div class="filter-header">
+                        <span>11 Results</span>
+                        <span style="cursor: pointer; color: var(--primary-blue);">▲</span>
                     </div>
-                </a>
+                    <div class="filter-group-title">Sail From</div>
+                    
+                    <label class="checkbox-label"><input type="checkbox"> Baltimore, MD</label>
+                    <label class="checkbox-label"><input type="checkbox"> Galveston, TX</label>
+                    <label class="checkbox-label"><input type="checkbox"> Jacksonville, FL</label>
+                    <label class="checkbox-label"><input type="checkbox"> Miami, FL</label>
+                    <label class="checkbox-label"><input type="checkbox"> Mobile, AL</label>
+                    <label class="checkbox-label"><input type="checkbox"> New Orleans, LA</label>
+                    <label class="checkbox-label"><input type="checkbox"> Norfolk, VA</label>
+                    <label class="checkbox-label"><input type="checkbox"> Port Canaveral (Orlando), FL</label>
+                    <label class="checkbox-label"><input type="checkbox"> Tampa, FL</label>
+                </div>
 
-                <!-- EDITABLE: Port Card 2 (.jpg) -->
-                <a href="bahamas.html?destination=OlannIsland" class="port-card">
-                    <img src="olannisland.jpg" alt="Olann Island">
-                    <div class="port-overlay">
-                        <div class="port-title">Olann Island™</div>
-                    </div>
-                </a>
+                <!-- Right Side: Ports Grid -->
+                <div class="ports-grid">
+                    
+                    <!-- EDITABLE: Port Card 1 (.jpg) -->
+                    <a href="bahamas.html?destination=Nassau" class="port-card">
+                        <img src="nassau1.jpg" alt="Nassau">
+                        <div class="port-overlay">
+                            <div class="port-title">Nassau</div>
+                        </div>
+                    </a>
 
-                <!-- EDITABLE: Port Card 2 (.jpg) -->
-                <a href="bahamas.html?destination=Bimini" class="port-card">
-                    <img src="bimini.jpg" alt="Bimini">
-                    <div class="port-overlay">
-                        <div class="port-title">Bimini</div>
-                    </div>
-                </a>
+                    <!-- EDITABLE: Port Card 2 (.jpg) -->
+                    <a href="bahamas.html?destination=OlannIsland" class="port-card">
+                        <img src="olannisland.jpg" alt="Olann Island">
+                        <div class="port-overlay">
+                            <div class="port-title">Olann Island™</div>
+                        </div>
+                    </a>
 
-                <!-- EDITABLE: Port Card 1 (.jpg) -->
-                <a href="bahamas.html?destination=Unsunken City of Atlantis" class="port-card">
-                    <img src="unsunkencityofatlantis2.jpg" alt="Unsunken City of Atlantis ">
-                    <div class="port-overlay">
-                        <div class="port-title">Unsunken City of Atlantis </div>
-                    </div>
-                </a>
+                    <!-- EDITABLE: Port Card 3 (.jpg) -->
+                    <a href="bahamas.html?destination=Bimini" class="port-card">
+                        <img src="bimini.jpg" alt="Bimini">
+                        <div class="port-overlay">
+                            <div class="port-title">Bimini</div>
+                        </div>
+                    </a>
 
-                <!-- EDITABLE: Port Card 1 (.jpg) -->
-                <a href="bahamas.html?destination=Empress Cays®" class="port-card">
-                    <img src="empresscays.jpg" alt="Empress Cays®">
-                    <div class="port-overlay">
-                        <div class="port-title">Empress Cays®</div>
-                    </div>
-                </a>
-                
-                <!-- EDITABLE: Port Card 2 (.jpg) -->
-                <a href="bahamas.html?destination=Key West" class="port-card">
-                    <img src="keywest.jpg" alt="Key West">
-                    <div class="port-overlay">
-                        <div class="port-title">Key West</div>
-                    </div>
-                </a>
-                
-                <!-- EDITABLE: Port Card 3 (.jpg) -->
-                <a href="bahamas.html?port=Baltimore" class="port-card">
-                    <span class="badge-depart">Depart From</span>
-                    <img src="baltimore.jpg" alt="Baltimore">
-                    <div class="port-overlay">
-                        <div class="port-title">Baltimore, MD</div>
-                    </div>
-                </a>
-                
-                <!-- EDITABLE: Port Card 3 (.jpg) -->
-                <a href="bahamas.html?port=Miami" class="port-card">
-                    <span class="badge-depart">Depart From</span>
-                    <img src="miami.jpg" alt="Miami">
-                    <div class="port-overlay">
-                        <div class="port-title">Miami, FL</div>
-                    </div>
-                </a>
+                    <!-- EDITABLE: Port Card 4 (.jpg) -->
+                    <a href="bahamas.html?destination=Unsunken City of Atlantis" class="port-card">
+                        <img src="unsunkencityofatlantis2.jpg" alt="Unsunken City of Atlantis">
+                        <div class="port-overlay">
+                            <div class="port-title">Unsunken City of Atlantis</div>
+                        </div>
+                    </a>
 
-                <!-- EDITABLE: Port Card 3 (.jpg) -->
-                <a href="bahamas.html?port=Jacksonville" class="port-card">
-                    <span class="badge-depart">Depart From</span>
-                    <img src="jacksonville.jpg" alt="Jacksonville">
-                    <div class="port-overlay">
-                        <div class="port-title">Jacksonville, FL</div>
-                    </div>
-                </a>
-                
-                <!-- EDITABLE: Port Card 3 (.jpg) -->
-                <a href="bahamas.html?port=Norfolk" class="port-card">
-                    <span class="badge-depart">Depart From</span>
-                    <img src="norfolk.jpg" alt="Norfolk">
-                    <div class="port-overlay">
-                        <div class="port-title">Norfol, VA</div>
-                    </div>
-                </a>
+                    <!-- EDITABLE: Port Card 5 (.jpg) -->
+                    <a href="bahamas.html?destination=EmpressCays" class="port-card">
+                        <img src="empresscays.jpg" alt="Empress Cays®">
+                        <div class="port-overlay">
+                            <div class="port-title">Empress Cays®</div>
+                        </div>
+                    </a>
+                    
+                    <!-- EDITABLE: Port Card 6 (.jpg) -->
+                    <a href="bahamas.html?destination=KeyWest" class="port-card">
+                        <img src="keywest.jpg" alt="Key West">
+                        <div class="port-overlay">
+                            <div class="port-title">Key West</div>
+                        </div>
+                    </a>
+                    
+                    <!-- EDITABLE: Port Card 7 (.jpg) -->
+                    <a href="bahamas.html?port=Baltimore" class="port-card">
+                        <span class="badge-depart">Depart From</span>
+                        <img src="baltimore.jpg" alt="Baltimore">
+                        <div class="port-overlay">
+                            <div class="port-title">Baltimore, MD</div>
+                        </div>
+                    </a>
+                    
+                    <!-- EDITABLE: Port Card 8 (.jpg) -->
+                    <a href="bahamas.html?port=Miami" class="port-card">
+                        <span class="badge-depart">Depart From</span>
+                        <img src="miami.jpg" alt="Miami">
+                        <div class="port-overlay">
+                            <div class="port-title">Miami, FL</div>
+                        </div>
+                    </a>
 
-                <!-- EDITABLE: Port Card 4 (.jpg) -->
-                <a href="bahamas.html?port=PortCanaveral" class="port-card">
-                    <span class="badge-depart">Depart From</span>
-                    <img src="portcanaveral.jpg" alt="Port Canaveral">
-                    <div class="port-overlay">
-                        <div class="port-title">Port Canaveral, FL</div>
-                    </div>
-                </a>
+                    <!-- EDITABLE: Port Card 9 (.jpg) -->
+                    <a href="bahamas.html?port=Jacksonville" class="port-card">
+                        <span class="badge-depart">Depart From</span>
+                        <img src="jacksonville.jpg" alt="Jacksonville">
+                        <div class="port-overlay">
+                            <div class="port-title">Jacksonville, FL</div>
+                        </div>
+                    </a>
+                    
+                    <!-- EDITABLE: Port Card 10 (.jpg) -->
+                    <a href="bahamas.html?port=Norfolk" class="port-card">
+                        <span class="badge-depart">Depart From</span>
+                        <img src="norfolk.jpg" alt="Norfolk">
+                        <div class="port-overlay">
+                            <div class="port-title">Norfolk, VA</div>
+                        </div>
+                    </a>
+
+                    <!-- EDITABLE: Port Card 11 (.jpg) -->
+                    <a href="bahamas.html?port=PortCanaveral" class="port-card">
+                        <span class="badge-depart">Depart From</span>
+                        <img src="portcanaveral.jpg" alt="Port Canaveral">
+                        <div class="port-overlay">
+                            <div class="port-title">Port Canaveral, FL</div>
+                        </div>
+                    </a>
+
+                </div>
 
             </div>
         </div>
@@ -786,7 +868,7 @@
                         <span class="duration-tag">4 DAY</span>
                     </div>
                     <div class="itinerary-body">
-                        <h4>The Bahamas from Port Canaveral(Orlando), FL</h4>
+                        <h4>The Bahamas from Port Canaveral (Orlando), FL</h4>
                         <p>Orlando &bull; Nassau &bull; Olann Island</p>
                     </div>
                     <div class="price-row">
@@ -859,10 +941,9 @@
                             <option value="Miami">Miami, FL</option>
                             <option value="Mobile">Mobile, AL</option>
                             <option value="New Orleans">New Orleans, LA</option>
-                            <option value="Norfolk">Norfolk, Va</option>
+                            <option value="Norfolk">Norfolk, VA</option>
                             <option value="Port Canaveral">Port Canaveral, FL</option>
                             <option value="Tampa">Tampa, FL</option>
-                            
                         </select>
                     </div>
                     <div class="form-group">
