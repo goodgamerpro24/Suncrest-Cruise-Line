@@ -79,7 +79,7 @@
 
         .hero p {
             font-size: 16px;
-            opacity: 0.9;
+            opacity: 0.92;
         }
 
         /* Filter Bar */
@@ -207,6 +207,16 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .region-tag {
+            background: #eef4fa;
+            color: var(--primary-blue);
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
         }
 
         .route-line {
@@ -311,7 +321,7 @@
         }
 
         .date-box {
-            min-width: 195px;
+            min-width: 205px;
             background: white;
             border: 1px solid #cbd5e1;
             border-radius: 8px;
@@ -404,7 +414,7 @@
 
         .modal-box {
             background: white;
-            max-width: 650px;
+            max-width: 680px;
             width: 100%;
             max-height: 85vh;
             border-radius: 10px;
@@ -480,7 +490,7 @@
     <!-- Homeport Hero Header -->
     <div class="hero">
         <h1>Cruises from Jacksonville, FL</h1>
-        <p>Select your ship, duration, and sailing dates below</p>
+        <p>Year-round Bahamas sailings onboard Suncrest Elation & seasonal Caribbean voyages on Suncrest Miracle</p>
     </div>
 
     <!-- Filter Controls -->
@@ -489,7 +499,7 @@
             <label for="filterShip">Ship</label>
             <select id="filterShip" onchange="renderItineraries()">
                 <option value="all">-- All Ships --</option>
-                <!-- Ships populate automatically from your itinerary list below -->
+                <!-- Populated automatically from itineraries below -->
             </select>
         </div>
 
@@ -501,6 +511,8 @@
                 <option value="5">5 Days</option>
                 <option value="6">6 Days</option>
                 <option value="7">7 Days</option>
+                <option value="8">8 Days</option>
+                <option value="9">9 Days</option>
             </select>
         </div>
 
@@ -529,7 +541,7 @@
         <div class="modal-box">
             <div class="modal-header">
                 <h3 id="modalTitle">Cruise Itinerary</h3>
-                <button class="modal-close" onclick="closeModal()">×</button>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
             <div class="modal-content" id="modalBody"></div>
         </div>
@@ -537,94 +549,444 @@
 
     <script>
         /* =====================================================================
-           EDITABLE TEMPLATE DATA: JACKSONVILLE DEPARTURES
-           Add, remove, or edit your ships, routes, and exact calendar dates below.
+           JACKSONVILLE SAILINGS SCHEDULE (ZERO OVERLAP PER SHIP)
+           - Suncrest Elation: Permanently homeported in JAX (Nov 2026 – Jul 2028)
+           - Suncrest Miracle: Seasonal JAX deployment (Mar 15 – Jun 25, 2027)
            ===================================================================== */
         const itineraries = [
-            // --- EXAMPLE 1 (Copy this entire { ... } block to add another itinerary) ---
+            // ================= SUNCREST ELATION (PERMANENT JAX HOMEPORTS: NOV 2026 – JUL 2028) =================
             {
-                id: "jax-5d-example-1",
+                id: "elation-4d-olann-nassau",
+                title: "4-Day The Bahamas from Jacksonville, FL",
+                ship: "Suncrest Elation",
+                regionTag: "Bahamas • 4 Nights",
+                duration: 4,
+                basePrice: 219,
+                image: "olannisland.jpg",
+                routeText: "Jacksonville > Olann Island™ > Nassau > At Sea > Jacksonville",
+                days: [
+                    { day: "Day 1: Jacksonville, FL", time: "Departs at 3:30 PM", desc: "Board Suncrest Elation in Jacksonville and set sail for the Bahamas." },
+                    { day: "Day 2: Olann Island™", time: "12:00 PM – 6:00 PM", desc: "Afternoon in paradise at Suncrest's private island destination." },
+                    { day: "Day 3: Nassau, Bahamas", time: "8:00 AM – 4:00 PM", desc: "Explore Nassau's beaches, Straw Market, and historic harbor." },
+                    { day: "Day 4: Fun Day at Sea", time: "At Sea", desc: "Relax poolside and enjoy onboard entertainment heading north." },
+                    { day: "Day 5: Jacksonville, FL", time: "Arrives at 8:00 AM", desc: "Arrive back in Jacksonville for disembarkation." }
+                ],
+                dates: [
+                    { dateRange: "Thu, Dec 03 – Mon, Dec 07", year: "2026", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2026-12-03", prices: { interior: 219, oceanview: 269, balcony: 389, suite: 599 } },
+                    { dateRange: "Thu, Dec 17 – Mon, Dec 21", year: "2026", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2026-12-17", prices: { interior: 249, oceanview: 299, balcony: 419, suite: 649 } },
+                    { dateRange: "Thu, Jan 14 – Mon, Jan 18", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2027-01-14", prices: { interior: 219, oceanview: 269, balcony: 389, suite: 599 } },
+                    { dateRange: "Thu, Feb 11 – Mon, Feb 15", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2027-02-11", prices: { interior: 239, oceanview: 289, balcony: 409, suite: 629 } },
+                    { dateRange: "Thu, Mar 11 – Mon, Mar 15", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2027-03-11", prices: { interior: 269, oceanview: 319, balcony: 449, suite: 679 } },
+                    { dateRange: "Thu, Apr 08 – Mon, Apr 12", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2027-04-08", prices: { interior: 279, oceanview: 329, balcony: 459, suite: 689 } },
+                    { dateRange: "Thu, May 06 – Mon, May 10", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2027-05-06", prices: { interior: 259, oceanview: 309, balcony: 439, suite: 659 } },
+                    { dateRange: "Thu, Jun 03 – Mon, Jun 07", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2027-06-03", prices: { interior: 289, oceanview: 349, balcony: 479, suite: 719 } },
+                    { dateRange: "Thu, Jul 01 – Mon, Jul 05", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2027-07-01", prices: { interior: 329, oceanview: 389, balcony: 529, suite: 789 } },
+                    { dateRange: "Thu, Aug 12 – Mon, Aug 16", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2027-08-12", prices: { interior: 269, oceanview: 319, balcony: 449, suite: 679 } },
+                    { dateRange: "Thu, Sep 09 – Mon, Sep 13", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2027-09-09", prices: { interior: 229, oceanview: 279, balcony: 399, suite: 609 } },
+                    { dateRange: "Thu, Oct 07 – Mon, Oct 11", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2027-10-07", prices: { interior: 239, oceanview: 289, balcony: 409, suite: 629 } },
+                    { dateRange: "Thu, Nov 04 – Mon, Nov 08", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2027-11-04", prices: { interior: 239, oceanview: 289, balcony: 409, suite: 629 } },
+                    { dateRange: "Thu, Dec 02 – Mon, Dec 06", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2027-12-02", prices: { interior: 229, oceanview: 279, balcony: 399, suite: 609 } },
+                    { dateRange: "Thu, Jan 13 – Mon, Jan 17", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2028-01-13", prices: { interior: 229, oceanview: 279, balcony: 399, suite: 609 } },
+                    { dateRange: "Thu, Feb 10 – Mon, Feb 14", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2028-02-10", prices: { interior: 249, oceanview: 299, balcony: 419, suite: 639 } },
+                    { dateRange: "Thu, Mar 09 – Mon, Mar 13", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2028-03-09", prices: { interior: 279, oceanview: 329, balcony: 459, suite: 689 } },
+                    { dateRange: "Thu, Apr 06 – Mon, Apr 10", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2028-04-06", prices: { interior: 289, oceanview: 339, balcony: 469, suite: 699 } },
+                    { dateRange: "Thu, May 04 – Mon, May 08", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2028-05-04", prices: { interior: 269, oceanview: 319, balcony: 449, suite: 679 } },
+                    { dateRange: "Thu, Jun 01 – Mon, Jun 05", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2028-06-01", prices: { interior: 299, oceanview: 359, balcony: 489, suite: 729 } },
+                    { dateRange: "Thu, Jul 06 – Mon, Jul 10", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-olann-nassau&date=2028-07-06", prices: { interior: 329, oceanview: 389, balcony: 529, suite: 789 } }
+                ]
+            },
+            {
+                id: "elation-4d-freeport-olann",
+                title: "4-Day The Bahamas from Jacksonville, FL",
+                ship: "Suncrest Elation",
+                regionTag: "Bahamas • 4 Nights",
+                duration: 4,
+                basePrice: 214,
+                image: "freeport.jpg",
+                routeText: "Jacksonville > At Sea > Freeport > Olann Island™ > Jacksonville",
+                days: [
+                    { day: "Day 1: Jacksonville, FL", time: "Departs at 3:30 PM", desc: "Depart Jacksonville for a 4-day Bahamas getaway." },
+                    { day: "Day 2: Fun Day at Sea", time: "At Sea", desc: "Enjoy onboard pools, dining, and live shows." },
+                    { day: "Day 3: Freeport, Bahamas", time: "8:00 AM – 4:00 PM", desc: "Explore Lucaya beaches, shopping, and crystal reefs." },
+                    { day: "Day 4: Olann Island™", time: "8:00 AM – 4:00 PM", desc: "Spend a full beach day at Olann Island™." },
+                    { day: "Day 5: Jacksonville, FL", time: "Arrives at 8:00 AM", desc: "Arrive back in Jacksonville." }
+                ],
+                dates: [
+                    { dateRange: "Thu, Jan 28 – Mon, Feb 01", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2027-01-28", prices: { interior: 214, oceanview: 264, balcony: 379, suite: 589 } },
+                    { dateRange: "Thu, Feb 25 – Mon, Mar 01", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2027-02-25", prices: { interior: 234, oceanview: 284, balcony: 399, suite: 619 } },
+                    { dateRange: "Thu, Mar 25 – Mon, Mar 29", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2027-03-25", prices: { interior: 264, oceanview: 314, balcony: 439, suite: 669 } },
+                    { dateRange: "Thu, Apr 22 – Mon, Apr 26", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2027-04-22", prices: { interior: 269, oceanview: 319, balcony: 449, suite: 679 } },
+                    { dateRange: "Thu, May 20 – Mon, May 24", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2027-05-20", prices: { interior: 259, oceanview: 309, balcony: 439, suite: 659 } },
+                    { dateRange: "Thu, Jun 17 – Mon, Jun 21", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2027-06-17", prices: { interior: 299, oceanview: 359, balcony: 489, suite: 729 } },
+                    { dateRange: "Thu, Jul 15 – Mon, Jul 19", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2027-07-15", prices: { interior: 309, oceanview: 369, balcony: 499, suite: 749 } },
+                    { dateRange: "Thu, Aug 26 – Mon, Aug 30", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2027-08-26", prices: { interior: 249, oceanview: 299, balcony: 419, suite: 639 } },
+                    { dateRange: "Thu, Sep 23 – Mon, Sep 27", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2027-09-23", prices: { interior: 219, oceanview: 269, balcony: 389, suite: 599 } },
+                    { dateRange: "Thu, Oct 21 – Mon, Oct 25", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2027-10-21", prices: { interior: 229, oceanview: 279, balcony: 399, suite: 609 } },
+                    { dateRange: "Thu, Nov 18 – Mon, Nov 22", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2027-11-18", prices: { interior: 249, oceanview: 299, balcony: 419, suite: 639 } },
+                    { dateRange: "Thu, Dec 16 – Mon, Dec 20", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2027-12-16", prices: { interior: 249, oceanview: 299, balcony: 419, suite: 649 } },
+                    { dateRange: "Thu, Jan 27 – Mon, Jan 31", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2028-01-27", prices: { interior: 219, oceanview: 269, balcony: 389, suite: 599 } },
+                    { dateRange: "Thu, Feb 24 – Mon, Feb 28", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2028-02-24", prices: { interior: 239, oceanview: 289, balcony: 409, suite: 629 } },
+                    { dateRange: "Thu, Mar 23 – Mon, Mar 27", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2028-03-23", prices: { interior: 269, oceanview: 319, balcony: 449, suite: 679 } },
+                    { dateRange: "Thu, Apr 20 – Mon, Apr 24", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2028-04-20", prices: { interior: 279, oceanview: 329, balcony: 459, suite: 689 } },
+                    { dateRange: "Thu, May 18 – Mon, May 22", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2028-05-18", prices: { interior: 269, oceanview: 319, balcony: 449, suite: 679 } },
+                    { dateRange: "Thu, Jun 15 – Mon, Jun 19", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2028-06-15", prices: { interior: 309, oceanview: 369, balcony: 499, suite: 749 } },
+                    { dateRange: "Thu, Jul 20 – Mon, Jul 24", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-4d-freeport-olann&date=2028-07-20", prices: { interior: 319, oceanview: 379, balcony: 519, suite: 769 } }
+                ]
+            },
+            {
+                id: "elation-5d-olann-empress",
                 title: "5-Day The Bahamas from Jacksonville, FL",
                 ship: "Suncrest Elation",
+                regionTag: "Bahamas • 5 Nights",
                 duration: 5,
-                basePrice: 214,
-                image: "olannisland.jpg", // Replace with your .jpg filename
-                routeText: "Start: Jacksonville > Olann Island™ > Empress Cays® > End: Jacksonville",
-                
-                // Day-by-Day Breakdown (Shown when clicking "View Itinerary")
+                basePrice: 264,
+                image: "empresscays.jpg",
+                routeText: "Jacksonville > At Sea > Olann Island™ > Empress Cays® > At Sea > Jacksonville",
                 days: [
-                    { day: "Day 1: Jacksonville, FL", time: "Departs at 3:30 PM", desc: "Board your Suncrest ship in Jacksonville and kick off your vacation." },
-                    { day: "Day 2: Fun Day at Sea", time: "At Sea", desc: "Enjoy onboard pools, dining, entertainment, and ocean views." },
-                    { day: "Day 3: Olann Island™", time: "8:00 AM - 4:00 PM", desc: "Relax on white-sand beaches and explore private island attractions." },
-                    { day: "Day 4: Empress Cays®", time: "8:00 AM - 4:00 PM", desc: "Swim in crystal-clear turquoise lagoons and enjoy beachside dining." },
-                    { day: "Day 5: Fun Day at Sea", time: "At Sea", desc: "Unwind at the spa or catch a show on your final day at sea." },
-                    { day: "Day 6: Jacksonville, FL", time: "Arrives at 8:00 AM", desc: "Return to Jacksonville for disembarkation." }
+                    { day: "Day 1: Jacksonville, FL", time: "Departs at 3:30 PM", desc: "Board Suncrest Elation in Jacksonville and begin your 5-day private island cruise." },
+                    { day: "Day 2: Fun Day at Sea", time: "At Sea", desc: "Enjoy pools, waterslides, dining, and live entertainment." },
+                    { day: "Day 3: Olann Island™", time: "8:00 AM – 4:00 PM", desc: "Relax on white-sand beaches and explore private island attractions." },
+                    { day: "Day 4: Empress Cays®", time: "8:00 AM – 4:00 PM", desc: "Swim in turquoise lagoons and enjoy beachside dining." },
+                    { day: "Day 5: Fun Day at Sea", time: "At Sea", desc: "Unwind onboard as we cruise north toward Jacksonville." },
+                    { day: "Day 6: Jacksonville, FL", time: "Arrives at 8:00 AM", desc: "Arrive back in Jacksonville." }
                 ],
-
-                // Your Exact Calendar Dates & Cabin Prices (Shown when clicking "Show Dates")
-                // Note: Set any price to null (e.g. balcony: null) to display "Sold Out"
                 dates: [
-                    {
-                        dateRange: "Mon, Dec 21 - Sat, Dec 26",
-                        year: "2026",
-                        bookingLink: "booking.html?id=jax-5d-example-1&date=2026-12-21",
-                        prices: { interior: 536, oceanview: 586, balcony: 1076, suite: 1299 }
-                    },
-                    {
-                        dateRange: "Mon, Jan 18 - Sat, Jan 23",
-                        year: "2027",
-                        bookingLink: "booking.html?id=jax-5d-example-1&date=2027-01-18",
-                        prices: { interior: 214, oceanview: 284, balcony: 644, suite: 949 }
-                    },
-                    {
-                        dateRange: "Mon, Feb 15 - Sat, Feb 20",
-                        year: "2027",
-                        bookingLink: "booking.html?id=jax-5d-example-1&date=2027-02-15",
-                        prices: { interior: 324, oceanview: 474, balcony: 884, suite: 1189 }
-                    }
+                    { dateRange: "Mon, Dec 07 – Sat, Dec 12", year: "2026", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2026-12-07", prices: { interior: 264, oceanview: 319, balcony: 469, suite: 719 } },
+                    { dateRange: "Mon, Dec 21 – Sat, Dec 26", year: "2026", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2026-12-21", prices: { interior: 489, oceanview: 559, balcony: 899, suite: 1249 } },
+                    { dateRange: "Mon, Jan 18 – Sat, Jan 23", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2027-01-18", prices: { interior: 264, oceanview: 319, balcony: 469, suite: 719 } },
+                    { dateRange: "Mon, Feb 15 – Sat, Feb 20", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2027-02-15", prices: { interior: 299, oceanview: 359, balcony: 519, suite: 789 } },
+                    { dateRange: "Mon, Mar 15 – Sat, Mar 20", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2027-03-15", prices: { interior: 339, oceanview: 399, balcony: 569, suite: 849 } },
+                    { dateRange: "Mon, Apr 12 – Sat, Apr 17", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2027-04-12", prices: { interior: 349, oceanview: 409, balcony: 579, suite: 869 } },
+                    { dateRange: "Mon, May 10 – Sat, May 15", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2027-05-10", prices: { interior: 329, oceanview: 389, balcony: 549, suite: 829 } },
+                    { dateRange: "Mon, Jun 07 – Sat, Jun 12", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2027-06-07", prices: { interior: 369, oceanview: 439, balcony: 609, suite: 899 } },
+                    { dateRange: "Mon, Jul 05 – Sat, Jul 10", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2027-07-05", prices: { interior: 399, oceanview: 469, balcony: 649, suite: 959 } },
+                    { dateRange: "Mon, Aug 16 – Sat, Aug 21", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2027-08-16", prices: { interior: 329, oceanview: 389, balcony: 549, suite: 829 } },
+                    { dateRange: "Mon, Sep 13 – Sat, Sep 18", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2027-09-13", prices: { interior: 279, oceanview: 339, balcony: 489, suite: 749 } },
+                    { dateRange: "Mon, Oct 11 – Sat, Oct 16", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2027-10-11", prices: { interior: 289, oceanview: 349, balcony: 499, suite: 759 } },
+                    { dateRange: "Mon, Nov 08 – Sat, Nov 13", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2027-11-08", prices: { interior: 289, oceanview: 349, balcony: 499, suite: 759 } },
+                    { dateRange: "Mon, Dec 06 – Sat, Dec 11", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2027-12-06", prices: { interior: 279, oceanview: 339, balcony: 489, suite: 749 } },
+                    { dateRange: "Mon, Jan 17 – Sat, Jan 22", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2028-01-17", prices: { interior: 279, oceanview: 339, balcony: 489, suite: 749 } },
+                    { dateRange: "Mon, Feb 14 – Sat, Feb 19", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2028-02-14", prices: { interior: 309, oceanview: 369, balcony: 529, suite: 799 } },
+                    { dateRange: "Mon, Mar 13 – Sat, Mar 18", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2028-03-13", prices: { interior: 349, oceanview: 409, balcony: 579, suite: 869 } },
+                    { dateRange: "Mon, Apr 10 – Sat, Apr 15", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2028-04-10", prices: { interior: 359, oceanview: 419, balcony: 589, suite: 879 } },
+                    { dateRange: "Mon, May 08 – Sat, May 13", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2028-05-08", prices: { interior: 339, oceanview: 399, balcony: 569, suite: 849 } },
+                    { dateRange: "Mon, Jun 05 – Sat, Jun 10", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2028-06-05", prices: { interior: 379, oceanview: 449, balcony: 619, suite: 919 } },
+                    { dateRange: "Mon, Jul 10 – Sat, Jul 15", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-olann-empress&date=2028-07-10", prices: { interior: 409, oceanview: 479, balcony: 659, suite: 979 } }
+                ]
+            },
+            {
+                id: "elation-5d-nassau-atlantis",
+                title: "5-Day The Bahamas from Jacksonville, FL",
+                ship: "Suncrest Elation",
+                regionTag: "Bahamas • 5 Nights",
+                duration: 5,
+                basePrice: 274,
+                image: "unsunkencityofatlantis.jpg",
+                routeText: "Jacksonville > At Sea > Nassau > Unsunken City of Atlantis® > At Sea > Jacksonville",
+                days: [
+                    { day: "Day 1: Jacksonville, FL", time: "Departs at 3:30 PM", desc: "Depart Jacksonville for Nassau and the Unsunken City of Atlantis®." },
+                    { day: "Day 2: Fun Day at Sea", time: "At Sea", desc: "Cruise south through the Atlantic Ocean." },
+                    { day: "Day 3: Nassau, Bahamas", time: "8:00 AM – 5:00 PM", desc: "Full day in Nassau for beaches, sightseeing, and local cuisine." },
+                    { day: "Day 4: Unsunken City of Atlantis®", time: "8:00 AM – 4:00 PM", desc: "Explore Suncrest's signature aquatic adventure destination." },
+                    { day: "Day 5: Fun Day at Sea", time: "At Sea", desc: "Enjoy a relaxing sea day heading home." },
+                    { day: "Day 6: Jacksonville, FL", time: "Arrives at 8:00 AM", desc: "Arrive back in Jacksonville." }
+                ],
+                dates: [
+                    { dateRange: "Sat, Dec 26 – Thu, Dec 31", year: "2026", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2026-12-26", prices: { interior: 519, oceanview: 589, balcony: 929, suite: 1299 } },
+                    { dateRange: "Mon, Feb 01 – Sat, Feb 06", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2027-02-01", prices: { interior: 274, oceanview: 329, balcony: 479, suite: 739 } },
+                    { dateRange: "Mon, Mar 01 – Sat, Mar 06", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2027-03-01", prices: { interior: 319, oceanview: 379, balcony: 539, suite: 809 } },
+                    { dateRange: "Mon, Mar 29 – Sat, Apr 03", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2027-03-29", prices: { interior: 349, oceanview: 409, balcony: 579, suite: 869 } },
+                    { dateRange: "Mon, Apr 26 – Sat, May 01", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2027-04-26", prices: { interior: 339, oceanview: 399, balcony: 569, suite: 849 } },
+                    { dateRange: "Mon, May 24 – Sat, May 29", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2027-05-24", prices: { interior: 349, oceanview: 409, balcony: 579, suite: 869 } },
+                    { dateRange: "Mon, Jun 21 – Sat, Jun 26", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2027-06-21", prices: { interior: 389, oceanview: 459, balcony: 629, suite: 929 } },
+                    { dateRange: "Mon, Jul 19 – Sat, Jul 24", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2027-07-19", prices: { interior: 399, oceanview: 469, balcony: 649, suite: 959 } },
+                    { dateRange: "Mon, Aug 30 – Sat, Sep 04", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2027-08-30", prices: { interior: 309, oceanview: 369, balcony: 529, suite: 799 } },
+                    { dateRange: "Mon, Sep 27 – Sat, Oct 02", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2027-09-27", prices: { interior: 279, oceanview: 339, balcony: 489, suite: 749 } },
+                    { dateRange: "Mon, Oct 25 – Sat, Oct 30", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2027-10-25", prices: { interior: 289, oceanview: 349, balcony: 499, suite: 759 } },
+                    { dateRange: "Mon, Nov 22 – Sat, Nov 27", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2027-11-22", prices: { interior: 379, oceanview: 449, balcony: 619, suite: 919 } },
+                    { dateRange: "Mon, Dec 20 – Sat, Dec 25", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2027-12-20", prices: { interior: 499, oceanview: 569, balcony: 909, suite: 1269 } },
+                    { dateRange: "Mon, Jan 31 – Sat, Feb 05", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2028-01-31", prices: { interior: 284, oceanview: 339, balcony: 489, suite: 749 } },
+                    { dateRange: "Mon, Feb 28 – Sat, Mar 04", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2028-02-28", prices: { interior: 329, oceanview: 389, balcony: 549, suite: 829 } },
+                    { dateRange: "Mon, Mar 27 – Sat, Apr 01", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2028-03-27", prices: { interior: 359, oceanview: 419, balcony: 589, suite: 879 } },
+                    { dateRange: "Mon, Apr 24 – Sat, Apr 29", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2028-04-24", prices: { interior: 349, oceanview: 409, balcony: 579, suite: 869 } },
+                    { dateRange: "Mon, May 22 – Sat, May 27", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2028-05-22", prices: { interior: 359, oceanview: 419, balcony: 589, suite: 879 } },
+                    { dateRange: "Mon, Jun 19 – Sat, Jun 24", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2028-06-19", prices: { interior: 399, oceanview: 469, balcony: 649, suite: 959 } },
+                    { dateRange: "Mon, Jul 24 – Sat, Jul 29", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-5d-nassau-atlantis&date=2028-07-24", prices: { interior: 409, oceanview: 479, balcony: 659, suite: 979 } }
+                ]
+            },
+            {
+                id: "elation-6d-keywest-bahamas",
+                title: "6-Day The Bahamas & Key West from Jacksonville, FL",
+                ship: "Suncrest Elation",
+                regionTag: "Bahamas • 6 Nights",
+                duration: 6,
+                basePrice: 349,
+                image: "keywest.jpg",
+                routeText: "Jacksonville > At Sea > Key West > Nassau > Olann Island™ > At Sea > Jacksonville",
+                days: [
+                    { day: "Day 1: Jacksonville, FL", time: "Departs at 3:30 PM", desc: "Depart Jacksonville for an extended 6-day Bahamas & Key West voyage." },
+                    { day: "Day 2: Fun Day at Sea", time: "At Sea", desc: "Cruise south along Florida's Atlantic coast." },
+                    { day: "Day 3: Key West, FL", time: "8:00 AM – 4:00 PM", desc: "Explore Duval Street, Mallory Square, and historic Key West." },
+                    { day: "Day 4: Nassau, Bahamas", time: "8:00 AM – 5:00 PM", desc: "Visit Nassau's beaches, resorts, and downtown harbor." },
+                    { day: "Day 5: Olann Island™", time: "8:00 AM – 4:00 PM", desc: "Relax on Suncrest's private island paradise." },
+                    { day: "Day 6: Fun Day at Sea", time: "At Sea", desc: "Final sea day heading back to Jacksonville." },
+                    { day: "Day 7: Jacksonville, FL", time: "Arrives at 8:00 AM", desc: "Arrive back in Jacksonville." }
+                ],
+                dates: [
+                    { dateRange: "Sun, Jan 03 – Sat, Jan 09", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-6d-keywest-bahamas&date=2027-01-03", prices: { interior: 349, oceanview: 419, balcony: 589, suite: 879 } },
+                    { dateRange: "Sun, Jul 25 – Sat, Jul 31", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-6d-keywest-bahamas&date=2027-07-25", prices: { interior: 439, oceanview: 519, balcony: 719, suite: 1049 } },
+                    { dateRange: "Sun, Aug 01 – Sat, Aug 07", year: "2027", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-6d-keywest-bahamas&date=2027-08-01", prices: { interior: 419, oceanview: 499, balcony: 689, suite: 999 } },
+                    { dateRange: "Sun, Jan 02 – Sat, Jan 08", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-6d-keywest-bahamas&date=2028-01-02", prices: { interior: 359, oceanview: 429, balcony: 599, suite: 889 } },
+                    { dateRange: "Sun, Jun 25 – Sat, Jul 01", year: "2028", bookingLink: "booking.html?ship=Suncrest+Elation&id=elation-6d-keywest-bahamas&date=2028-06-25", prices: { interior: 449, oceanview: 529, balcony: 729, suite: 1069 } }
                 ]
             },
 
-            // --- EXAMPLE 2 ---
+            // ================= SUNCREST MIRACLE (MAR 15 – JUN 25, 2027) =================
             {
-                id: "jax-4d-example-2",
-                title: "4-Day The Bahamas from Jacksonville, FL",
-                ship: "Suncrest Elation",
-                duration: 4,
-                basePrice: 276,
-                image: "nassau.jpg", // Replace with your .jpg filename
-                routeText: "Start: Jacksonville > Olann Island™ > Nassau > End: Jacksonville",
-                
+                id: "miracle-6d-eastern-caribbean",
+                title: "6-Day Eastern Caribbean from Jacksonville, FL",
+                ship: "Suncrest Miracle",
+                regionTag: "Eastern Caribbean • 6 Nights",
+                duration: 6,
+                basePrice: 389,
+                image: "emerald-bay.jpg",
+                routeText: "Jacksonville > At Sea > Grand Turk > Emerald Bay > At Sea > At Sea > Jacksonville",
                 days: [
-                    { day: "Day 1: Jacksonville, FL", time: "Departs at 3:30 PM", desc: "Set sail from Jacksonville." },
-                    { day: "Day 2: Olann Island™", time: "12:00 PM - 6:00 PM", desc: "Afternoon in paradise at Olann Island™." },
-                    { day: "Day 3: Nassau, Bahamas", time: "8:00 AM - 4:00 PM", desc: "Explore Nassau's vibrant culture, markets, and beaches." },
-                    { day: "Day 4: Fun Day at Sea", time: "At Sea", desc: "Relax onboard as we cruise back toward Florida." },
-                    { day: "Day 5: Jacksonville, FL", time: "Arrives at 8:00 AM", desc: "Arrive back in Jacksonville." }
+                    { day: "Day 1: Jacksonville, FL", time: "Depart 3:00 PM (20 kts)", desc: "Sail out of Jacksonville at 3:00 PM cruising at 20 knots." },
+                    { day: "Day 2: At Sea", time: "Cruising Atlantic Ocean", desc: "Full day at sea heading south through the Atlantic Ocean." },
+                    { day: "Day 3: Grand Turk, Turks & Caicos", time: "7:00 AM – 5:00 PM (760 NM / 38 hrs)", desc: "Arrive in Grand Turk after a 760 NM / 38-hour run." },
+                    { day: "Day 4: Emerald Bay, Dominican Republic", time: "8:00 AM – 4:00 PM (105 NM overnight / 8 kts)", desc: "Overnight 105 NM glide at 8 knots into Emerald Bay." },
+                    { day: "Day 5: At Sea", time: "845 NM return leg begins / 19.5 kts", desc: "Begin the 845 NM northbound return leg at 19.5 knots." },
+                    { day: "Day 6: At Sea", time: "Cruising past Bahamas", desc: "Continue northbound cruising past the Bahamas." },
+                    { day: "Day 7: Jacksonville, FL", time: "Arrive 7:00 AM", desc: "Arrive back in Jacksonville at 7:00 AM." }
                 ],
-
                 dates: [
                     {
-                        dateRange: "Sun, Nov 29 - Thu, Dec 03",
-                        year: "2026",
-                        bookingLink: "booking.html?id=jax-4d-example-2&date=2026-11-29",
-                        prices: { interior: 276, oceanview: 326, balcony: null, suite: 890 }
+                        dateRange: "Mon, Mar 15 – Sun, Mar 21",
+                        year: "2027",
+                        bookingLink: "booking.html?ship=Suncrest+Miracle&id=miracle-6d-eastern-caribbean&date=2027-03-15",
+                        prices: { interior: 389, oceanview: 459, balcony: 629, suite: 949 }
                     },
                     {
-                        dateRange: "Sun, Nov 28 - Thu, Dec 02",
+                        dateRange: "Wed, May 05 – Tue, May 11",
                         year: "2027",
-                        bookingLink: "booking.html?id=jax-4d-example-2&date=2027-11-28",
-                        prices: { interior: 370, oceanview: 460, balcony: 800, suite: 1090 }
+                        bookingLink: "booking.html?ship=Suncrest+Miracle&id=miracle-6d-eastern-caribbean&date=2027-05-05",
+                        prices: { interior: 409, oceanview: 479, balcony: 649, suite: 979 }
+                    }
+                ]
+            },
+            {
+                id: "miracle-7d-western-mexico",
+                title: "7-Day Western Caribbean from Jacksonville, FL",
+                ship: "Suncrest Miracle",
+                regionTag: "Western Caribbean (Mexico) • 7 Nights",
+                duration: 7,
+                basePrice: 449,
+                image: "cozumel.jpg",
+                routeText: "Jacksonville > At Sea > At Sea > Cozumel > Progreso > At Sea > At Sea > Jacksonville",
+                days: [
+                    { day: "Day 1: Jacksonville, FL", time: "Depart 3:00 PM (19.5 kts)", desc: "Depart Jacksonville at 3:00 PM at 19.5 knots." },
+                    { day: "Day 2: At Sea", time: "Cruising Straits of Florida", desc: "Cruise along the Straits of Florida." },
+                    { day: "Day 3: At Sea", time: "Entering Gulf of Mexico", desc: "Enter the Gulf of Mexico en route to Mexico." },
+                    { day: "Day 4: Cozumel, Mexico", time: "10:30 AM – 8:00 PM (840 NM / 43 hrs)", desc: "Arrive in Cozumel after an 840 NM / 43-hour crossing." },
+                    { day: "Day 5: Progreso (Yucatán), Mexico", time: "10:00 AM – 6:00 PM (260 NM overnight / 18.5 kts)", desc: "260 NM overnight transit at 18.5 knots to Progreso." },
+                    { day: "Day 6: At Sea", time: "860 NM return leg begins / 19.5 kts", desc: "Start the 860 NM return journey at 19.5 knots." },
+                    { day: "Day 7: At Sea", time: "Cruising Atlantic coast", desc: "Cruise north along the coast toward Florida." },
+                    { day: "Day 8: Jacksonville, FL", time: "Arrive 7:00 AM", desc: "Arrive in Jacksonville at 7:00 AM." }
+                ],
+                dates: [
+                    {
+                        dateRange: "Sun, Mar 21 – Sun, Mar 28",
+                        year: "2027",
+                        bookingLink: "booking.html?ship=Suncrest+Miracle&id=miracle-7d-western-mexico&date=2027-03-21",
+                        prices: { interior: 449, oceanview: 529, balcony: 719, suite: 1069 }
+                    },
+                    {
+                        dateRange: "Tue, May 11 – Tue, May 18",
+                        year: "2027",
+                        bookingLink: "booking.html?ship=Suncrest+Miracle&id=miracle-7d-western-mexico&date=2027-05-11",
+                        prices: { interior: 469, oceanview: 549, balcony: 739, suite: 1099 }
+                    }
+                ]
+            },
+            {
+                id: "miracle-8d-eastern-caribbean",
+                title: "8-Day Eastern Caribbean from Jacksonville, FL",
+                ship: "Suncrest Miracle",
+                regionTag: "Eastern Caribbean • 8 Nights",
+                duration: 8,
+                basePrice: 519,
+                image: "grand-turk.jpg",
+                routeText: "Jacksonville > At Sea > Grand Turk > Emerald Bay > At Sea > Key West > At Sea > At Sea > Jacksonville",
+                days: [
+                    { day: "Day 1: Jacksonville, FL", time: "Depart 3:00 PM (19.5 kts)", desc: "Depart Jacksonville at 3:00 PM at 19.5 knots." },
+                    { day: "Day 2: At Sea", time: "Cruising Atlantic Ocean", desc: "Enjoy sea day activities in the Atlantic Ocean." },
+                    { day: "Day 3: Grand Turk, Turks & Caicos", time: "7:30 AM – 5:00 PM (760 NM / 39 hrs)", desc: "Arrive in Grand Turk after a 760 NM / 39-hour run." },
+                    { day: "Day 4: Emerald Bay, Dominican Republic", time: "8:00 AM – 4:00 PM (105 NM overnight / 8 kts)", desc: "105 NM overnight run at 8 knots into Emerald Bay." },
+                    { day: "Day 5: At Sea", time: "Transiting Old Bahama Channel / 19.5 kts", desc: "Transit the Old Bahama Channel at 19.5 knots." },
+                    { day: "Day 6: Key West, FL", time: "8:00 AM – 4:00 PM (725 NM / 37 hrs)", desc: "Call at Key West after a 725 NM / 37-hour leg." },
+                    { day: "Day 7: At Sea", time: "470 NM final leg north / 18 kts", desc: "Begin the 470 NM final leg north at 18 knots." },
+                    { day: "Day 8: At Sea", time: "Cruising Florida east coast", desc: "Cruise up Florida's east coast." },
+                    { day: "Day 9: Jacksonville, FL", time: "Arrive 7:00 AM", desc: "Arrive back in Jacksonville at 7:00 AM." }
+                ],
+                dates: [
+                    {
+                        dateRange: "Sun, Mar 28 – Mon, Apr 05",
+                        year: "2027",
+                        bookingLink: "booking.html?ship=Suncrest+Miracle&id=miracle-8d-eastern-caribbean&date=2027-03-28",
+                        prices: { interior: 519, oceanview: 599, balcony: 799, suite: 1179 }
+                    },
+                    {
+                        dateRange: "Thu, Jun 03 – Fri, Jun 11",
+                        year: "2027",
+                        bookingLink: "booking.html?ship=Suncrest+Miracle&id=miracle-8d-eastern-caribbean&date=2027-06-03",
+                        prices: { interior: 549, oceanview: 629, balcony: 839, suite: 1229 }
+                    }
+                ]
+            },
+            {
+                id: "miracle-6d-western-caribbean",
+                title: "6-Day Western Caribbean from Jacksonville, FL",
+                ship: "Suncrest Miracle",
+                regionTag: "Western Caribbean • 6 Nights",
+                duration: 6,
+                basePrice: 399,
+                image: "key-west.jpg",
+                routeText: "Jacksonville > At Sea > Key West > Cozumel > At Sea > At Sea > Jacksonville",
+                days: [
+                    { day: "Day 1: Jacksonville, FL", time: "Depart 3:00 PM (19 kts)", desc: "Depart Jacksonville at 3:00 PM at 19 knots." },
+                    { day: "Day 2: At Sea", time: "Cruising Florida east coast", desc: "Cruise south along the Florida east coast." },
+                    { day: "Day 3: Key West, FL", time: "7:00 AM – 2:30 PM (470 NM / 25 hrs)", desc: "Visit Key West after a 470 NM / 25-hour run." },
+                    { day: "Day 4: Cozumel, Mexico", time: "11:30 AM – 8:00 PM (385 NM sprint / 19.5 kts)", desc: "385 NM sprint at 19.5 knots into Cozumel." },
+                    { day: "Day 5: At Sea", time: "840 NM return leg begins / 19.5 kts", desc: "Start the 840 NM return leg at 19.5 knots." },
+                    { day: "Day 6: At Sea", time: "Passing Florida Straits", desc: "Pass through the Florida Straits northbound." },
+                    { day: "Day 7: Jacksonville, FL", time: "Arrive 7:00 AM", desc: "Arrive in Jacksonville at 7:00 AM." }
+                ],
+                dates: [
+                    {
+                        dateRange: "Mon, Apr 05 – Sun, Apr 11",
+                        year: "2027",
+                        bookingLink: "booking.html?ship=Suncrest+Miracle&id=miracle-6d-western-caribbean&date=2027-04-05",
+                        prices: { interior: 399, oceanview: 469, balcony: 639, suite: 959 }
+                    },
+                    {
+                        dateRange: "Fri, Jun 11 – Thu, Jun 17",
+                        year: "2027",
+                        bookingLink: "booking.html?ship=Suncrest+Miracle&id=miracle-6d-western-caribbean&date=2027-06-11",
+                        prices: { interior: 429, oceanview: 499, balcony: 679, suite: 999 }
+                    }
+                ]
+            },
+            {
+                id: "miracle-9d-eastern-caribbean",
+                title: "9-Day Eastern Caribbean from Jacksonville, FL",
+                ship: "Suncrest Miracle",
+                regionTag: "Eastern Caribbean • 9 Nights",
+                duration: 9,
+                basePrice: 599,
+                image: "san-juan.jpg",
+                routeText: "Jacksonville > At Sea > At Sea > San Juan > St. Thomas > Grand Turk > At Sea > At Sea > At Sea > Jacksonville",
+                days: [
+                    { day: "Day 1: Jacksonville, FL", time: "Depart 3:00 PM (20.5 kts)", desc: "Depart Jacksonville at 3:00 PM at 20.5 knots." },
+                    { day: "Day 2: At Sea", time: "Open Atlantic transit", desc: "Open Atlantic Ocean transit." },
+                    { day: "Day 3: At Sea", time: "Approaching Puerto Rico Trench", desc: "Approach the Puerto Rico Trench." },
+                    { day: "Day 4: San Juan, Puerto Rico", time: "7:00 AM – 4:00 PM (1,130 NM / 55 hrs)", desc: "Arrive in San Juan after a 1,130 NM / 55-hour crossing." },
+                    { day: "Day 5: Charlotte Amalie, St. Thomas", time: "7:00 AM – 3:00 PM (75 NM overnight / 10 kts)", desc: "Short 75 NM overnight run at 10 knots to St. Thomas." },
+                    { day: "Day 6: Grand Turk, Turks & Caicos", time: "1:00 PM – 7:00 PM (430 NM sprint / 20 kts)", desc: "430 NM sprint at 20 knots to Grand Turk." },
+                    { day: "Day 7: At Sea", time: "760 NM return leg begins / 19.5 kts", desc: "Begin the 760 NM return leg at 19.5 knots." },
+                    { day: "Day 8: At Sea", time: "Cruising past Bahamas", desc: "Cruise past the Bahamas northbound." },
+                    { day: "Day 9: At Sea", time: "Final sea day heading north", desc: "Final day at sea heading north to Florida." },
+                    { day: "Day 10: Jacksonville, FL", time: "Arrive 7:00 AM", desc: "Arrive in Jacksonville at 7:00 AM." }
+                ],
+                dates: [
+                    {
+                        dateRange: "Sun, Apr 11 – Tue, Apr 20",
+                        year: "2027",
+                        bookingLink: "booking.html?ship=Suncrest+Miracle&id=miracle-9d-eastern-caribbean&date=2027-04-11",
+                        prices: { interior: 599, oceanview: 689, balcony: 899, suite: 1329 }
+                    },
+                    {
+                        dateRange: "Tue, May 18 – Thu, May 27",
+                        year: "2027",
+                        bookingLink: "booking.html?ship=Suncrest+Miracle&id=miracle-9d-eastern-caribbean&date=2027-05-18",
+                        prices: { interior: 619, oceanview: 709, balcony: 929, suite: 1369 }
+                    }
+                ]
+            },
+            {
+                id: "miracle-7d-western-cayman-jamaica",
+                title: "7-Day Western Caribbean from Jacksonville, FL",
+                ship: "Suncrest Miracle",
+                regionTag: "Western Caribbean (Cayman & Jamaica) • 7 Nights",
+                duration: 7,
+                basePrice: 459,
+                image: "grand-cayman.jpg",
+                routeText: "Jacksonville > At Sea > At Sea > Grand Cayman > Ocho Rios > At Sea > At Sea > Jacksonville",
+                days: [
+                    { day: "Day 1: Jacksonville, FL", time: "Depart 3:00 PM (20 kts)", desc: "Depart Jacksonville at 3:00 PM at 20 knots." },
+                    { day: "Day 2: At Sea", time: "Cruising past Bahamas", desc: "Cruise south past the Bahamas." },
+                    { day: "Day 3: At Sea", time: "Rounding western tip of Cuba", desc: "Round the western tip of Cuba." },
+                    { day: "Day 4: George Town, Grand Cayman", time: "9:00 AM – 5:30 PM (850 NM / 42.5 hrs — Tender port)", desc: "Tender ashore in Grand Cayman after 850 NM / 42.5 hours." },
+                    { day: "Day 5: Ocho Rios, Jamaica", time: "8:30 AM – 4:30 PM (265 NM overnight / 17.5 kts)", desc: "265 NM overnight run at 17.5 knots to Ocho Rios." },
+                    { day: "Day 6: At Sea", time: "940 NM return via Windward Passage / 20 kts", desc: "940 NM return leg via Windward Passage at 20 knots." },
+                    { day: "Day 7: At Sea", time: "Cruising Atlantic coast", desc: "Cruise north along the Atlantic coast." },
+                    { day: "Day 8: Jacksonville, FL", time: "Arrive 7:00 AM", desc: "Arrive in Jacksonville at 7:00 AM." }
+                ],
+                dates: [
+                    {
+                        dateRange: "Tue, Apr 20 – Tue, Apr 27",
+                        year: "2027",
+                        bookingLink: "booking.html?ship=Suncrest+Miracle&id=miracle-7d-western-cayman-jamaica&date=2027-04-20",
+                        prices: { interior: 459, oceanview: 539, balcony: 729, suite: 1079 }
+                    },
+                    {
+                        dateRange: "Thu, May 27 – Thu, Jun 03",
+                        year: "2027",
+                        bookingLink: "booking.html?ship=Suncrest+Miracle&id=miracle-7d-western-cayman-jamaica&date=2027-05-27",
+                        prices: { interior: 479, oceanview: 559, balcony: 759, suite: 1119 }
+                    }
+                ]
+            },
+            {
+                id: "miracle-8d-western-caribbean",
+                title: "8-Day Western Caribbean from Jacksonville, FL",
+                ship: "Suncrest Miracle",
+                regionTag: "Western Caribbean • 8 Nights",
+                duration: 8,
+                basePrice: 529,
+                image: "montego-bay.jpg",
+                routeText: "Jacksonville > At Sea > At Sea > Grand Cayman > Montego Bay > At Sea > Key West > At Sea > Jacksonville",
+                days: [
+                    { day: "Day 1: Jacksonville, FL", time: "Depart 3:00 PM (20 kts)", desc: "Depart Jacksonville at 3:00 PM at 20 knots." },
+                    { day: "Day 2: At Sea", time: "Cruising past Bahamas", desc: "Cruise south past the Bahamas." },
+                    { day: "Day 3: At Sea", time: "Rounding western tip of Cuba", desc: "Round the western tip of Cuba." },
+                    { day: "Day 4: George Town, Grand Cayman", time: "9:00 AM – 6:00 PM (850 NM / 42.5 hrs)", desc: "Arrive in Grand Cayman after 850 NM / 42.5 hours." },
+                    { day: "Day 5: Montego Bay, Jamaica", time: "8:00 AM – 4:00 PM (210 NM overnight / 15 kts)", desc: "210 NM overnight run at 15 knots to Montego Bay." },
+                    { day: "Day 6: At Sea", time: "625 NM sprint through Windward Passage / 20 kts", desc: "625 NM sprint through the Windward Passage at 20 knots." },
+                    { day: "Day 7: Key West, FL", time: "8:00 AM – 3:00 PM (Morning arrival; 470 NM final leg)", desc: "Morning call in Key West ahead of the 470 NM final leg." },
+                    { day: "Day 8: At Sea", time: "Cruising Florida east coast", desc: "Cruise up the Florida east coast." },
+                    { day: "Day 9: Jacksonville, FL", time: "Arrive 7:00 AM", desc: "Arrive back in Jacksonville at 7:00 AM." }
+                ],
+                dates: [
+                    {
+                        dateRange: "Tue, Apr 27 – Wed, May 05",
+                        year: "2027",
+                        bookingLink: "booking.html?ship=Suncrest+Miracle&id=miracle-8d-western-caribbean&date=2027-04-27",
+                        prices: { interior: 529, oceanview: 609, balcony: 819, suite: 1199 }
+                    },
+                    {
+                        dateRange: "Thu, Jun 17 – Fri, Jun 25",
+                        year: "2027",
+                        bookingLink: "booking.html?ship=Suncrest+Miracle&id=miracle-8d-western-caribbean&date=2027-06-17",
+                        prices: { interior: 559, oceanview: 639, balcony: 849, suite: 1249 }
                     }
                 ]
             }
         ];
 
         /* =====================================================================
-           RENDER & INTERACTION LOGIC (No edits needed below)
+           RENDER & MODAL LOGIC
            ===================================================================== */
-
-        // Populate Ship Dropdown dynamically from your itineraries
         function populateShipFilter() {
             const shipSelect = document.getElementById('filterShip');
             const uniqueShips = [...new Set(itineraries.map(item => item.ship))];
@@ -636,7 +998,6 @@
             });
         }
 
-        // Format price tile helper
         function renderCabinTile(label, price) {
             if (price === null || price === undefined) {
                 return `
@@ -654,7 +1015,6 @@
             `;
         }
 
-        // Render filtered cards
         function renderItineraries() {
             const selectedShip = document.getElementById('filterShip').value;
             const selectedDuration = document.getElementById('filterDuration').value;
@@ -679,7 +1039,6 @@
             }
 
             filtered.forEach(item => {
-                // Filter dates inside the card if a specific year is selected
                 const visibleDates = selectedYear === 'all'
                     ? item.dates
                     : item.dates.filter(d => d.year === selectedYear);
@@ -711,8 +1070,11 @@
                             <div class="card-body">
                                 <div>
                                     <div class="card-title">${item.title}</div>
-                                    <div class="ship-line">🚢 ${item.ship}</div>
-                                    <div class="route-line">📍 ${item.routeText}</div>
+                                    <div class="ship-line">
+                                        <span>&#128674; ${item.ship}</span>
+                                        <span class="region-tag">${item.regionTag}</span>
+                                    </div>
+                                    <div class="route-line">&#128205; ${item.routeText}</div>
                                     <button class="view-itinerary-link" onclick="openItineraryModal('${item.id}')">View Itinerary</button>
                                 </div>
 
@@ -723,7 +1085,7 @@
                                         <span class="price-sub">average per person, 2 person room</span>
                                     </div>
                                     <button class="btn-show-dates" id="btn-${item.id}" onclick="toggleDatesDrawer('${item.id}', '${dateCountText}')">
-                                        ${dateCountText} ▾
+                                        ${dateCountText} &#9662;
                                     </button>
                                 </div>
                             </div>
@@ -742,16 +1104,14 @@
             });
         }
 
-        // Toggle "Show Dates" Drawer
         function toggleDatesDrawer(id, defaultLabel) {
             const drawer = document.getElementById(`drawer-${id}`);
             const btn = document.getElementById(`btn-${id}`);
             const isOpen = drawer.classList.toggle('open');
             btn.classList.toggle('active', isOpen);
-            btn.innerHTML = isOpen ? `${defaultLabel} ▴` : `${defaultLabel} ▾`;
+            btn.innerHTML = isOpen ? `${defaultLabel} &#9652;` : `${defaultLabel} &#9662;`;
         }
 
-        // Open Day-by-Day Itinerary Modal
         function openItineraryModal(id) {
             const item = itineraries.find(i => i.id === id);
             if (!item) return;
@@ -778,7 +1138,6 @@
             }
         }
 
-        // Initialize Page
         populateShipFilter();
         renderItineraries();
     </script>
