@@ -1,1 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suncrest Cruise Line - Cruises from Jacksonville, FL</title>
+    <style>
+        :root {
+            --primary-blue: #104c81;
+            --accent-red: #e63946;
+            --light-gray: #f4f6f9;
+            --dark-blue: #0b3154;
+            --text-dark: #222222;
+            --text-light: #666666;
+            --border-color: #dbe2ef;
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .back-btn {
+            background-color: var(--accent-red);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background-color: #c5303c;
+        }
+
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(rgba(16, 76, 129, 0.78), rgba(11, 49, 84, 0.88)), url('jacksonville-hero.jpg') center/cover;
+            color: white;
+            text-align: center;
+            padding: 55px 20px;
+        }
+
+        .hero h1 {
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        .hero p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            background: white;
+            max-width: 1100px;
+            margin: -25px auto 25px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+            padding: 18px 22px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .filter-group select {
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: white;
+            font-size: 14px;
+            color: var(--text-dark);
+            outline: none;
+        }
+
+        /* Results Header */
+        .results-header {
+            max-width: 1100px;
+            margin: 0 auto 15px auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .results-count {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--dark-blue);
+        }
+
+        .results-note {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        /* Itinerary Cards Container */
+        .itinerary-list {
+            max-width: 1100px;
+            margin: 0 auto 60px auto;
+            padding: 0 20px;
+        }
+
+        .cruise-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .card-top {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .card-img-wrap {
+            width: 320px;
+            min-height: 210px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .card-img-wrap {
+                width: 100%;
+                height: 200px;
+            }
+        }
+
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-body {
+            flex: 1;
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-width: 280px;
+        }
+
+        .card-title {
+            font-size: 21px;
+            font-weight: bold;
+            color: var(--dark-blue);
+            margin-bottom: 6px;
+        }
+
+        .ship-line {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .route-line {
+            font-size: 13px;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .view-itinerary-link {
+            color: var(--primary-blue);
+            font-size: 13px;
+            font-weight: bold;
+            text-decoration: underline;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            text-align: left;
+            width: fit-content;
+        }
+
+        .view-itinerary-link:hover {
+            color: var(--accent-red);
+        }
+
+        .card-bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eef2f6;
+        }
+
+        .price-block {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-from {
+            font-size: 11px;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .price-amount {
+            font-size: 30px;
+            font-weight: bold;
+            color: var(--dark-blue);
+            line-height: 1.1;
+        }
+
+        .price-sub {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .btn-show-dates {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-show-dates:hover,
+        .btn-show-dates.active {
+            background-color: var(--dark-blue);
+        }
+
+        /* Expandable Dates & Pricing Drawer */
+        .dates-drawer {
+            display: none;
+            background-color: #f8fafc;
+            border-top: 1px solid var(--border-color);
+            padding: 20px 24px;
+        }
+
+        .dates-drawer.open {
+            display: block;
+        }
+
+        .drawer-header {
+            font-size: 15px;
+            font-weight: bold;
+            color: var(--dark-blue);
+            margin-bottom: 14px;
+            text-align: center;
+        }
+
+        .dates-scroll-row {
+            display: flex;
+            gap: 14px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .date-box {
+            min-width: 195px;
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+        }
+
+        .date-box-header {
+            background: #eef4fa;
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #dbe2ef;
+        }
+
+        .date-range-text {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--dark-blue);
+        }
+
+        .date-year-text {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .btn-start-booking {
+            display: block;
+            background-color: var(--accent-red);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 12px;
+            padding: 8px;
+            margin: 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .btn-start-booking:hover {
+            background-color: #c5303c;
+        }
+
+        .cabin-list {
+            padding: 0 10px 10px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .cabin-tile {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 8px 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .cabin-tile.sold-out {
+            background-color: #e2e8f0;
+            color: #64748b;
+        }
+
+        .cabin-type {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .cabin-price {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* Day-by-Day Itinerary Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal-box {
+            background: white;
+            max-width: 650px;
+            width: 100%;
+            max-height: 85vh;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .modal-content {
+            padding: 20px 24px;
+            overflow-y: auto;
+        }
+
+        .day-row {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 14px;
+            margin-bottom: 12px;
+            background: #fafbfc;
+        }
+
+        .day-row-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: var(--dark-blue);
+        }
+
+        .day-row-time {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--accent-red);
+            margin-top: 2px;
+        }
+
+        .day-row-desc {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <div class="navbar">
+        <a href="index.html" class="brand">SUNCREST</a>
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </div>
+
+    <!-- Homeport Hero Header -->
+    <div class="hero">
+        <h1>Cruises from Jacksonville, FL</h1>
+        <p>Select your ship, duration, and sailing dates below</p>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="filter-bar">
+        <div class="filter-group">
+            <label for="filterShip">Ship</label>
+            <select id="filterShip" onchange="renderItineraries()">
+                <option value="all">-- All Ships --</option>
+                <!-- Ships populate automatically from your itinerary list below -->
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="filterDuration">Duration</label>
+            <select id="filterDuration" onchange="renderItineraries()">
+                <option value="all">-- All Durations --</option>
+                <option value="4">4 Days</option>
+                <option value="5">5 Days</option>
+                <option value="6">6 Days</option>
+                <option value="7">7 Days</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="filterYear">Sailing Year</label>
+            <select id="filterYear" onchange="renderItineraries()">
+                <option value="all">-- All Years --</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Results Header -->
+    <div class="results-header">
+        <div class="results-count" id="resultsCount">0 Cruise Results</div>
+        <div class="results-note">*Starting from price in USD. Average per person, 2 person room.</div>
+    </div>
+
+    <!-- Itinerary Cards List -->
+    <div class="itinerary-list" id="itineraryList"></div>
+
+    <!-- Day-by-Day Itinerary Modal -->
+    <div class="modal-overlay" id="itineraryModal" onclick="closeModalOnBackdrop(event)">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="modalTitle">Cruise Itinerary</h3>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-content" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        /* =====================================================================
+           EDITABLE TEMPLATE DATA: JACKSONVILLE DEPARTURES
+           Add, remove, or edit your ships, routes, and exact calendar dates below.
+           ===================================================================== */
+        const itineraries = [
+            // --- EXAMPLE 1 (Copy this entire { ... } block to add another itinerary) ---
+            {
+                id: "jax-5d-example-1",
+                title: "5-Day The Bahamas from Jacksonville, FL",
+                ship: "Suncrest Elation",
+                duration: 5,
+                basePrice: 214,
+                image: "olannisland.jpg", // Replace with your .jpg filename
+                routeText: "Start: Jacksonville > Olann Island™ > Empress Cays® > End: Jacksonville",
+                
+                // Day-by-Day Breakdown (Shown when clicking "View Itinerary")
+                days: [
+                    { day: "Day 1: Jacksonville, FL", time: "Departs at 3:30 PM", desc: "Board your Suncrest ship in Jacksonville and kick off your vacation." },
+                    { day: "Day 2: Fun Day at Sea", time: "At Sea", desc: "Enjoy onboard pools, dining, entertainment, and ocean views." },
+                    { day: "Day 3: Olann Island™", time: "8:00 AM - 4:00 PM", desc: "Relax on white-sand beaches and explore private island attractions." },
+                    { day: "Day 4: Empress Cays®", time: "8:00 AM - 4:00 PM", desc: "Swim in crystal-clear turquoise lagoons and enjoy beachside dining." },
+                    { day: "Day 5: Fun Day at Sea", time: "At Sea", desc: "Unwind at the spa or catch a show on your final day at sea." },
+                    { day: "Day 6: Jacksonville, FL", time: "Arrives at 8:00 AM", desc: "Return to Jacksonville for disembarkation." }
+                ],
+
+                // Your Exact Calendar Dates & Cabin Prices (Shown when clicking "Show Dates")
+                // Note: Set any price to null (e.g. balcony: null) to display "Sold Out"
+                dates: [
+                    {
+                        dateRange: "Mon, Dec 21 - Sat, Dec 26",
+                        year: "2026",
+                        bookingLink: "booking.html?id=jax-5d-example-1&date=2026-12-21",
+                        prices: { interior: 536, oceanview: 586, balcony: 1076, suite: 1299 }
+                    },
+                    {
+                        dateRange: "Mon, Jan 18 - Sat, Jan 23",
+                        year: "2027",
+                        bookingLink: "booking.html?id=jax-5d-example-1&date=2027-01-18",
+                        prices: { interior: 214, oceanview: 284, balcony: 644, suite: 949 }
+                    },
+                    {
+                        dateRange: "Mon, Feb 15 - Sat, Feb 20",
+                        year: "2027",
+                        bookingLink: "booking.html?id=jax-5d-example-1&date=2027-02-15",
+                        prices: { interior: 324, oceanview: 474, balcony: 884, suite: 1189 }
+                    }
+                ]
+            },
+
+            // --- EXAMPLE 2 ---
+            {
+                id: "jax-4d-example-2",
+                title: "4-Day The Bahamas from Jacksonville, FL",
+                ship: "Suncrest Elation",
+                duration: 4,
+                basePrice: 276,
+                image: "nassau.jpg", // Replace with your .jpg filename
+                routeText: "Start: Jacksonville > Olann Island™ > Nassau > End: Jacksonville",
+                
+                days: [
+                    { day: "Day 1: Jacksonville, FL", time: "Departs at 3:30 PM", desc: "Set sail from Jacksonville." },
+                    { day: "Day 2: Olann Island™", time: "12:00 PM - 6:00 PM", desc: "Afternoon in paradise at Olann Island™." },
+                    { day: "Day 3: Nassau, Bahamas", time: "8:00 AM - 4:00 PM", desc: "Explore Nassau's vibrant culture, markets, and beaches." },
+                    { day: "Day 4: Fun Day at Sea", time: "At Sea", desc: "Relax onboard as we cruise back toward Florida." },
+                    { day: "Day 5: Jacksonville, FL", time: "Arrives at 8:00 AM", desc: "Arrive back in Jacksonville." }
+                ],
+
+                dates: [
+                    {
+                        dateRange: "Sun, Nov 29 - Thu, Dec 03",
+                        year: "2026",
+                        bookingLink: "booking.html?id=jax-4d-example-2&date=2026-11-29",
+                        prices: { interior: 276, oceanview: 326, balcony: null, suite: 890 }
+                    },
+                    {
+                        dateRange: "Sun, Nov 28 - Thu, Dec 02",
+                        year: "2027",
+                        bookingLink: "booking.html?id=jax-4d-example-2&date=2027-11-28",
+                        prices: { interior: 370, oceanview: 460, balcony: 800, suite: 1090 }
+                    }
+                ]
+            }
+        ];
+
+        /* =====================================================================
+           RENDER & INTERACTION LOGIC (No edits needed below)
+           ===================================================================== */
+
+        // Populate Ship Dropdown dynamically from your itineraries
+        function populateShipFilter() {
+            const shipSelect = document.getElementById('filterShip');
+            const uniqueShips = [...new Set(itineraries.map(item => item.ship))];
+            uniqueShips.forEach(ship => {
+                const option = document.createElement('option');
+                option.value = ship;
+                option.textContent = ship;
+                shipSelect.appendChild(option);
+            });
+        }
+
+        // Format price tile helper
+        function renderCabinTile(label, price) {
+            if (price === null || price === undefined) {
+                return `
+                    <div class="cabin-tile sold-out">
+                        <div class="cabin-type">${label}</div>
+                        <div class="cabin-price">Sold Out</div>
+                    </div>
+                `;
+            }
+            return `
+                <div class="cabin-tile">
+                    <div class="cabin-type">${label}</div>
+                    <div class="cabin-price">$${price}*</div>
+                </div>
+            `;
+        }
+
+        // Render filtered cards
+        function renderItineraries() {
+            const selectedShip = document.getElementById('filterShip').value;
+            const selectedDuration = document.getElementById('filterDuration').value;
+            const selectedYear = document.getElementById('filterYear').value;
+
+            const listContainer = document.getElementById('itineraryList');
+            const countDisplay = document.getElementById('resultsCount');
+
+            const filtered = itineraries.filter(item => {
+                const matchShip = selectedShip === 'all' || item.ship === selectedShip;
+                const matchDuration = selectedDuration === 'all' || String(item.duration) === selectedDuration;
+                const matchYear = selectedYear === 'all' || item.dates.some(d => d.year === selectedYear);
+                return matchShip && matchDuration && matchYear;
+            });
+
+            countDisplay.textContent = `${filtered.length} Cruise Result${filtered.length === 1 ? '' : 's'}`;
+            listContainer.innerHTML = '';
+
+            if (filtered.length === 0) {
+                listContainer.innerHTML = `<div style="background:white; padding:30px; border-radius:8px; text-align:center; color:#666;">No sailings match your selected filters.</div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                // Filter dates inside the card if a specific year is selected
+                const visibleDates = selectedYear === 'all'
+                    ? item.dates
+                    : item.dates.filter(d => d.year === selectedYear);
+
+                const dateCountText = `Show ${visibleDates.length} Date${visibleDates.length === 1 ? '' : 's'}`;
+
+                const dateCardsHTML = visibleDates.map(d => `
+                    <div class="date-box">
+                        <div class="date-box-header">
+                            <div class="date-range-text">${d.dateRange}</div>
+                            <div class="date-year-text">${d.year}</div>
+                        </div>
+                        <a href="${d.bookingLink}" class="btn-start-booking">Start Booking</a>
+                        <div class="cabin-list">
+                            ${renderCabinTile('Interior', d.prices.interior)}
+                            ${renderCabinTile('Ocean View', d.prices.oceanview)}
+                            ${renderCabinTile('Balcony', d.prices.balcony)}
+                            ${renderCabinTile('Suite', d.prices.suite)}
+                        </div>
+                    </div>
+                `).join('');
+
+                const cardHTML = `
+                    <div class="cruise-card">
+                        <div class="card-top">
+                            <div class="card-img-wrap">
+                                <img src="${item.image}" alt="${item.title}">
+                            </div>
+                            <div class="card-body">
+                                <div>
+                                    <div class="card-title">${item.title}</div>
+                                    <div class="ship-line">🚢 ${item.ship}</div>
+                                    <div class="route-line">📍 ${item.routeText}</div>
+                                    <button class="view-itinerary-link" onclick="openItineraryModal('${item.id}')">View Itinerary</button>
+                                </div>
+
+                                <div class="card-bottom-bar">
+                                    <div class="price-block">
+                                        <span class="price-from">Starting From</span>
+                                        <span class="price-amount">$${item.basePrice}*</span>
+                                        <span class="price-sub">average per person, 2 person room</span>
+                                    </div>
+                                    <button class="btn-show-dates" id="btn-${item.id}" onclick="toggleDatesDrawer('${item.id}', '${dateCountText}')">
+                                        ${dateCountText} ▾
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dates-drawer" id="drawer-${item.id}">
+                            <div class="drawer-header">Available Dates</div>
+                            <div class="dates-scroll-row">
+                                ${dateCardsHTML}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                listContainer.insertAdjacentHTML('beforeend', cardHTML);
+            });
+        }
+
+        // Toggle "Show Dates" Drawer
+        function toggleDatesDrawer(id, defaultLabel) {
+            const drawer = document.getElementById(`drawer-${id}`);
+            const btn = document.getElementById(`btn-${id}`);
+            const isOpen = drawer.classList.toggle('open');
+            btn.classList.toggle('active', isOpen);
+            btn.innerHTML = isOpen ? `${defaultLabel} ▴` : `${defaultLabel} ▾`;
+        }
+
+        // Open Day-by-Day Itinerary Modal
+        function openItineraryModal(id) {
+            const item = itineraries.find(i => i.id === id);
+            if (!item) return;
+
+            document.getElementById('modalTitle').textContent = `${item.title} (${item.ship})`;
+            document.getElementById('modalBody').innerHTML = item.days.map(d => `
+                <div class="day-row">
+                    <div class="day-row-title">${d.day}</div>
+                    <div class="day-row-time">${d.time}</div>
+                    <div class="day-row-desc">${d.desc}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('itineraryModal').classList.add('open');
+        }
+
+        function closeModal() {
+            document.getElementById('itineraryModal').classList.remove('open');
+        }
+
+        function closeModalOnBackdrop(event) {
+            if (event.target.id === 'itineraryModal') {
+                closeModal();
+            }
+        }
+
+        // Initialize Page
+        populateShipFilter();
+        renderItineraries();
+    </script>
+</body>
+</html>
